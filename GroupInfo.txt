@@ -1,9 +1,0 @@
-Customer: Shawn Squire (Young)
-Customer Email: ssquire1@umbc.edu
-
-Team:
-Edward LaFemina
-Michael Bishoff
-Michael Lee
-Vesh Bhatt
-John Swank
