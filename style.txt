@@ -1,0 +1,6 @@
+Font: Julius Sans One - https://www.google.com/fonts/specimen/Julius+Sans+One
+
+Colors:
+Black - 
+Gold - 
+Silver - 
