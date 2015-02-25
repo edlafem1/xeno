@@ -1,0 +1,19 @@
+<div class="container">
+    <h2>Search</h2>
+    <br />
+    <input type="text" placeholder="Search" data-ng-model="filter.name" />
+    <br /><br />
+    
+    <table class="searchTable">
+        <tr data-ng-repeat="cust in customers | filter:filter.name | orderBy:'name'">
+            <td class="left searchTable">
+                {{ cust.name }}
+            </td>
+            <td class="right searchTable">
+                {{ cust.city }}
+            </td>
+        </tr>
+    </table>
+    
+    <br />
+</div>

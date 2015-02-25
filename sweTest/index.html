@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html data-ng-app="demoApp">
+    <head>
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Julius+Sans+One">
+        <link href="style/style.css" rel="stylesheet" />
+    </head>
+    <div class="mainWrapper">
+        <div class="main">
+            <h2 class="name">Freedom Stream</h2>
+
+            <!-- Placeholder for view. Views get dynamically injected here -->
+            <div data-ng-view="" class="views"></div>
+
+
+            <table class="searchTable">
+                <tr>
+                    <td class="left searchTable">
+                        <a href="#view1">Login</a>
+                    </td>
+                    <td class="searchTable">
+                        <a href="#view2">Search</a>
+                    </td>
+                    <td class="right searchTable">
+                        <a href="#view3">Sign up</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <script src="angular.min.js"></script>
+    <script src="angular-route.min.js"></script>
+    <script src="scripts/module.js"></script>
+
+<!-- How to do a bottom menu bar that doesn't move
+    <body style="padding:0;">
+        <div style="position:fixed; width:100%; height:70px; padding:5px; bottom:0px; ">
+            test content :D
+        </div>
+        Content Here
+    </body>
+-->
+    
+</html>

@@ -1,0 +1,101 @@
+html {
+    background: url("../mustang.jpg") no-repeat scroll center top transparent;
+    height: 500px;
+    background-size: 1400px;
+    background-color: #000000;
+    
+    color: #FFFFFF;
+    font-family: "Julius Sans One", serif;
+}
+
+.name {
+    font-size: 30pt;
+    margin-top: 30%;
+    text-align: center;
+}
+
+a:link, a:visited, a:hover, a:active {
+/*    margin: 0em 25px;*/
+    color: grey;
+    text-decoration: none;
+}
+
+/* Gives the buttons a little on-click effect */
+/*
+a:hover {
+    border: 1px solid grey;
+}
+a:active {
+    background-color: grey;
+}
+*/
+
+/* Aligns the main group vertically */
+div.mainWrapper {
+    position: fixed;
+    width: 341px;
+
+    height:100%;
+    left: 50%;
+    top: 0%;
+    margin-left: -170px;
+}
+
+/* The main structure of the website. Everything aligns with this. */
+div.main {
+    text-align: center;
+    width: 341px;
+    max-width: 341px;
+}
+
+/* The style for the views that change (Login, Search, Sign up) */
+.views {
+    /*width: 550px; /* or whatever width you want. */
+    height: 600px;
+    /*max-width: 550px; /* or whatever width you want. */
+    max-height: 530px;
+    display: inline-block;
+}
+
+
+/* Sizes the tables to line up with the name of the company */
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+td {
+    width:170px;
+}
+td.left {
+    text-align: left;
+}
+td.right {
+    text-align: right;
+}
+
+
+/* Custom Input Fields, also line up with the name of the company */
+input[type=text], input[type=password] {
+    font-family: "Julius Sans One";
+    font-size: 12pt;
+    color: #A9A9A9;
+    text-align: center;
+    
+    height: 25px;
+    width: 339px;
+    background-color: transparent;
+    border-style: solid;
+    border-width: 0px 0px 1px 0px;
+    border-color: gold;
+    outline:0;  
+}
+
+/* Custom Selection Color*/
+::-moz-selection { 
+	background: gold; 
+	text-shadow: none; 
+}
+::selection { 
+	background: gold; 
+	text-shadow: none; 
+}
