@@ -1,0 +1,9 @@
+Tool versions:
+
+CentOS - CentOS release 6.6 (Final)
+Python - python-2.6.6-52
+Flask - python-flask-0.9-7
+PhpMysql - php-mysql-5.3.3-40
+Apache - httpd-2.2.15-39
+
+<add stuff for front end stuff... like jquery version, angular version, etc>
