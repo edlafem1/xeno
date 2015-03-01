@@ -91,11 +91,11 @@ input[type=text], input[type=password] {
 }
 
 /* Custom Selection Color*/
-::-moz-selection { 
-	background: gold; 
+::-moz-selection {
+    background: gold; 
 	text-shadow: none; 
 }
-::selection { 
-	background: gold; 
-	text-shadow: none; 
+::selection {
+    background: gold; 
+    text-shadow: none; 
 }
