@@ -1,4 +1,6 @@
-Font: Julius Sans One - https://www.google.com/fonts/specimen/Julius+Sans+One
+Font:
+Quicksand (Light 300) - https://www.google.com/fonts/specimen/Quicksand
+Julius Sans One - https://www.google.com/fonts/specimen/Julius+Sans+One
 
 Colors:
 Black - 
