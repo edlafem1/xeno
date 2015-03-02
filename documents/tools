@@ -7,4 +7,6 @@ PhpMysql - php-mysql-5.3.3-40
 Apache - httpd-2.2.15-39
 MariaDB - MariaDB-server-5.5.39
 
+AngularJS - 
+
 <add stuff for front end stuff... like jquery version, angular version, etc>
