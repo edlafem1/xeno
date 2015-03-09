@@ -1,20 +1,30 @@
 <!DOCTYPE html>
-<html data-ng-app="demoApp">
-    <head>
-        <link href='http://fonts.googleapis.com/css?family=Quicksand:300' rel='stylesheet' type='text/css'>        
+<html data-ng-app="demoApp" class="ng-scope"><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}.ng-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}.ng-hide-add-active,.ng-hide-remove{display:block!important;}</style>
+        <link href="http://fonts.googleapis.com/css?family=Quicksand:300" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Julius+Sans+One">
-        <link href="style/style.css" rel="stylesheet" />
+        <link href="style/style.css" rel="stylesheet">
     </head>
-    <div class="mainWrapper">
+    <body><div class="mainWrapper">
         <div class="main">
             <h2 class="name">&nbsp;XENO</h2>
 
             <!-- Placeholder for view. Views get dynamically injected here -->
-            <div data-ng-view="" class="views"></div>
+            <!-- ngView --><div data-ng-view="" class="views ng-scope"><div class="container">
+    <h2>Login</h2>
+    <br>
+    <input type="text" placeholder="Name">
+    <br>
+    <br>
+    <input type="password" placeholder="Password">
+    <br>
+
+    <br>
+
+</div></div>
 
 
             <table class="searchTable">
-                <tr>
+                <tbody><tr>
                     <td class="left searchTable">
                         <a href="#view1">Login</a>
                     </td>
@@ -25,7 +35,7 @@
                         <a href="#view3">Sign up</a>
                     </td>
                 </tr>
-            </table>
+            </tbody></table>
         </div>
     </div>
     <script src="scripts/angular.min.js"></script>
@@ -44,5 +54,5 @@
         Content Here
     </body>
 -->
-    
-</html>
+
+</body></html>
