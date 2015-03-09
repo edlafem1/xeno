@@ -2,10 +2,28 @@ from flask import *
 
 app = Flask(__name__, template_folder='../')
 
-
+# Serves main landing page
 @app.route('/')
 def xeno_main():
     return render_template('index.html')
+
+
+# Test of ajax calls
+@app.route('/ajax_test')
+def ajax_test():
+    print 'Ajax Test'
+    print request.json
+    print request.json['var1']
+    var1 = request.args.get('var1', default=0, type=int)
+    var2 = request.args.get('var2', default=0, type=int)
+    var3 = request.args.get('var3', default='hello world', type=str)
+    print var3
+    return jsonify(in_var1=var1,
+                   in_var2=var2,
+                   in_var3=var3)
+
+
+#################################################################
 
 # Allows stylesheets to be loaded.
 # TODO  Consider finding a different way to serve static files without using flask
