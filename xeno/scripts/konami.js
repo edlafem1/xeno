@@ -103,3 +103,5 @@ var Konami = function (callback) {
 
 	return konami;
 };
+
+var easter_egg = new Konami("surprise.html");
