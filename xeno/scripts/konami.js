@@ -104,4 +104,4 @@ var Konami = function (callback) {
 	return konami;
 };
 
-var easter_egg = new Konami("surprise.html");
+var easter_egg = new Konami("surprise/RaceWebPlayer/RaceWebPlayer.html");
