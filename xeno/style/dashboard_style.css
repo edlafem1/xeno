@@ -23,7 +23,7 @@ body, html
 a:link, a:visited, a:hover, a:active
 {
 /*    margin: 0em 25px;*/
-    color: black;
+    color: #FFF;
     text-decoration: none;
 }
 
@@ -104,20 +104,22 @@ a
 	height: 100vh;*/
 	margin: 0 auto;
 	overflow: hidden;
-	padding-bottom: 2em;
+    padding-bottom: 43px;
+/*	padding-bottom: 2em;*/
 	text-align: center;
 	width: 100%;
 }
 #header_container
 {
-/*    background: grey; */
+    background: #000;
 	display: table-cell;
-/*  vertical-align: middle; */
+    vertical-align: middle;
     position:fixed;
     width:100%;
     height:70px;
-    padding:0px;
-    top:18px;
+/*    height:44px; The height of Facebook's bar*/
+    padding:15px;
+    top:0px;
 }
 #header_group
 {
@@ -128,7 +130,7 @@ a
 .header_link
 {
 	border: 0;
-	color: #000;
+	color: #FFF;
 	display: inline-block;
 	font-size: 0.825em;
 	padding: 7px 0;
@@ -154,7 +156,7 @@ a
 }
 .header_link::before,.header_link::after
 {
-	background: #000;
+	background: gold;
 	content: '';
 	height: 1px;
 	left: 0;
