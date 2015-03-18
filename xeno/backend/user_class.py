@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-#from backbone import login_manager
+from backbone import login_manager
 
 
 class User(UserMixin):
@@ -34,7 +34,7 @@ class User(UserMixin):
     def __init__(self, user_id):
         self.id = user_id
         self.active = True
-        self.authenticated = False
+        self.authenticated = True
         self.anonymous = True
         self.exists = True
 
@@ -49,10 +49,10 @@ class User(UserMixin):
         userid = 'lala'
         return load_user(userid)
 
-#@login_manager.user_loader
+@login_manager.user_loader
 def load_user(userid):
     user = User(userid)
     if user.exists == False:
         return None
     return User(userid)
-#login_manager.user_loader(load_user)
+login_manager.user_loader(load_user)
