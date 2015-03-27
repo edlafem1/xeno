@@ -6,7 +6,11 @@
     <div class="mainWrapper">
         <div class="main">
             <h2 class="name">&nbsp;XENO</h2>
-
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <h4 class="message_flash">{{ messages }}</h4>
+                {% endif %}
+            {% endwith %}
             <!-- Placeholder for view. Views get dynamically injected here -->
             {% block body %}{% endblock %}
 

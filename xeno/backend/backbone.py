@@ -12,7 +12,7 @@ from user_class import *
 
 # Serves main landing page
 @app.route('/')
-#@login_required
+@login_required
 def xeno_main():
     return render_template('index.tpl')
 
@@ -20,17 +20,25 @@ def xeno_main():
 def login():
     if request.method == 'GET':
         return render_template('login.tpl')
+    '''
     form = LoginForm()
     if form.validate_on_submit():
         # login and validate the user...
         username = request.args.get('username', type=str)
         password = request.args.get('password', type=str)
+    '''
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
-        user = load_user()
+        user = User.load_user(username, password)
+        if user == None:
+            flash('Username or Password is invalid', 'error')
+            return redirect(url_for('login'))
         login_user(user)
         flash("Logged in successfully.")
         return redirect(request.args.get("next") or url_for("xeno_main"))
-    return render_template('login', form=form)
+    return redirect(request.args.get('next') or url_for('search'))
 
 
 @app.route('/search')
@@ -76,6 +84,11 @@ def return_script_file(js):
 @app.route('/images/<image>')
 def return_images(image):
     return send_from_directory('../images', image)
+
+# Allows surprise to show
+@app.route('/surprise/<files>')
+def return_surprise(files):
+    return send_from_directory('../surprise/', files)
 
 
 

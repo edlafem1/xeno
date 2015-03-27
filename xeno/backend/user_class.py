@@ -44,15 +44,13 @@ class User(UserMixin):
         @param uname: the given username
         @param passwd: the given password
     '''
-    def auth_user(cls, uname, passwd):
+    @login_manager.user_loader
+    @staticmethod
+    def load_user(uname, passwd):
         #check against db for correct combo, if correct, get userid
+        print "Logging in with " + uname + ":" + passwd
         userid = 'lala'
-        return load_user(userid)
-
-@login_manager.user_loader
-def load_user(userid):
-    user = User(userid)
-    if user.exists == False:
-        return None
-    return User(userid)
-#login_manager.user_loader(load_user)
+        user = User(userid)
+        if user.exists == False:
+            return None
+        return user
