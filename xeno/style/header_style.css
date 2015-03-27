@@ -1,0 +1,258 @@
+/*http://stackoverflow.com/questions/19733447/bootstrap-navbar-with-left-center-and-right-aligned-items*/
+
+@import url(http://fonts.googleapis.com/css?family=Quicksand);
+@import url(http://fonts.googleapis.com/css?family=Quicksand:400);
+@import url(http://fonts.googleapis.com/css?family=Quicksand:700);
+@import url(http://fonts.googleapis.com/css?family=Julius+Sans+One);
+@import url("http://fonts.googleapis.com/css?family=Raleway:400,200");
+
+*
+{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body, html
+{
+    background: #fff;
+    font-family: Quicksand, Julius Sans One, serif;
+    font-weight: 400;
+    font-size: 120%;
+	height: 100%;
+	width: 100%;
+}
+
+a:link, a:visited, a:hover, a:active
+{
+/*    margin: 0em 25px;*/
+    color: #FFF;
+    text-decoration: none;
+}
+
+a
+{
+	border-bottom: 1px dotted #777;
+	color: #000;
+	text-decoration: none;
+	transition: all .2s;
+	webkit-transition: all .2s;
+}
+@-webkit-keyframes shiftUp
+{
+	0%
+	{
+		opacity: 0;
+		transform: translateY(60px);
+		webkit-transform: translateY(60px);
+	}
+	100%
+	{
+		opacity: 1;
+		transform: translateY(0px);
+		webkit-transform: translateY(0px);
+	}
+}
+@keyframes shiftUp
+{
+	0%
+	{
+		opacity: 0;
+		transform: translateY(60px);
+		webkit-transform: translateY(60px);
+	}
+	100%
+	{
+		opacity: 1;
+		transform: translateY(0px);
+		webkit-transform: translateY(0px);
+	}
+}
+@-webkit-keyframes shiftDown
+{
+	0%
+	{
+		opacity: 0;
+		transform: translateY(-60px);
+		webkit-transform: translateY(-60px);
+	}
+	100%
+	{
+		opacity: 1;
+		transform: translateY(0px);
+		webkit-transform: translateY(0px);
+	}
+}
+@keyframes shiftDown
+{
+	0%
+	{
+		opacity: 0;
+		transform: translateY(-60px);
+		webkit-transform: translateY(-60px);
+	}
+	100%
+	{
+		opacity: 1;
+		transform: translateY(0px);
+		webkit-transform: translateY(0px);
+	}
+}
+#header
+{
+	background-attachment: fixed;
+	color: #000;
+	display: table;
+/*	height: 100%;
+	height: 100vh;*/
+	margin: 0 auto;
+	overflow: hidden;
+    padding-bottom: 52px;
+/*    padding-bottom: 43px;*/
+/*	padding-bottom: 2em;*/
+	text-align: center;
+	width: 100%;
+}
+#header_container
+{
+    background: #000;
+	display: table-cell;
+    vertical-align: middle;
+    position: fixed;
+    width:100%;
+    height:80px;
+/*    height:44px; The height of Facebook's bar*/
+    padding:15px;
+    top:0px;
+}
+#header_group
+{
+	animation: shiftDown .5s ease-out forwards;
+	opacity: 0;
+	webkit-animation: shiftDown .5s ease-out forwards;
+}
+.header_link
+{
+	border: 0;
+	color: #FFF;
+	display: inline-block;
+	font-size: 0.825em;
+	padding: 7px 0;
+	position: relative;
+	text-transform: uppercase;
+	transition: all .15s ease-in-out;
+	webkit-transition: all .15s ease-in-out;
+	width: 110px;
+}
+.header_link::before
+{
+	ms-transform: translateY(-10px);
+	top: 0;
+	transform: translateY(-10px);
+	webkit-transform: translateY(-10px);
+}
+.header_link::after
+{
+	bottom: 0;
+	ms-transform: translateY(10px);
+	transform: translateY(10px);
+	webkit-transform: translateY(10px);
+}
+.header_link::before,.header_link::after
+{
+	background: gold;
+	content: '';
+	height: 1px;
+	left: 0;
+	opacity: 0;
+	position: absolute;
+	transition: opacity .3s, transform .3s;
+	webkit-transition: opacity .3s, -webkit-transform .3s;
+	width: 100%;
+}
+.header_link:hover::before,.header_link:hover::after
+{
+	ms-transform: translateY(0);
+	opacity: 1;
+	transform: translateY(0);
+	webkit-transform: translateY(0);
+}
+@media only screen and (max-width: 650px)
+{
+	.header_link
+	{
+		display: block;
+		margin: 10px auto;
+	}
+}
+
+.xeno {
+    float:left;
+/*    width: 33.33%;*/
+}
+
+.right_buttons {
+    float: right;
+    
+/*    width: 11.11%;*/
+}
+
+#search_wrapper {
+/*    float: center;*/
+/*    text-align: center;*/
+/*    width: 33.33%;*/
+    
+/*    right: 200px;*/
+/*    height: 25px;*/
+/*    width: 339px;*/
+/*    overflow: hidden;*/
+}
+
+/*
+
+.xeno {
+    float: left;
+    text-align:left;
+    width:33.33333%;
+}
+#search_warpper{
+    float: left;
+    text-align:center;
+    width:33.33333%;
+}
+.alignright {
+    float: left;
+    text-align:right;
+    width:33.33333%;
+}
+*/
+
+
+/* Custom Input Fields, also line up with the name of the company */
+input[type=text], input[type=password] {
+    font-family: "Julius Sans One";
+    font-size: 12pt;
+    color: #A9A9A9;
+    text-align: center;
+    
+    height: 25px;
+    width: 339px;
+/*
+    height: 100%;
+    width: 100%;
+*/
+    background-color: transparent;
+    border-style: solid;
+    border-width: 0px 0px 1px 0px;
+    border-color: gold;
+    outline:0;
+}
+
+/* Custom Selection Color*/
+::-moz-selection {
+    background: gold; 
+	text-shadow: none; 
+}
+::selection {
+    background: gold; 
+    text-shadow: none; 
+}
