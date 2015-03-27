@@ -1,0 +1,37 @@
+<script type="text/javascript">
+    console.log("stuff");
+    var app = angular.module('myapp', []);
+    /* edlafem1-Just giving an AJAX example */
+    app.directive('ngEnter', function() {
+        console.log("directive");
+        return function(scope, element, attrs) {
+            element.bind("keydown keypress", function(event) {
+                console.log("hello!");
+                if (event.which === 13) {
+                    scope.$apply(function(){
+                        //scope.$eval(attrs.ngEnter);
+                        console.log("DID SOMETHING!");
+                        var ajaxPromise = $http({
+                            url: "ajax_test/",
+                            method: "GET",
+                            params: {
+                                var1: 5,
+                                var2: 7,
+                                var3: "XENO TEAM"
+                            }
+                        });
+
+                        ajaxPromise.success(function(data, status, headers, config) {
+                            console.log(data);
+                        });
+                        ajaxPromise.error(function(data, status, headers, config) {
+                            alert("AJAX failed!");
+                        });
+
+                    });
+                   event.preventDefault();
+                }
+            });
+        }
+    });
+</script>

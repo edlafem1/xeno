@@ -1,3 +1,5 @@
+{% extends "index.tpl" %}
+{% block body %}
 <div class="container">
     <h2>Login</h2>
     <br />
@@ -10,3 +12,4 @@
     <br />
     
 </div>
+{% endblock %}

@@ -1,19 +1,22 @@
+{% extends "index.tpl" %}
+{% block body %}
 <div class="container">
     <h2>Search</h2>
     <br />
-    <input type="text" placeholder="Search" data-ng-model="filter.name" />
+    <input type="text" placeholder="Search"/>
     <br /><br />
     
     <table class="searchTable">
-        <tr data-ng-repeat="cust in customers | filter:filter.name | orderBy:'name'">
+        <tr><!-- loop on this row -->
             <td class="left searchTable">
-                {{ cust.name }}
+                lala
             </td>
             <td class="right searchTable">
-                {{ cust.city }}
+                lala
             </td>
         </tr>
     </table>
     
     <br />
 </div>
+{% endblock %}

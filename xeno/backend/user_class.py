@@ -55,4 +55,4 @@ def load_user(userid):
     if user.exists == False:
         return None
     return User(userid)
-login_manager.user_loader(load_user)
+#login_manager.user_loader(load_user)

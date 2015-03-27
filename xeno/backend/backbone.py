@@ -1,22 +1,25 @@
-from flask import *
-from flask_login import *
+from flask import Flask,session, request, flash, url_for, redirect, render_template, abort ,g, send_from_directory
+from flask_login import LoginManager, login_user , logout_user , current_user , login_required
 import os
 
-app = Flask(__name__, template_folder='../')
+app = Flask(__name__, template_folder='../templates')
 app.secret_key = os.urandom(24)
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 from user_class import *
 
 # Serves main landing page
 @app.route('/')
+#@login_required
 def xeno_main():
-    return render_template('index.html')
-'''
+    return render_template('index.tpl')
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    pass
+    if request.method == 'GET':
+        return render_template('login.tpl')
     form = LoginForm()
     if form.validate_on_submit():
         # login and validate the user...
@@ -27,8 +30,16 @@ def login():
         login_user(user)
         flash("Logged in successfully.")
         return redirect(request.args.get("next") or url_for("xeno_main"))
-    return render_template("login.html", form=form)
-'''
+    return render_template('login', form=form)
+
+
+@app.route('/search')
+def search():
+    return render_template('search.tpl')
+
+@app.route('/sign_up')
+def sign_up():
+    return render_template('sign_up.tpl')
 
 # Test of ajax calls
 @app.route('/ajax_test')
@@ -67,10 +78,6 @@ def return_images(image):
     return send_from_directory('../images', image)
 
 
-# Allows partials to be loaded
-@app.route('/Partials/<partial>')
-def return_partials(partial):
-    return send_from_directory('../Partials', partial)
 
 
 # Catches any invalid links
