@@ -1,0 +1,55 @@
+/* Adapted from: http://callmenick.com/post/css-toggle-switch-examples */
+
+.cmn-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+
+.cmn-toggle + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+input.cmn-toggle-round-flat + label {
+  /* width = 2*height or 2*border-radius */
+  padding: 2px;
+  width: 90px;
+  height: 45px;
+  border: 3px solid #dddddd;
+  border-radius: 45px;
+  transition: border-color 0.4s;
+}
+
+input.cmn-toggle-round-flat + label:before,
+input.cmn-toggle-round-flat + label:after {
+  display: block;
+  position: absolute;
+  content: "";
+}
+
+input.cmn-toggle-round-flat + label:after {
+  /* width = 2*border-radius */
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  width: 32px;
+  background-color: #dddddd;
+  border-radius: 16px;
+  transition: margin 0.4s, background 0.4s;
+}
+
+input.cmn-toggle-round-flat:checked + label {
+    border-color: gold;
+/*  background-color: #8ce196;*/
+}
+
+input.cmn-toggle-round-flat:checked + label:after {
+  /* margin-left = border-radius from 'input.cmn-toggle-round-flat + label' */
+  margin-left: 45px;
+  background-color: gold;
+/*  background-color: #8ce196;*/
+}

@@ -3,6 +3,7 @@
 
 html {
     background: url("../images/mustang.jpg") no-repeat scroll center top transparent;
+    background-color: aqua;
     height: 500px;
     background-size: 1400px;
     background-color: #000000;
