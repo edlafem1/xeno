@@ -8,18 +8,12 @@ class User(UserMixin):
         last_modified_by: edlafem1
     '''
 
-
-    @property
     def is_active(self):
         return self.active
 
-
-    @property
     def is_authenticated(self):
         return self.authenticated
 
-
-    @property
     def is_anonymous(self):
         return self.anonymous
 
@@ -37,6 +31,7 @@ class User(UserMixin):
         self.authenticated = True
         self.anonymous = True
         self.exists = True
+        print(type(self), self)
 
     '''
         Validates user credentials. This is a class method, not instance method.
@@ -44,13 +39,27 @@ class User(UserMixin):
         @param uname: the given username
         @param passwd: the given password
     '''
-    @login_manager.user_loader
     @staticmethod
-    def load_user(uname, passwd):
-        #check against db for correct combo, if correct, get userid
-        print "Logging in with " + uname + ":" + passwd
-        userid = 'lala'
+    def validate_credentials(username, password):
+        print("Validating: ", username, ":", password)
+        # do a sql query here and return the User object
+        if username == "Xeno" and password == "cars":
+            userid = "testing"
+            return User(userid)
+        return None
+'''
+#edlafem1-these dont seem to exist in backbone.py
+    # @login_manager.user_loader
+    @staticmethod
+    def load_user(userid):
+        # get user info from DB here, validate userid is a valid User in DB.
         user = User(userid)
+        print(vars(user))
         if user.exists == False:
             return None
         return user
+
+    @classmethod
+    def get_login_callback(cls):
+        login_manager.user_callback = cls.load_user
+'''

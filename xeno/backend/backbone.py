@@ -1,6 +1,7 @@
-from flask import Flask,session, request, flash, url_for, redirect, render_template, abort ,g, send_from_directory
-from flask_login import LoginManager, login_user , logout_user , current_user , login_required
+from flask import Flask, session, request, flash, url_for, redirect, render_template, abort ,g, send_from_directory
+from flask_login import LoginManager, login_user, current_user , login_required
 import os
+from user_class import *
 
 app = Flask(__name__, template_folder='../templates')
 app.secret_key = os.urandom(24)
@@ -8,7 +9,23 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-from user_class import *
+#User.get_login_callback()
+
+'''
+edlafem1-user_callback function for flask_login. Only seems to work when defined here.
+last_modified_by: edlafem1
+@param1 userid the id of the user you want data for.
+@return a user object filled with pertinent data from the database or None if there is no user with the given id.
+'''
+@login_manager.user_loader
+def load_user(userid):
+    # get user info from DB here, validate userid is a valid User in DB.
+    user = User(userid)
+    print(vars(user))
+    if user.exists == False:
+        return None
+    return user
+
 
 # Serves main landing page
 @app.route('/')
@@ -31,10 +48,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        user = User.load_user(username, password)
-        if user == None:
+        user = User.validate_credentials(username, password)
+
+        if user is None:
             flash('Username or Password is invalid', 'error')
-            return redirect(url_for('login'))
+            return redirect(request.args.get('next'))
+        print("User = ", user)
         login_user(user)
         flash("Logged in successfully.")
         return redirect(request.args.get("next") or url_for("xeno_main"))
@@ -42,6 +61,7 @@ def login():
 
 
 @app.route('/search')
+@login_required
 def search():
     return render_template('search.tpl')
 
