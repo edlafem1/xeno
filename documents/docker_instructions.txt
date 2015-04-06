@@ -1,0 +1,15 @@
+install docker(see their website)
+make sure you do 'docker upgrade' or whatever it is
+Once docker is started:
+
+docker pull edlafem1/centos66:workingv2
+docker run -ti -p 49156:5000 --name xeno -v <path to wherever you have stuff on your computer>:/host_data edlafem1/centos66:workingv2 /bin/bash
+
+To stop the container, just type 'exit'
+To restart: docker -i xeno
+
+And thats it for docker. Python and all that should be installed and everything else.
+To start/stop the MariaDB service, I have two scripts in the root directory of the image that you can just use(self explanatory)
+Once you have run the website(use python backbone.py when you are in the xeno/backend directory), you can go into your web browser to:
+http://192.168.59.103:49156
+and it should work 
