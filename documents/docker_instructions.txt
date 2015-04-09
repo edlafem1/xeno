@@ -1,5 +1,5 @@
 install docker(see their website)
-make sure you do 'docker upgrade' or whatever it is
+make sure you do 'boot2docker upgrade' or whatever it is
 Once docker is started:
 
 docker pull edlafem1/centos66:workingv2
