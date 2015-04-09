@@ -43,13 +43,13 @@ input.cmn-toggle-round-flat + label:after {
 }
 
 input.cmn-toggle-round-flat:checked + label {
-    border-color: gold;
-/*  background-color: #8ce196;*/
+/*    border-color: gold;*/
+  border-color: #8ce196;
 }
 
 input.cmn-toggle-round-flat:checked + label:after {
   /* margin-left = border-radius from 'input.cmn-toggle-round-flat + label' */
   margin-left: 45px;
-  background-color: gold;
-/*  background-color: #8ce196;*/
+/*  background-color: gold;*/
+  background-color: #8ce196;
 }
