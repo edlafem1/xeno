@@ -83,6 +83,29 @@ def ajax_test():
                    in_var2=var2,
                    in_var3=var3)
 
+# Add car page
+@app.route('/add')
+def add_car():
+    return render_template('add_car.tpl', admin=True)
+
+# Approve accounts page
+@app.route('/accounts')
+def approve_accounts():
+    accounts = [{"name": "John Smith",
+                 "address":"0000 Street Name, State Zip",
+                 "paid":"NOT PAID",
+                 "approved":"NOT APPROVED"},
+                {"name": "Michael Bishoff",
+                 "address":"0000 Street Name, State Zip",
+                 "paid":"NOT PAID",
+                 "approved":"NOT APPROVED"},
+                {"name": "Jane Smith",
+                 "address":"0000 Street Name, State Zip",
+                 "paid":"NOT PAID",
+                 "approved":"NOT APPROVED"}
+               ]
+    return render_template('new_accounts.tpl', admin=True, accounts=accounts)
+
 
 #################################################################
 

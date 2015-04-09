@@ -2,6 +2,7 @@
 <html>
     <head>
         <link href="style/style.css" rel="stylesheet" />
+        <link href="style/button.css" rel="stylesheet" />
     </head>
     <div class="mainWrapper">
         <div class="main">
@@ -30,20 +31,5 @@
             </table>
         </div>
     </div>
-    <!--
-    <script src="scripts/angular.min.js"></script>
-    <script src="scripts/angular-route.min.js"></script>
-    <script src="scripts/module.js"></script>
-    -->
     <script src="scripts/konami.js"></script>
-
-<!-- How to do a bottom menu bar that doesn't move
-    <body style="padding:0;">
-        <div style="position:fixed; width:100%; height:70px; padding:5px; bottom:0px; ">
-            test content :D
-        </div>
-        Content Here
-    </body>
--->
-    
 </html>

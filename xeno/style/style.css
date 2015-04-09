@@ -108,6 +108,66 @@ input[type=text], input[type=password] {
     text-shadow: none; 
 }
 
+/* Manage Accounts Style */
+#pageDescriptionWrapper {
+/*    width:32%;*/
+/*    margin-left: 10%;*/
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-bottom: 1%;
+}
+
+#pageDescription {
+    text-align: center;
+    position: relative;
+    width: 100%;
+/*    text-decoration: underline;*/
+/*    text-decoration: underline;*/
+/*    text-decoration-color: gold;*/
+}
+
+#accountsTable {
+    font-size: 23px;
+    border-collapse: collapse;
+}
+#accountsTable td {
+    padding: 1% 0%;
+}
+
+/* End Manage Accounts Style */
+
+.underline {
+    border-bottom: 1px solid gold;
+}
+
+#add_car_submit_wrapper {
+    width: 50%;
+    
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    
+/*    display: block;*/
+    height: 50px;
+    
+    text-align: center;
+    font-size: 34px;
+}
+
+#login_buttom_wrapper {
+    width: 100%;
+    
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    
+    height: 50px;
+    
+    text-align: center;
+    font-size: 24px;
+    line-height: 0px;
+}
+
 /*                                                                                           
 .expand {                                                                                    
     letter-spacing: 2px;                                                                     

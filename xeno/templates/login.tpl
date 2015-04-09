@@ -9,7 +9,10 @@
         <br />
         <input type="password" placeholder="Password" name="password" value="{{ request.form.password }}">
         <br />
-        <button type="submit">Login</button>
+        <div id="login_buttom_wrapper">
+            <button class="button button-border-primary button-rounded">Login</div>
+        </div>
+<!--        <button type="submit">Login</button>-->
     </form>
     {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
