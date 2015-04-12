@@ -144,9 +144,9 @@ def return_surprise(files):
 @app.route('/<path:path>')
 def catch_all(path):
     # Catches any invalid links
-    # print 'You want path: %s' % path
-    #print send_from_directory('../backend', '404.html')
-    abort(401)
+    print 'You want path: %s' % path
+    print send_from_directory('../backend', '404.html')
+    #abort(401)
     return ''
 
 

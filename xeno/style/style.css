@@ -84,6 +84,81 @@ td.right {
     text-align: right;
 }
 
+td.center {
+    text-align: center;
+}
+
+@-webkit-keyframes blackToWhite {
+    from {background-color: inherit;
+          color: inherit;
+         }
+    to {background-color: #969696;
+        color: black;
+       }
+}
+
+@keyframes blackToWhite {
+    from {background-color: inherit;
+          color: inherit;
+         }
+    to {background-color: #969696;
+        color: black;
+       }
+}
+
+table.searchTable td:hover, table.searchTable td:hover a {
+    color: black;
+}
+
+table.searchTable td:hover {
+    background-color: #969696;
+    -webkit-animation-name: blackToWhite;
+    -webkit-animation-duration: 1s;
+    animation-name: blackToWhite;
+    animation-duration: 1s;
+}
+
+@-webkit-keyframes whiteToBlack {
+    from {background-color: #969696;
+          color: black;
+         }
+    to {background-color: inherit;
+        color: inherit;
+       }
+}
+
+@keyframes whiteToBlack {
+    from {background-color: #969696;
+          color: black;
+         }
+    to {background-color: inherit;
+        color: inherit;
+       }
+}
+/*
+Having problems preventing this from firing on page load
+table.searchTable td {
+    color: inherit;
+
+    -webkit-animation-name: whiteToBlack;
+    -webkit-animation-duration: 1s;
+    animation-name: whiteToBlack;
+    animation-duration: 1s;
+}
+*/
+table.searchTable td {
+    background-color: inherit;
+    border-radius: 2px;
+}
+
+
+table.searchTable {
+  background-color: rgba(245, 245, 245, 0.09);
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+
+}
 
 /* Custom Input Fields, also line up with the name of the company */
 input[type=text], input[type=password] {
