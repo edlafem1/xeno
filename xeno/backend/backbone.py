@@ -1,8 +1,9 @@
-from flask import Flask, request, flash, url_for, redirect, render_template, send_from_directory, g
+from flask import Flask, request, flash, url_for, redirect, render_template, send_from_directory, g, abort
 from flask_login import LoginManager, login_user, current_user,  login_required
-import mysql.connector
+import mysql.connector as mariadb
 import os
 from user_class import *
+import configuration
 
 app = Flask(__name__, template_folder='../templates')
 app.secret_key = os.urandom(24)
@@ -10,47 +11,73 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-#User.get_login_callback()
 
 def connect_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = mysql.connector.Connect(host='localhost',user='root',password='',database='mysql')
-    return db
+    """Connects to the specific database."""
+    con = mariadb.connect(**configuration.database)
+    return con
+
+'''
+def init_db():
+    """Initializes the database."""
+    db = get_db()
+    with app.open_resource('schema.sql', mode='r') as f:
+        db.cursor().executescript(f.read())
+    db.commit()
+
+
+@app.cli.command('initdb')
+def initdb_command():
+    """Creates the database tables."""
+    init_db()
+    print('Initialized the database.')
+'''
+
+def get_db():
+    """Opens a new database connection if there is none yet for the
+    current application context.
+    """
+    if not hasattr(g, 'mariadb'):
+        g.mariadb = connect_db()
+    return g.mariadb
+
 
 @app.teardown_appcontext
-def release_db():
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+def close_db(error):
+    """Closes the database again at the end of the request."""
+    if hasattr(g, 'mariadb'):
+        g.mariadb.close()
+
 
 def query_db(query, args=(), one=False):
-    cur = connect_db().execute(query, args)
+    cur = get_db().cursor().execute(query, args)
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
-'''
-edlafem1-user_callback function for flask_login. Only seems to work when defined here.
-last_modified_by: edlafem1
-@param1 userid the id of the user you want data for.
-@return a user object filled with pertinent data from the database or None if there is no user with the given id.
-'''
+
 @login_manager.user_loader
 def load_user(userid):
+    '''
+    user_callback function for flask_login. Only seems to work when defined here.
+    last_modified_by: edlafem1
+    @param1 userid the id of the user you want data for.
+    @return a user object filled with pertinent data from the database or None if there is no user with the given id.
+    '''
     # get user info from DB here, validate userid is a valid User in DB.
     user = User(userid)
     print(vars(user))
-    if user.exists == False:
+    if user.exists is False:
         return None
     return user
 
 
-# Serves main landing page
 @app.route('/')
 @login_required
 def xeno_main():
+    # Serves main landing page
     return render_template('index.tpl')
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -84,13 +111,15 @@ def login():
 def search():
     return render_template('search.tpl')
 
+
 @app.route('/sign_up')
 def sign_up():
     return render_template('sign_up.tpl')
 
-# Test of ajax calls
+
 @app.route('/ajax_test')
 def ajax_test():
+    # Test of ajax calls
     print 'Ajax Test'
     print request.json
     print request.json['var1']
@@ -102,27 +131,29 @@ def ajax_test():
                    in_var2=var2,
                    in_var3=var3)
 
-# Add car page
+
 @app.route('/add')
 def add_car():
+    # Add car page
     return render_template('add_car.tpl', admin=True)
 
-# Approve accounts page
+
 @app.route('/accounts')
 def approve_accounts():
+    # Approve accounts page
     accounts = [{"name": "John Smith",
-                 "address":"0000 Street Name, State Zip",
-                 "paid":"NOT PAID",
-                 "approved":"NOT APPROVED"},
+                 "address": "0000 Street Name, State Zip",
+                 "paid": "NOT PAID",
+                 "approved": "NOT APPROVED"},
                 {"name": "Michael Bishoff",
-                 "address":"0000 Street Name, State Zip",
-                 "paid":"NOT PAID",
-                 "approved":"NOT APPROVED"},
+                 "address": "0000 Street Name, State Zip",
+                 "paid": "NOT PAID",
+                 "approved": "NOT APPROVED"},
                 {"name": "Jane Smith",
-                 "address":"0000 Street Name, State Zip",
-                 "paid":"NOT PAID",
-                 "approved":"NOT APPROVED"}
-               ]
+                 "address": "0000 Street Name, State Zip",
+                 "paid": "NOT PAID",
+                 "approved": "NOT APPROVED"}
+                ]
     return render_template('new_accounts.tpl', admin=True, accounts=accounts)
 
 
@@ -147,19 +178,19 @@ def return_script_file(js):
 def return_images(image):
     return send_from_directory('../images', image)
 
-# Allows surprise to show
+
 @app.route('/surprise/<files>')
 def return_surprise(files):
+    # Allows surprise to show
     return send_from_directory('../surprise/', files)
 
 
-
-
-# Catches any invalid links
 @app.route('/<path:path>')
 def catch_all(path):
-    print 'You want path: %s' % path
-    print send_from_directory('../backend', '404.html')
+    # Catches any invalid links
+    # print 'You want path: %s' % path
+    #print send_from_directory('../backend', '404.html')
+    abort(401)
     return ''
 
 

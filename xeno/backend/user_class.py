@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from backbone import login_manager, connect_db
+from backbone import login_manager, get_db
 from flask import g
 
 
@@ -42,12 +42,13 @@ class User(UserMixin):
     '''
     @staticmethod
     def validate_credentials(username, password):
-        cursor = connect_db().cursor()
+        print "in validate_credentials"
+        db = get_db()
+        cursor = db.cursor()
         print cursor
         if cursor is None:
             print("Error connecting to DB")
         else:
-            cursor = connect_db().cursor()
             cursor.execute("SHOW TABLES")
             row = cursor.fetchone()
             while row is not None:
