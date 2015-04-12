@@ -26,12 +26,16 @@ class User(UserMixin):
         last_modified_by: edlafem1
         @param user_id: a string value for the users's id.
     '''
-    def __init__(self, user_id):
+    def __init__(self, user_id, udata=None):
         self.id = user_id
         self.active = True
         self.authenticated = True
         self.anonymous = True
         self.exists = True
+        if udata is not None:
+            self.password = udata["hpass"]
+        else:
+            self.password = "no pass"
 
     '''
         Validates user credentials. This is a class method, not instance method.
@@ -41,16 +45,27 @@ class User(UserMixin):
     '''
     @staticmethod
     def validate_credentials(username, password):
-        result = db_conn.query_db('SHOW TABLES')
-        for row in result:
-            print row[0] + ", ",
-        print()
+        user = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [username], True)
+        # print result
 
         print "Validating: ", username, ":", password
-        # do a sql query here and return the User object
+        if user is None:
+            # not a valid username
+            return None
+
+        stored_salted_password = user["hpass"]
+        end_salt_pos = stored_salted_password.find('==') + 2
+        salt = stored_salted_password[0:end_salt_pos]
+        # stored_password = stored_salted_password[end_salt_pos:] # this isnt needed I dont think...
+
+        if stored_salted_password == encode_password(password, salt):
+            userid = user["userid"]
+            return User(userid, user)
+        ''' This is a simple test.
         if username == "Xeno" and password == "cars":
             userid = "testing"
             return User(userid)
+        '''
         return None
 
 '''
@@ -60,6 +75,9 @@ class User(UserMixin):
     end_salt_pos = stored_salted_password.find('==') + 2
     salt = stored_salted_password[0:end_salt_pos]
     password = stored_salted_password[end_salt_pos:]
+
+    if user.password == encode_password(data["password"], salt):
+        we good
 '''
 
 

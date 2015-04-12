@@ -28,10 +28,10 @@ def close_db(error):
 
 def query_db(query, args=(), one=False):
     '''Use this for all database querying. See example below for how to use.
-    To pass variable parts to the SQL statement, use a question mark in the statement and pass in the arguments as a
+    To pass variable parts to the SQL statement, use C string formatting(like %s %d) in the statement and pass in the arguments as a
     list. Never directly add them to the SQL statement with string formatting.
 
-    user = query_db('select * from users where username = ?',
+    user = query_db('select * from users where username = %s',
                 [the_username], one=True)
     if user is None:
         print 'No such user'

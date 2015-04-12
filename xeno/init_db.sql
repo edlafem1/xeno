@@ -22,4 +22,4 @@ INSERT INTO `xeno`.`car_status` (`description`) VALUES ("removed");
 
 
 INSERT INTO `xeno`.`users` (`first_name`, `last_name`, `credits`, `suspended_until`, `acct_type`, `userid`, `hpass`) VALUES
-    ('super', 'admin', 0, 0, 1, 'admin', 'admin');
+    ('super', 'admin', 0, 0, 1, 'admin', 'fEcdUl1QSEy13L_okEmnCA==w81WBGW1lM8z1CIWfO0ikQrPD-q-UKw9yGgvV7cEWWJlY9at57IEMITPeFW0yWHomGcThDetjFddAqRhfjO4jw=='); # admin password is 'password'

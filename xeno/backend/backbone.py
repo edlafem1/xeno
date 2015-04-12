@@ -37,15 +37,12 @@ def xeno_main():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user is not None and current_user.is_authenticated():
+        flash('Already logged in.')
+        return redirect(request.args.get('next') or url_for('search'))
     if request.method == 'GET':
         return render_template('login.tpl')
-    '''
-    form = LoginForm()
-    if form.validate_on_submit():
-        # login and validate the user...
-        username = request.args.get('username', type=str)
-        password = request.args.get('password', type=str)
-    '''
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -54,7 +51,7 @@ def login():
 
         if user is None:
             flash('Username or Password is invalid', 'error')
-            return redirect(request.args.get('next'))
+            return redirect(request.args.get('next') or url_for("xeno_main"))
         print "User = ", user
         login_user(user)
         flash("Logged in successfully.")
