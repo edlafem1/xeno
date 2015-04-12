@@ -1,7 +1,7 @@
 from flask_login import UserMixin
-from backbone import login_manager, get_db
+from backbone import login_manager#, get_db
 from flask import g
-
+import database_connection as db_conn
 
 class User(UserMixin):
     '''
@@ -32,7 +32,6 @@ class User(UserMixin):
         self.authenticated = True
         self.anonymous = True
         self.exists = True
-        print(type(self), self)
 
     '''
         Validates user credentials. This is a class method, not instance method.
@@ -42,42 +41,17 @@ class User(UserMixin):
     '''
     @staticmethod
     def validate_credentials(username, password):
-        print "in validate_credentials"
-        db = get_db()
-        cursor = db.cursor()
-        print cursor
-        if cursor is None:
-            print("Error connecting to DB")
-        else:
-            cursor.execute("SHOW TABLES")
-            row = cursor.fetchone()
-            while row is not None:
-                print(row)
-                row = cursor.fetchone()
+        result = db_conn.query_db('SHOW TABLES')
+        for row in result:
+            print row[0] + ", ",
+        print()
 
-
-        print("Validating: ", username, ":", password)
+        print "Validating: ", username, ":", password
         # do a sql query here and return the User object
         if username == "Xeno" and password == "cars":
             userid = "testing"
             return User(userid)
         return None
-'''
-#edlafem1-these dont seem to exist in backbone.py
-    # @login_manager.user_loader
-    @staticmethod
-    def load_user(userid):
-        # get user info from DB here, validate userid is a valid User in DB.
-        user = User(userid)
-        print(vars(user))
-        if user.exists == False:
-            return None
-        return user
-
-    @classmethod
-    def get_login_callback(cls):
-        login_manager.user_callback = cls.load_user
-'''
 
 '''
     # valid username
@@ -87,6 +61,7 @@ class User(UserMixin):
     salt = stored_salted_password[0:end_salt_pos]
     password = stored_salted_password[end_salt_pos:]
 '''
+
 
 def encode_password(password, salt=None):
     import uuid
@@ -100,5 +75,5 @@ def encode_password(password, salt=None):
     t_sha.update((password + salt.decode('utf-8')).encode('utf-8'))
     hashed_password = base64.urlsafe_b64encode(t_sha.digest())
 
-    # print(hashed_password)
+    # hashed_password)
     return (salt+hashed_password).decode('utf-8')

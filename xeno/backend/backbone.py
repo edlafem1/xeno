@@ -12,50 +12,6 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 
-def connect_db():
-    """Connects to the specific database."""
-    con = mariadb.connect(**configuration.database)
-    return con
-
-'''
-def init_db():
-    """Initializes the database."""
-    db = get_db()
-    with app.open_resource('schema.sql', mode='r') as f:
-        db.cursor().executescript(f.read())
-    db.commit()
-
-
-@app.cli.command('initdb')
-def initdb_command():
-    """Creates the database tables."""
-    init_db()
-    print('Initialized the database.')
-'''
-
-def get_db():
-    """Opens a new database connection if there is none yet for the
-    current application context.
-    """
-    if not hasattr(g, 'mariadb'):
-        g.mariadb = connect_db()
-    return g.mariadb
-
-
-@app.teardown_appcontext
-def close_db(error):
-    """Closes the database again at the end of the request."""
-    if hasattr(g, 'mariadb'):
-        g.mariadb.close()
-
-
-def query_db(query, args=(), one=False):
-    cur = get_db().cursor().execute(query, args)
-    rv = cur.fetchall()
-    cur.close()
-    return (rv[0] if rv else None) if one else rv
-
-
 @login_manager.user_loader
 def load_user(userid):
     '''
@@ -66,7 +22,7 @@ def load_user(userid):
     '''
     # get user info from DB here, validate userid is a valid User in DB.
     user = User(userid)
-    print(vars(user))
+    print vars(user)
     if user.exists is False:
         return None
     return user
@@ -99,7 +55,7 @@ def login():
         if user is None:
             flash('Username or Password is invalid', 'error')
             return redirect(request.args.get('next'))
-        print("User = ", user)
+        print "User = ", user
         login_user(user)
         flash("Logged in successfully.")
         return redirect(request.args.get("next") or url_for("xeno_main"))
@@ -195,5 +151,5 @@ def catch_all(path):
 
 
 if __name__ == '__main__':
-    print("Running app on port 5000")
+    print "Running app on port 5000"
     app.run(debug=True, host='0.0.0.0', port=5000)
