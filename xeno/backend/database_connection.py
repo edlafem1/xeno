@@ -45,7 +45,7 @@ def query_db(query, args=(), one=False):
     for user in result:
         print user['username'], 'has the id', user['user_id']
     '''
-    cursor = get_db().cursor()
+    cursor = get_db().cursor(dictionary=True)
     cursor.execute(query, args)
     rv = cursor.fetchall()
     cursor.close()
