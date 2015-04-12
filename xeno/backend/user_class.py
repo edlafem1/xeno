@@ -1,5 +1,6 @@
 from flask_login import UserMixin
-from backbone import login_manager
+from backbone import login_manager, connect_db
+from flask import g
 
 
 class User(UserMixin):
@@ -41,6 +42,19 @@ class User(UserMixin):
     '''
     @staticmethod
     def validate_credentials(username, password):
+        cursor = connect_db().cursor()
+        print cursor
+        if cursor is None:
+            print("Error connecting to DB")
+        else:
+            cursor = connect_db().cursor()
+            cursor.execute("SHOW TABLES")
+            row = cursor.fetchone()
+            while row is not None:
+                print(row)
+                row = cursor.fetchone()
+
+
         print("Validating: ", username, ":", password)
         # do a sql query here and return the User object
         if username == "Xeno" and password == "cars":

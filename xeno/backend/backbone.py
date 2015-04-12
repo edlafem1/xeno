@@ -1,5 +1,6 @@
-from flask import Flask, session, request, flash, url_for, redirect, render_template, abort, g, send_from_directory
-from flask_login import LoginManager, login_user, current_user , login_required
+from flask import Flask, request, flash, url_for, redirect, render_template, send_from_directory, g
+from flask_login import LoginManager, login_user, current_user,  login_required
+import mysql.connector
 import os
 from user_class import *
 
@@ -10,6 +11,24 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 #User.get_login_callback()
+
+def connect_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = mysql.connector.Connect(host='localhost',user='root',password='',database='mysql')
+    return db
+
+@app.teardown_appcontext
+def release_db():
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+def query_db(query, args=(), one=False):
+    cur = connect_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
 
 '''
 edlafem1-user_callback function for flask_login. Only seems to work when defined here.
