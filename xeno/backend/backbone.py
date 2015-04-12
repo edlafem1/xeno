@@ -1,4 +1,4 @@
-from flask import Flask, session, request, flash, url_for, redirect, render_template, abort ,g, send_from_directory
+from flask import Flask, session, request, flash, url_for, redirect, render_template, abort, g, send_from_directory
 from flask_login import LoginManager, login_user, current_user , login_required
 import os
 from user_class import *
@@ -140,7 +140,7 @@ def return_surprise(files):
 @app.route('/<path:path>')
 def catch_all(path):
     print 'You want path: %s' % path
-    print send_from_directory('../backend', 'teddy.txt')
+    print send_from_directory('../backend', '404.html')
     return ''
 
 

@@ -63,3 +63,27 @@ class User(UserMixin):
     def get_login_callback(cls):
         login_manager.user_callback = cls.load_user
 '''
+
+'''
+    # valid username
+    user = user.first()
+    stored_salted_password = user.password
+    end_salt_pos = stored_salted_password.find('==') + 2
+    salt = stored_salted_password[0:end_salt_pos]
+    password = stored_salted_password[end_salt_pos:]
+'''
+
+def encode_password(password, salt=None):
+    import uuid
+    import hashlib
+    import base64
+    if salt == None:
+        salt = base64.urlsafe_b64encode(uuid.uuid4().bytes)
+    else:
+        salt = salt.encode('utf-8')
+    t_sha = hashlib.sha512()
+    t_sha.update((password + salt.decode('utf-8')).encode('utf-8'))
+    hashed_password = base64.urlsafe_b64encode(t_sha.digest())
+
+    # print(hashed_password)
+    return (salt+hashed_password).decode('utf-8')

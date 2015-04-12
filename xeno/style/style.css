@@ -24,8 +24,10 @@ html {
 
 a:link, a:visited, a:hover, a:active {
 /*    margin: 0em 25px;*/
-    color: grey;
+    
+color: #B0B0B0;
     text-decoration: none;
+font-weight: bold;
 }
 
 /* Gives the buttons a little on-click effect */
@@ -70,6 +72,7 @@ div.main {
 table {
     margin-left: auto;
     margin-right: auto;
+    color: white;
 }
 td {
     width:170px;
