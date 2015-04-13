@@ -11,7 +11,7 @@
                     <td><a href="/accounts" class="header_link">ACCOUNTS</a></td>
                     <td><a href="#" class="header_link">LOG</a></td>
                     {% else %}
-                    <td><a href="#" class="header_link">DASHBOARD</a></td>
+                    <td><a href="/dashboard" class="header_link">DASHBOARD</a></td>
                     {% endif %}
                     <td><input type="roundedTextbox" placeholder="Search"/></td>
                     {% if admin %}

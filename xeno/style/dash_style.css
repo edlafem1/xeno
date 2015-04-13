@@ -44,7 +44,7 @@
 
 #carPic {
     width: 100%;
-    height: 90%;
+    height: 100%;
     content: url("/images/Maserati_Alfieri_left.jpg") no-repeat scroll center top transparent;
 }
 
