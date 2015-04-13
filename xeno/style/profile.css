@@ -1,0 +1,10 @@
+.boxed{
+  border: 3px solid gold;
+  margin: 15px;
+  padding: 15px;  
+}
+
+.carPic{
+    border: 1px solid gold;
+    margin-top: 7%;
+}

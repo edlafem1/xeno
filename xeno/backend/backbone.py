@@ -1,16 +1,27 @@
 from flask import Flask, request, flash, url_for, redirect, render_template, send_from_directory, g, abort
-from flask_login import LoginManager, login_user, current_user,  login_required
+from flask_login import LoginManager, login_user, current_user,  login_required, logout_user
 import mysql.connector as mariadb
 import os
 from user_class import *
-import configuration
+from car_actions import *
 
+import configuration
 app = Flask(__name__, template_folder='../templates')
 app.secret_key = os.urandom(24)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
 login_manager.login_view = 'login'
 
+
+def isAdmin(current_user):
+    admin_acct = False
+    if current_user.acct_type == 1:
+        # is admin
+        admin_acct = True
+    
+    return admin_acct
 
 @login_manager.user_loader
 def load_user(userid):
@@ -22,7 +33,7 @@ def load_user(userid):
     '''
     # get user info from DB here, validate userid is a valid User in DB.
     user = User(userid)
-    print vars(user)
+    #print vars(user)
     if user.exists is False:
         return None
     return user
@@ -52,18 +63,35 @@ def login():
         if user is None:
             flash('Username or Password is invalid', 'error')
             return render_template('login.tpl', username=username)
-        print "User = ", vars(user)
+        #print "User = ", vars(user)
         login_user(user)
         flash("Logged in successfully.")
-        return redirect(request.args.get("next") or url_for("xeno_main"))
+#        return redirect(request.args.get("next") or url_for("xeno_main"))
+        return render_template('dash.tpl', admin=isAdmin(current_user))
     return redirect(request.args.get('next') or url_for('search'))
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("xeno_main"))
 
 
 @app.route('/search')
+@app.route('/search/<int:page>')
 @login_required
-def search():
-    return render_template('search.tpl')
+def search(page=1):
+    howmany = 20
+    if page == 0:
+        # view all
+        howmany = -1
+    car_data = get_cars(page, howmany)
+    return render_template('search.tpl', cars=car_data)
 
+@app.route('/dashboard')
+@login_required
+def dashboard_view():
+    return render_template('dash.tpl')
 
 @app.route('/sign_up', methods=["GET", "POST"])
 def sign_up():
@@ -81,12 +109,22 @@ def sign_up():
     return render_template('login.tpl', username=user_data["email"])
 
 
-
-@app.route('/add')
+@app.route('/addcar', methods=['GET', 'POST'])
+@login_required
 def add_car():
     # Add car page
-    return render_template('add_car.tpl', admin=True)
+    if request.method == 'GET':
+        return render_template('add_car.tpl', admin=isAdmin(current_user))
+    # getting here means they are submiting data
+    new_car_data = request.form
+    if add_new_car(new_car_data) == True:
+        flash("Thank you for adding a car!")
+    else:
+        flash("Something went wrong...")
+    return render_template('add_car.tpl', admin=isAdmin(current_user))
 
+
+#################################################################
 
 @app.route('/accounts')
 def approve_accounts():
@@ -104,26 +142,47 @@ def approve_accounts():
                  "paid": "NOT PAID",
                  "approved": "NOT APPROVED"}
                 ]
-    return render_template('new_accounts.tpl', admin=True, accounts=accounts)
+    return render_template('new_accounts.tpl', admin=isAdmin(current_user), accounts=accounts)
 
+@app.route('/dashboard')
+@login_required
+def dash():
+    # Dashboard page. First page you see once you login
+    
+    featured_cars = [{"name": "Maserati",
+                         "pic": "/images/Maserati_Alfieri_left.jpg"}]
+    
+    newly_added_cars = [{"name": "Maserati",
+                         "pic": "/images/Maserati_Alfieri_left.jpg"}]
+    
+    upcoming_rentals = [{"name": "Maserati",
+                         "date": "4/15"}]
+    
+    return render_template('dash.tpl', admin=isAdmin(current_user), featured_cars=featured_cars, newly_added_cars=newly_added_cars, upcoming_rentals=upcoming_rentals)
 
-#################################################################
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.tpl', firstname=current_user.fname, lastname=current_user.lname)
+
 
 # Allows stylesheets to be loaded.
 # TODO  Consider finding a different way to serve static files without using flask
 # or to simplify it. i.e. with a 'static' directory
+
+
 @app.route('/style/<sheet>')
 def return_stylesheet(sheet):
     return send_from_directory('../style', sheet)
-
-
 # Allows scripts to be loaded
+
+
 @app.route('/scripts/<js>')
 def return_script_file(js):
     return send_from_directory('../scripts', js)
-
-
 # Allows images to be loaded
+
+
 @app.route('/images/<image>')
 def return_images(image):
     return send_from_directory('../images', image)
@@ -132,15 +191,16 @@ def return_images(image):
 @app.route('/surprise/<files>')
 def return_surprise(files):
     # Allows surprise to show
-    return send_from_directory('../surprise/', files)
+    return send_from_directory('../surprise', files)
 
 
 @app.route('/<path:path>')
 def catch_all(path):
     # Catches any invalid links
     print 'You want path: %s' % path
-    print send_from_directory('../backend', '404.html')
-    #abort(401)
+    return send_from_directory('../', path)
+    #print send_from_directory('../backend', '404.html')
+    abort(401)
     return ''
 
 
@@ -163,4 +223,3 @@ def ajax_test():
     return jsonify(in_var1=var1,
                    in_var2=var2,
                    in_var3=var3)
-

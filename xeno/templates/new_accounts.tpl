@@ -2,7 +2,7 @@
 {% block body %}
 
 {% if admin %}
-{% include "admin_menu.tpl" %}
+{% include "menu.tpl" %}
 
 <div class="fadeInUp">
     <div id="pageDescriptionWrapper">

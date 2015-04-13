@@ -27,16 +27,16 @@ class User(UserMixin):
     '''
     def __init__(self, user_id, udata=None):
         #print "Creating new user: " + user_id + str(udata)
-        import inspect
-        curframe = inspect.currentframe()
-        calframe = inspect.getouterframes(curframe, 2)
-        print 'caller name: ', calframe[1][3]
+        #import inspect
+        #curframe = inspect.currentframe()
+        # = inspect.getouterframes(curframe, 2)
+        #print 'caller name: ', calframe[1][3]
 
         self = User.init_user(self, user_id)
             
     @staticmethod
     def init_user(u, user_id):    
-        udata = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [user_id], True)
+        udata = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [user_id], one=True)
         if udata is not None:
             u.fname = udata["first_name"]
             u.lname = udata["last_name"]
@@ -79,9 +79,9 @@ class User(UserMixin):
                 "(`first_name`, `last_name`, `credits`, `acct_type`, `userid`, `hpass`)" \
                 "VALUES (%s, %s, 100, %s, %s, %s)"
         args = [fname, lname, acct_type, user_id, hpass]
-        print query, args
+        #print query, args
         result = db_conn.query_db(query, args, select=False)
-        print "Attempted create user: ", result
+        #print "Attempted create user: ", result
         return result
 
 
@@ -97,7 +97,7 @@ class User(UserMixin):
     def validate_credentials(username, password):
         user = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [username], True)
 
-        print "Validating: ", username, ":", password
+        #print "Validating: ", username, ":", password
         if user is None:  # not a valid username
             return None
 

@@ -11,6 +11,11 @@
     </head>
     
     <body>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <h4 class="message_flash">{{ messages[0] }}</h4>
+            {% endif %}
+        {% endwith %}
         {% block body %}{% endblock %}
     </body>
     
