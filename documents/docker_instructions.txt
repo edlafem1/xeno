@@ -6,7 +6,7 @@ docker pull edlafem1/centos66:workingv2
 docker run -ti -p 49156:5000 --name xeno -v <path to wherever you have stuff on your computer>:/host_data edlafem1/centos66:workingv2 /bin/bash
 
 To stop the container, just type 'exit'
-To restart: docker -i xeno
+To restart: docker start -i xeno
 
 And thats it for docker. Python and all that should be installed and everything else.
 To start/stop the MariaDB service, I have two scripts in the root directory of the image that you can just use(self explanatory)
