@@ -56,7 +56,7 @@
     </table>
 
     <div id="add_car_submit_wrapper">
-        <button class="button button-border-primary button-rounded">Submit</div>
+        <div class="button button-border-primary button-rounded">Submit</div>
     </div>
     </form>
 </div>

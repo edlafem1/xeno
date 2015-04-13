@@ -23,7 +23,7 @@
                 <div class="underline">
                     Cars {{firstname}} Reviewed
                 </div>
-                <img src="images/bugatti.jpg" style="width:150px;height:150px;border:1px solid gold">
+                <img class="carPic" src="images/bugatti.jpg" style="width:150px;height:150px;border:1px solid gold">
                 <td>
                     The car is wayy too fast
                 </td>
