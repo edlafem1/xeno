@@ -48,7 +48,7 @@ class User(UserMixin):
             # time_format = '%Y-%m-%d %H:%M:%S'
             u.suspended_til = udata["suspended_until"]  # .strftime(time_format)
             now = datetime.datetime.now()
-            if now < udata["suspended_until"]:
+            if udata["suspended_until"] is not None and now < udata["suspended_until"]:
                 u.suspended = True
             else:
                 u.suspended = False
@@ -65,6 +65,25 @@ class User(UserMixin):
             u.exists = False
             u.id = None
         return u
+
+    @staticmethod
+    def create_new_user(user_data, acct_type=3):
+        '''user_data should have full_name, password, email'''
+        first_name_space = user_data["full_name"].find(" ")
+        fname = user_data["full_name"][0:first_name_space]
+        lname = user_data["full_name"][first_name_space + 1:]
+        hpass = encode_password(user_data["password"])
+        user_id = user_data["email"]
+
+        query = "INSERT INTO `xeno`.`users` " \
+                "(`first_name`, `last_name`, `credits`, `acct_type`, `userid`, `hpass`)" \
+                "VALUES (%s, %s, 100, %s, %s, %s)"
+        args = [fname, lname, acct_type, user_id, hpass]
+        print query, args
+        result = db_conn.query_db(query, args, select=False)
+        print "Attempted create user: ", result
+        return result
+
 
 
 

@@ -3,14 +3,14 @@
 <div class="container">
     <h2>Login</h2>
     <br />
-    <form action="" method="POST">
-        <input type="text" placeholder="Username" name="username" value="{{ request.form.username }}">
+    <form action="{{ url_for('login') or 'login' }}" method="POST">
+        <input type="text" placeholder="Email Address" name="username" value="{{ username or '' }}">
         <br />
         <br />
-        <input type="password" placeholder="Password" name="password" value="{{ request.form.password }}">
+        <input type="password" placeholder="Password" name="password">
         <br />
         <div id="login_buttom_wrapper">
-            <button class="button button-border-primary button-rounded">Login</div>
+            <button class="button button-border-primary button-rounded">Login</button>
         </div>
 <!--        <button type="submit">Login</button>-->
     </form>

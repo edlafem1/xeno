@@ -51,7 +51,7 @@ def login():
 
         if user is None:
             flash('Username or Password is invalid', 'error')
-            return redirect(request.args.get('next') or url_for("xeno_main"))
+            return render_template('login.tpl', username=username)
         print "User = ", vars(user)
         login_user(user)
         flash("Logged in successfully.")
@@ -65,12 +65,20 @@ def search():
     return render_template('search.tpl')
 
 
-@app.route('/sign_up')
+@app.route('/sign_up', methods=["GET", "POST"])
 def sign_up():
     if current_user is not None and current_user.is_authenticated():
         flash('Already logged in.')
         return redirect(request.args.get('next') or url_for('search'))
-    return render_template('sign_up.tpl')
+    if request.method == 'GET':
+        return render_template('sign_up.tpl')
+    user_data = request.form
+    if user_data["password"] != user_data["password2"]:
+        flash("Passwords do not match")
+        return render_template('sign_up.tpl', name=user_data["full_name"], email=user_data["email"])
+    user_creation = User.create_new_user(user_data)
+    flash("Your account has been created. Please log in.")
+    return render_template('login.tpl', username=user_data["email"])
 
 
 

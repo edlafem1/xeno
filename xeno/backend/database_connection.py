@@ -26,7 +26,7 @@ def close_db(error):
         g.mariadb.close()
 
 
-def query_db(query, args=(), one=False):
+def query_db(query, args=(), one=False, select=True):
     '''Use this for all database querying. See example below for how to use.
     To pass variable parts to the SQL statement, use C string formatting(like %s %d) in the statement and pass in the arguments as a
     list. Never directly add them to the SQL statement with string formatting.
@@ -47,6 +47,10 @@ def query_db(query, args=(), one=False):
     '''
     cursor = get_db().cursor(dictionary=True)
     cursor.execute(query, args)
-    rv = cursor.fetchall()
+    if select and cursor.with_rows:
+        rv = cursor.fetchall()
+    else:
+        get_db().commit()
+        rv = cursor.lastrowid
     cursor.close()
     return (rv[0] if rv else None) if one else rv
