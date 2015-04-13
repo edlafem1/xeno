@@ -16,7 +16,7 @@
             </td>
         </tr>
     </table>
-    
+    {{ cars }}
     <br />
 </div>
 {% endblock %}

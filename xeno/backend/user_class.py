@@ -36,7 +36,7 @@ class User(UserMixin):
             
     @staticmethod
     def init_user(u, user_id):    
-        udata = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [user_id], True)
+        udata = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [user_id], one=True)
         if udata is not None:
             u.fname = udata["first_name"]
             u.lname = udata["last_name"]

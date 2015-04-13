@@ -77,7 +77,7 @@ def search(page=1):
         # view all
         howmany = -1
     car_data = get_cars(page, howmany)
-    return render_template('search.tpl')
+    return render_template('search.tpl', cars=car_data)
 
 @app.route('/dashboard')
 def dashboard_view():
@@ -99,10 +99,23 @@ def sign_up():
     return render_template('login.tpl', username=user_data["email"])
 
 
-@app.route('/addcar')
+@app.route('/addcar', methods=['GET', 'POST'])
+@login_required
 def add_car():
     # Add car page
-    return render_template('add_car.tpl', admin=True)
+    admin_acct = False
+    if current_user.acct_type == 1:
+        # is admin
+        admin_acct = True
+    if request.method == 'GET':
+        return render_template('add_car.tpl', admin=admin_acct)
+    # getting here means they are submiting data
+    new_car_data = request.form
+    if add_new_car(new_car_data) == True:
+        flash("Thank you for adding a car!")
+    else:
+        flash("Something went wrong...")
+    return render_template('add_car.tpl', admin=admin_acct)
 
 
 #################################################################
