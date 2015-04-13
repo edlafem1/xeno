@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_user, current_user,  login_required,
 import mysql.connector as mariadb
 import os
 from user_class import *
+from car_actions import *
 
 import configuration
 app = Flask(__name__, template_folder='../templates')
