@@ -1,11 +1,7 @@
 {% extends "dashboard.tpl" %}
 {% block body %}
 
-{% if admin %}
-{% include "admin_menu.tpl" %}
-{% else %}
 {% include "menu.tpl" %}
-{% endif %}
 
 <div class="fadeInUp">
     <div id="pageDescriptionWrapper">
