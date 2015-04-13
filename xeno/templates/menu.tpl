@@ -15,7 +15,7 @@
                     {% endif %}
                     <td><input type="roundedTextbox" placeholder="Search"/></td>
                     {% if admin %}
-                    <td><a href="#" class="header_link">DASHBOARD</a></td>
+                    <td><a href="/dashboard" class="header_link">DASHBOARD</a></td>
                     {% endif %}
                     <td><a href="#" class="header_link">PROFILE</a></td>
                     <td><a href="{{ url_for('logout') or '#' }}" class="header_link">LOGOUT</a></td>
