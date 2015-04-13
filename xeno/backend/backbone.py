@@ -25,7 +25,7 @@ def load_user(userid):
     '''
     # get user info from DB here, validate userid is a valid User in DB.
     user = User(userid)
-    print vars(user)
+    #print vars(user)
     if user.exists is False:
         return None
     return user
@@ -55,7 +55,7 @@ def login():
         if user is None:
             flash('Username or Password is invalid', 'error')
             return render_template('login.tpl', username=username)
-        print "User = ", vars(user)
+        #print "User = ", vars(user)
         login_user(user)
         flash("Logged in successfully.")
         return redirect(request.args.get("next") or url_for("xeno_main"))
@@ -79,7 +79,9 @@ def search(page=1):
     car_data = get_cars(page, howmany)
     return render_template('search.tpl')
 
-
+@app.route('/dashboard')
+def dashboard_view():
+    return render_template('dash.tpl')
 
 @app.route('/sign_up', methods=["GET", "POST"])
 def sign_up():
