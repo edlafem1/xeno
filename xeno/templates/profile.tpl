@@ -1,11 +1,7 @@
 {% extends "dashboard.tpl" %}
 {% block body %}
 
-{% if admin %}
-{% include "admin_menu.tpl" %}
-{% else %}
 {% include "menu.tpl" %}
-{% endif %}
 
 <head>
     <link href="style/profile.css" rel="stylesheet" />
