@@ -1,7 +1,6 @@
 from flask_login import UserMixin
-from backbone import login_manager#, get_db
-from flask import g
 import database_connection as db_conn
+import datetime
 
 class User(UserMixin):
     '''
@@ -27,15 +26,47 @@ class User(UserMixin):
         @param user_id: a string value for the users's id.
     '''
     def __init__(self, user_id, udata=None):
-        self.id = user_id
-        self.active = True
-        self.authenticated = True
-        self.anonymous = True
-        self.exists = True
+        #print "Creating new user: " + user_id + str(udata)
+        import inspect
+        curframe = inspect.currentframe()
+        calframe = inspect.getouterframes(curframe, 2)
+        print 'caller name: ', calframe[1][3]
+
+        self = User.init_user(self, user_id)
+            
+    @staticmethod
+    def init_user(u, user_id):    
+        udata = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [user_id], True)
         if udata is not None:
-            self.password = udata["hpass"]
+            u.fname = udata["first_name"]
+            u.lname = udata["last_name"]
+            u.date_joined = udata["date_joined"]
+            u.credits = udata["credits"]
+            u.acct_type = udata["acct_type"]
+
+            # http://stackoverflow.com/questions/14291636/what-is-the-proper-way-to-convert-between-mysql-datetime-and-python-timestamp
+            # time_format = '%Y-%m-%d %H:%M:%S'
+            u.suspended_til = udata["suspended_until"]  # .strftime(time_format)
+            now = datetime.datetime.now()
+            if now < udata["suspended_until"]:
+                u.suspended = True
+            else:
+                u.suspended = False
+
+            u.id = user_id
+            u.active = True
+            u.authenticated = True
+            u.anonymous = True
+            u.exists = True
         else:
-            self.password = "no pass"
+            u.active = False
+            u.authenticated = False
+            u.anonymous = False
+            u.exists = False
+            u.id = None
+        return u
+
+
 
     '''
         Validates user credentials. This is a class method, not instance method.
@@ -46,11 +77,9 @@ class User(UserMixin):
     @staticmethod
     def validate_credentials(username, password):
         user = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [username], True)
-        # print result
 
         print "Validating: ", username, ":", password
-        if user is None:
-            # not a valid username
+        if user is None:  # not a valid username
             return None
 
         stored_salted_password = user["hpass"]
