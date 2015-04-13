@@ -1,4 +1,5 @@
-DELETE FROM `xeno`.`acct_types`;
+USE `xeno`
+
 
 INSERT INTO `xeno`.`acct_types` (`description`) VALUES ("admin");
 
