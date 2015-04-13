@@ -124,6 +124,23 @@ def approve_accounts():
                  "approved": "NOT APPROVED"}
                 ]
     return render_template('new_accounts.tpl', admin=True, accounts=accounts)
+
+@app.route('/dashboard')
+def dash():
+    # Dashboard page. First page you see once you login
+    
+    featured_cars = [{"name": "Maserati",
+                         "pic": "/images/Maserati_Alfieri_left.jpg"}]
+    
+    newly_added_cars = [{"name": "Maserati",
+                         "pic": "/images/Maserati_Alfieri_left.jpg"}]
+    
+    upcoming_rentals = [{"name": "Maserati",
+                         "date": "4/15"}]
+    
+    return render_template('dash.tpl', admin=True, featured_cars=featured_cars, newly_added_cars=newly_added_cars, upcoming_rentals=upcoming_rentals)
+    
+
 # Allows stylesheets to be loaded.
 # TODO  Consider finding a different way to serve static files without using flask
 # or to simplify it. i.e. with a 'static' directory
