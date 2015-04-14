@@ -4,7 +4,7 @@
         <section class="header_group">
             <table>
                 <tr class="fadeInDown">
-                    <td><a href="/dashboard" class="header_link">XENO</a></td>
+                    <td><a href="/search" class="header_link">XENO</a></td>
 
                     {% if admin %}
 <!--                <td><a href="/add" class="header_link">ADD CAR</a></td>-->
