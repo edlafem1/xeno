@@ -38,13 +38,13 @@ def load_user(userid):
         return None
     return user
 
-
+'''
 @app.route('/')
 @login_required
 def xeno_main():
     # Serves main landing page
     return render_template('index.tpl')
-
+'''
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -66,8 +66,9 @@ def login():
         #print "User = ", vars(user)
         login_user(user)
         flash("Logged in successfully.")
-#        return redirect(request.args.get("next") or url_for("xeno_main"))
-        return render_template('dash.tpl', admin=isAdmin(current_user))
+        #return redirect('/')
+        dashboard_view()
+        #return render_template('dash.tpl', admin=isAdmin(current_user))
     return redirect(request.args.get('next') or url_for('search'))
 
 @app.route("/logout")
@@ -89,10 +90,12 @@ def search(page=1):
     return render_template('car_list.tpl', cars = car_data, admin=isAdmin(current_user))
     #return render_template('search.tpl', cars=car_data, admin=isAdmin(current_user))
 
+@app.route('/')
 @app.route('/dashboard')
 @login_required
 def dashboard_view():
-    return render_template('dash.tpl')
+    new_car_data = get_cars(1, 8, True)
+    return render_template('dash.tpl', new_cars=new_car_data, admin=isAdmin(current_user))
 
 @app.route('/sign_up', methods=["GET", "POST"])
 def sign_up():
@@ -147,21 +150,6 @@ def approve_accounts():
                 ]
     return render_template('new_accounts.tpl', admin=isAdmin(current_user), accounts=accounts)
 
-@app.route('/dashboard')
-@login_required
-def dash():
-    # Dashboard page. First page you see once you login
-    
-    featured_cars = [{"name": "Maserati",
-                         "pic": "/images/Maserati_Alfieri_left.jpg"}]
-    
-    newly_added_cars = [{"name": "Maserati",
-                         "pic": "/images/Maserati_Alfieri_left.jpg"}]
-    
-    upcoming_rentals = [{"name": "Maserati",
-                         "date": "4/15"}]
-    
-    return render_template('dash.tpl', admin=isAdmin(current_user), featured_cars=featured_cars, newly_added_cars=newly_added_cars, upcoming_rentals=upcoming_rentals)
 
 @app.route('/profile')
 @login_required
