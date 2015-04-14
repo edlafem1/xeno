@@ -1,5 +1,6 @@
 import database_connection as db_conn
 import datetime
+import user_class
 
 def get_cars(page, howmany):
     print "getting cars!"
@@ -21,7 +22,7 @@ def get_cars(page, howmany):
     #print car_data
     return car_data
 
-def add_new_car(cdata):
+def add_new_car(cdata, current_user):
     '''
     make, model, year, country, hp(int), torque(int), acceleration(int), max_speed(int)
     '''
@@ -56,11 +57,16 @@ def add_new_car(cdata):
         print "Country id already there as " + str(country_id)
 
     print "ugh"
-    query = "INSERT INTO cars (make, model, year, country, hp, torque, miles_driven, added_by, acceleration, max_speed)" \
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    result = db_conn.query_db(query, [make_id, model_id, int(cdata["year"]), country_id, int(cdata["hp"]),
-                                      int(cdata["torque"]), int(cdata["odo"]), 1, int(cdata["acceleration"]),
-                                      int(cdata["max_speed"])], select=False)
+    query = "INSERT INTO cars (make, model, year, country, type, hp, torque, miles_driven, acceleration, max_speed, added_by)" \
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    try:
+        result = db_conn.query_db(query, [make_id, model_id, int(cdata["year"]), country_id, int(cdata["ctype"]),
+                                        int(cdata["hp"]), int(cdata["torque"]), int(cdata["odo"]),
+                                        int(cdata["acceleration"]), int(cdata["max_speed"]), current_user.db_id],
+                                        select=False)
+    except Exception, e:
+        print repr(e)
+
     print result
     print "added"
 

@@ -53,8 +53,8 @@ INSERT INTO `model` (`id`, `description`) VALUES
 (4, 'SuperSport'),
 (5, 'R8 V12');
 
-INSERT INTO `cars` (`id`, `make`, `model`, `year`, `country`, `type`, `hp`, `torque`, `miles_driven`, `status`, `added_by`, `acceleration`, `max_speed`) VALUES
-(3, 1, 4, 2014, 2, 2, 1200, 1001, 10, 1, 1, 2.31, 272),
-(4, 5, 1, 2015, 2, 2, 650, 600, 900, 1, 1, 2.7, 240),
-(5, 5, 2, 2015, 2, 4, 970, 1200, 5, 1, 1, 2.21, 220),
-(6, 3, 5, 2013, 2, 1, 800, 750, 500, 1, 1, 3, 220);
+INSERT INTO `cars` (`make`, `model`, `year`, `country`, `type`, `hp`, `torque`, `miles_driven`, `status`, `added_by`, `acceleration`, `max_speed`) VALUES
+(1, 4, 2014, 2, 2, 1200, 1001, 10, 1, 1, 2.31, 272),
+(5, 1, 2015, 2, 2, 650, 600, 900, 1, 1, 2.7, 240),
+(5, 2, 2015, 2, 4, 970, 1200, 5, 1, 1, 2.21, 220),
+(3, 5, 2013, 2, 1, 800, 750, 500, 1, 1, 3, 220);
