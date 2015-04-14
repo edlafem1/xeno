@@ -15,3 +15,7 @@ Once you have run the website(use python backbone.py when you are in the xeno/ba
 http://192.168.59.103:49156
 
 and it should work 
+
+
+Get DB structure setup:
+mysql < xeno.sql ; mysql < init_db.sql
