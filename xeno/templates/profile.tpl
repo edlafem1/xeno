@@ -3,9 +3,8 @@
 
 {% include "menu.tpl" %}
 
-<head>
-    <link href="style/profile.css" rel="stylesheet" />
-</head>
+
+<link href="style/profile.css" rel="stylesheet" />
 
 <div class="fadeInUp">
     <div id="pageDescriptionWrapper">

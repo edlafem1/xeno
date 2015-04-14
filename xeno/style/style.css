@@ -1,6 +1,16 @@
 @import url(http://fonts.googleapis.com/css?family=Quicksand:300);
 @import url(http://fonts.googleapis.com/css?family=Julius+Sans+One);
 
+input:-webkit-autofill {
+    -webkit-box-shadow:0 0 0 50px black inset; /* Change the color to your own background color */
+    -webkit-text-fill-color: white;
+}
+
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: /*your box-shadow*/,0 0 0 50px black inset;
+    -webkit-text-fill-color: white;
+}
+
 html {
     background: url("../images/mustang.jpg") no-repeat scroll center top transparent;
     background-color: aqua;

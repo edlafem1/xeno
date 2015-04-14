@@ -86,7 +86,8 @@ def search(page=1):
         # view all
         howmany = -1
     car_data = get_cars(page, howmany)
-    return render_template('search.tpl', cars=car_data)
+    return render_template('car_list.tpl', cars = car_data, admin=isAdmin(current_user))
+    #return render_template('search.tpl', cars=car_data, admin=isAdmin(current_user))
 
 @app.route('/dashboard')
 @login_required
@@ -124,9 +125,11 @@ def add_car():
     return render_template('add_car.tpl', admin=isAdmin(current_user))
 
 
+
 #################################################################
 
 @app.route('/accounts')
+@login_required
 def approve_accounts():
     # Approve accounts page
     accounts = [{"name": "John Smith",
