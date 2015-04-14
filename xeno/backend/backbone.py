@@ -75,7 +75,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("xeno_main"))
+    return redirect(url_for("login"))
 
 
 @app.route('/search')
