@@ -45,55 +45,16 @@
                 <div id="newCarsTitle" class="underline">New Cars</div>
     </div>
     <div class="carList">
+        {% for car in new_cars %}
         <div class="carWrapper">
-            <div id="carPic">
-            </div>
-            <div class="carName">
-                Maserati
-            </div>    
+                <div id="carPic">
+                    <!--{{car["id"]|string + ".jpg"}} for img filename -->
+                </div>
+                <div class="carName">
+                    {{car["year"]|string + " " + car["make"] + " " + car["model"] }}
+                </div>
         </div>
-        <div class="carWrapper">
-            <div id="carPic">
-            </div>
-            <div class="carName">
-                Maserati
-            </div>    
-        </div>
-        <div class="carWrapper">
-            <div id="carPic">
-            </div>
-            <div class="carName">
-                Maserati
-            </div>    
-        </div>
-        <div class="carWrapper">
-            <div id="carPic">
-            </div>
-            <div class="carName">
-                Maserati
-            </div>    
-        </div>
-        <div class="carWrapper">
-            <div id="carPic">
-            </div>
-            <div class="carName">
-                Maserati
-            </div>    
-        </div>
-        <div class="carWrapper">
-            <div id="carPic">
-            </div>
-            <div class="carName">
-                Maserati
-            </div>    
-        </div>
-        <div class="carWrapper">
-            <div id="carPic">
-            </div>
-            <div class="carName">
-                Maserati
-            </div>    
-        </div>
+    {% endfor %}
     </div>
 </div>
 {% endblock %}

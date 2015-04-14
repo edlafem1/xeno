@@ -2,7 +2,7 @@ import database_connection as db_conn
 import datetime
 import user_class
 
-def get_cars(page, howmany):
+def get_cars(page, howmany, get_new=False):
     print "getting cars!"
     offset = 0
     query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS odo, " \
@@ -10,8 +10,14 @@ def get_cars(page, howmany):
         "model.description AS model " \
         "FROM cars " \
         "JOIN make ON cars.make=make.id " \
-        "JOIN model ON cars.model=model.id " \
-        "ORDER BY make.id ASC"
+        "JOIN model ON cars.model=model.id "
+    if get_new is False:
+        query += "ORDER BY make.id ASC"
+    else:
+        query += "ORDER BY id DESC"
+        howmany = 5
+        offset = 0
+        page = 1
 #    query = "SELECT * FROM `xeno`.`cars` ORDER BY `make` ASC"
     if howmany > 0:
         offset = (page - 1) * howmany
