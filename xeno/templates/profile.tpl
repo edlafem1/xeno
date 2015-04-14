@@ -12,26 +12,38 @@
                 <div id="pageDescription" class="underline">Profile</div>
     </div>
 
-    <table cellspacing=25 class="fadeInUp">
+    <table cellspacing=55 class="fadeInUp">
         <tr>
             <td>
                 <div class="boxed">
                     <img src="images/blank_face.jpeg" style="width:304px;height:228px">
                 </div>
             </td>
-            <td>
-                <div class="underline">
-                    Cars {{firstname}} Reviewed
-                </div>
-                <img class="carPic" src="images/bugatti.jpg" style="width:150px;height:150px;border:1px solid gold">
-                <td>
-                    The car is wayy too fast
-                </td>
+            <td colspan="2">
+                <table class="fadeInUp">
+                    <tr>
+                        <td colspan="2">
+                            <div class="underline">
+                                Cars {{firstname}} Reviewed
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img class="carPic" src="images/bugatti.jpg" style="width:150px;height:150px;border:1px solid gold">
+                        </td>
+                        <td>
+                            The car is wayy too fast
+                        </td>
+                    </tr>
+                </table>
             </td>
             <tr>
                 <td>
                 {{firstname}} {{lastname}}
                 </td>
+                <td></td>
+                <td></td>
             </tr>
         </tr>
         <tr>

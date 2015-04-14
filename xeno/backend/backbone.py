@@ -117,7 +117,7 @@ def add_car():
         return render_template('add_car.tpl', admin=isAdmin(current_user))
     # getting here means they are submiting data
     new_car_data = request.form
-    if add_new_car(new_car_data) == True:
+    if add_new_car(new_car_data, current_user) == True:
         flash("Thank you for adding a car!")
     else:
         flash("Something went wrong...")

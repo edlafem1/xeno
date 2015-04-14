@@ -38,6 +38,7 @@ class User(UserMixin):
     def init_user(u, user_id):    
         udata = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [user_id], one=True)
         if udata is not None:
+            u.db_id = udata["id"]
             u.fname = udata["first_name"]
             u.lname = udata["last_name"]
             u.date_joined = udata["date_joined"]
