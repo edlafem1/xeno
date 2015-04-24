@@ -12,7 +12,7 @@ def get_cars(page, howmany, get_new=False):
         "JOIN make ON cars.make=make.id " \
         "JOIN model ON cars.model=model.id "
     if get_new is False:
-        query += "ORDER BY make.id ASC"
+        query += "ORDER BY date_added DESC, make.id DESC"
     else:
         query += "ORDER BY id DESC"
         howmany = 5
@@ -25,7 +25,7 @@ def get_cars(page, howmany, get_new=False):
     elif howmany == -1:
         offset = 0
     car_data = db_conn.query_db(query)
-    #print car_data
+#    print car_data
     return car_data
 
 def add_new_car(cdata, current_user):
@@ -49,6 +49,16 @@ def add_new_car(cdata, current_user):
         model_id = int(model_id["id"])
         #print "Model id already there as " + str(model_id)
 
+    query = "SELECT id FROM car_type WHERE description=%s"
+    car_type = db_conn.query_db(query, [cdata["ctype"].lower()], one=True)
+    if car_type is None:
+        query = "INSERT INTO car_type (`description`) VALUES (%s)"
+        car_type = db_conn.query_db(query, [cdata["ctype"]], select=False)
+        print "Car Type id" + str(car_type)
+    else:
+        car_type = int(car_type["id"])
+        print "Car Type already there as " + str(car_type)
+
     query = "SELECT id FROM country WHERE description=%s"
     country_id = db_conn.query_db(query, [cdata["country"].lower()], one=True)
     if country_id is None:
@@ -59,13 +69,17 @@ def add_new_car(cdata, current_user):
         country_id = int(country_id["id"])
         #print "Country id already there as " + str(country_id)
 
-    query = "INSERT INTO cars (make, model, year, country, type, hp, torque, miles_driven, acceleration, max_speed, added_by)" \
-            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    is_featured = 0
+    if cdata["is_featured"] == "on":
+        is_featured = 1
+
+    query = "INSERT INTO cars (make, model, year, country, type, hp, torque, miles_driven, acceleration, max_speed, added_by, is_featured)" \
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     result = False
     try:
-        result = db_conn.query_db(query, [make_id, model_id, int(cdata["year"]), country_id, int(cdata["ctype"]),
+        result = db_conn.query_db(query, [make_id, model_id, int(cdata["year"]), country_id, car_type,
                                         int(cdata["hp"]), int(cdata["torque"]), int(cdata["odo"]),
-                                        int(cdata["acceleration"]), int(cdata["max_speed"]), current_user.db_id],
+                                        int(cdata["acceleration"]), int(cdata["max_speed"]), current_user.db_id, is_featured],
                                         select=False)
     except Exception, e:
         result = False

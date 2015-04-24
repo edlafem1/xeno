@@ -49,6 +49,10 @@
             <td>Max Speed:</td>
             <td><input type="text" name="max_speed" placeholder="Ex: 220(in mph)"/></td>
         </tr>
+        <tr>
+            <td>Featured:</td>
+            <td><input type="checkbox" name="is_featured"></td>
+        </tr>
         <!--
         <tr>
             <td>Engine:</td>

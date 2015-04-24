@@ -50,9 +50,9 @@ def xeno_main():
 def login():
     if current_user is not None and current_user.is_authenticated():
         flash('Already logged in.')
-        return redirect(request.args.get('next') or url_for('search'))
+        return redirect(request.args.get('next') or url_for('dashboard_view'))
     if request.method == 'GET':
-        return render_template('login.tpl')
+        return render_template('login.tpl', next=request.args.get('next'))
 
     if request.method == 'POST':
         username = request.form['username']
@@ -63,13 +63,10 @@ def login():
         if user is None:
             flash('Username or Password is invalid', 'error')
             return render_template('login.tpl', username=username)
-        #print "User = ", vars(user)
         login_user(user)
         flash("Logged in successfully.")
-        #return redirect('/')
-        dashboard_view()
-        #return render_template('dash.tpl', admin=isAdmin(current_user))
-    return redirect(request.args.get('next') or url_for('search'))
+    print request.form['next']
+    return redirect(request.form['next'] or url_for('dashboard_view'))
 
 @app.route("/logout")
 @login_required
@@ -94,7 +91,7 @@ def search(page=1):
 @app.route('/dashboard')
 @login_required
 def dashboard_view():
-    new_car_data = get_cars(1, 8, True)
+    new_car_data = get_cars(1, 8, get_new=True)
     return render_template('dash.tpl', new_cars=new_car_data, admin=isAdmin(current_user))
 
 @app.route('/sign_up', methods=["GET", "POST"])
@@ -121,6 +118,7 @@ def add_car():
         return render_template('add_car.tpl', admin=isAdmin(current_user))
     # getting here means they are submiting data
     new_car_data = request.form
+    print new_car_data["is_featured"]
     if add_new_car(new_car_data, current_user) == True:
         flash("Thank you for adding a car!")
     else:
