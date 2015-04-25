@@ -11,13 +11,14 @@
     </div>
     <div class="carList">
         {% for car in cars %}
-        <div class="carWrapper">
-                <div id="carPic">
-                    <!--{{car["id"]|string + ".jpg"}} for img filename -->
-                </div>
-                <div class="carName">
-                    {{car["year"]|string + " " + car["make"] + " " + car["model"] }}
-                </div>
+        <div class="carWrapper custC" style="
+          background:
+            linear-gradient( rgba(255, 255, 255, 0) 50%,
+            rgba(0, 0, 0, 0.65) 100%),
+            url(/images/acura_concept.jpg);
+            background-size: cover;
+        ">
+            <span class="car_title">{{car["year"]|string + " " + car["make"] + " " + car["model"] }}</span>
         </div>
     {% endfor %}
     </div>
