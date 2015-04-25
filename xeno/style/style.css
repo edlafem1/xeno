@@ -256,6 +256,12 @@ input[type=text], input[type=password] {
     line-height: 0px;
 }
 
+h4.message_flash {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
 /*                                                                                           
 .expand {                                                                                    
     letter-spacing: 2px;                                                                     
@@ -273,3 +279,23 @@ input[type=text], input[type=password] {
     50% {letter-spacing: 50px;}                                                              
 }                                                                                            
 */
+
+/* Fancy scrollbar stuff */
+::-webkit-scrollbar {
+    width: 12px;
+    margin-right: 5px;
+    background-color: black;
+    height: 80%;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #ADADAD;
+    border-radius: 10px;
+    background-color: black;
+    /* width: 30px; */
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 18px #FFD700;
+}

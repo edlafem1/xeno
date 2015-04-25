@@ -2,31 +2,42 @@ import database_connection as db_conn
 import datetime
 import user_class
 
-def get_cars(page, howmany, get_new=False):
-    print "getting cars!"
+
+def get_cars(page, howmany, get_new=False, get_featured=False):
+    #print "getting cars!"
     offset = 0
     query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS odo, " \
         "cars.acceleration AS acceleration, cars.max_speed AS max_speed, make.description AS make, " \
-        "model.description AS model " \
+        "model.description AS model, cars.date_added AS date_added, cars.is_featured AS is_featured, " \
+        "make.id " \
         "FROM cars " \
         "JOIN make ON cars.make=make.id " \
         "JOIN model ON cars.model=model.id "
-    if get_new is False:
-        query += "ORDER BY date_added DESC, make.id DESC"
-    else:
-        query += "ORDER BY id DESC"
-        howmany = 5
+    if get_new is False and get_featured is False:
+        query += "ORDER BY make.id DESC, date_added DESC "
+    elif get_new is True and get_featured is False:
+        query += "ORDER BY date_added DESC "
+        howmany = 8
         offset = 0
         page = 1
+    elif get_featured is True:
+        # query += "WHERE cars.is_featured=1 "
+        # to force there to be some car that is featured(even if none is marked), do not use WHERE, use ORDER BY
+        query += "ORDER BY is_featured DESC, date_added DESC "
+        howmany = 4
+        offset = 0
+        page = 1
+
 #    query = "SELECT * FROM `xeno`.`cars` ORDER BY `make` ASC"
     if howmany > 0:
         offset = (page - 1) * howmany
-        query += " LIMIT " + str(offset) + ", " + str(howmany)  # LIMIT offset,row_count
+        query += "LIMIT " + str(offset) + ", " + str(howmany)  # LIMIT offset,row_count
     elif howmany == -1:
         offset = 0
     car_data = db_conn.query_db(query)
 #    print car_data
     return car_data
+
 
 def add_new_car(cdata, current_user):
     query = "SELECT id FROM make WHERE description=%s"

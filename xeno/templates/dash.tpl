@@ -10,6 +10,7 @@
     <div id="featuredCarsTitleWrapper">
                 <div id="featuredCarsTitle" class="underline">Featured Cars</div>
     </div>
+    <!--
     <div class="carList">
         <div class="carWrapper">
             <div id="carPic">
@@ -40,7 +41,22 @@
             </div>    
         </div>
     </div>
-    
+    -->
+
+    <div class="carList">
+        {% for car in featured_cars %}
+        <div class="carWrapper">
+                <div id="carPic">
+                    <!--{{car["id"]|string + ".jpg"}} for img filename -->
+                </div>
+                <div class="carName">
+                    {{car["year"]|string + " " + car["make"] + " " + car["model"] }}
+                </div>
+        </div>
+    {% endfor %}
+    </div>
+
+
     <div id="newCarsTitleWrapper">
                 <div id="newCarsTitle" class="underline">New Cars</div>
     </div>

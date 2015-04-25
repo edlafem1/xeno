@@ -7,6 +7,11 @@
     <div id="pageDescriptionWrapper">
                 <div id="pageDescription" class="underline">Add New Car</div>
     </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <h4 class="message_flash">{{ messages[0] }}</h4>
+    {% endif %}
+    {% endwith %}
     <form action="{{ url_for('add_car') or 'add_car' }}" method="POST" autocomplete="off">
     <table cellspacing=25 class="fadeInUp">
         <tr>
@@ -51,7 +56,11 @@
         </tr>
         <tr>
             <td>Featured:</td>
-            <td><input type="checkbox" name="is_featured"></td>
+            <td>
+                <!-- edlafem1-this is a hack to force value to be sent in a POST -->
+                <input type="hidden" name="is_featured" value="0"/>
+                <input type="checkbox" name="is_featured/">
+            </td>
         </tr>
         <!--
         <tr>

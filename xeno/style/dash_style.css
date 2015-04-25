@@ -1,29 +1,24 @@
 /* Dash Style */
-#featuredCarsTitleWrapper {
+#featuredCarsTitleWrapper, #newCarsTitleWrapper {
     margin-left: 10%;
     margin-right: 25%;
-/*    margin-bottom: 1%;*/
-    width: 15%;
+    text-align: left;
+    display: inline-block;
+    /* margin-bottom: 1%;*/
+    /* min-width: 3em !important; */
+    /* width: 15%; */
+    /* max-width: 30%; */
 }
 
-#featuredCarsTitle {
-    text-align: center;
-    position: relative;
-    width: 100%;
-}
-
-#newCarsTitleWrapper {
-    margin-left: 10%;
-    margin-right: 25%;
-    margin-top: 5%;
-/*    margin-bottom: 1%;*/
-    width: 15%;
+#featuredCarsTitle, #newCarsTitle {
+    width: 180%;
+    margin-top: 1.0em;
+    /* text-align: center; */
+    /* position: relative; */
 }
 
 #newCarsTitle {
-    text-align: center;
-    position: relative;
-    width: 100%;
+    margin-top: 2em;
 }
 
 .carList {

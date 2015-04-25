@@ -84,7 +84,7 @@ def search(page=1):
         # view all
         howmany = -1
     car_data = get_cars(page, howmany)
-    return render_template('car_list.tpl', cars = car_data, admin=isAdmin(current_user))
+    return render_template('car_list.tpl', cars=car_data, admin=isAdmin(current_user))
     #return render_template('search.tpl', cars=car_data, admin=isAdmin(current_user))
 
 @app.route('/')
@@ -92,7 +92,8 @@ def search(page=1):
 @login_required
 def dashboard_view():
     new_car_data = get_cars(1, 8, get_new=True)
-    return render_template('dash.tpl', new_cars=new_car_data, admin=isAdmin(current_user))
+    featured_car_data = get_cars(1, 4, get_featured=True)
+    return render_template('dash.tpl', new_cars=new_car_data, featured_cars=featured_car_data, admin=isAdmin(current_user))
 
 @app.route('/sign_up', methods=["GET", "POST"])
 def sign_up():
@@ -118,8 +119,7 @@ def add_car():
         return render_template('add_car.tpl', admin=isAdmin(current_user))
     # getting here means they are submiting data
     new_car_data = request.form
-    print new_car_data["is_featured"]
-    if add_new_car(new_car_data, current_user) == True:
+    if add_new_car(new_car_data, current_user) is True:
         flash("Thank you for adding a car!")
     else:
         flash("Something went wrong...")
