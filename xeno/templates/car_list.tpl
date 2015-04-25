@@ -9,6 +9,11 @@
     <div id="pageDescriptionWrapper">
                 <div id="pageDescription" class="underline">Cars Offered</div>
     </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <h4 class="message_flash">{{ messages[0] }}</h4>
+    {% endif %}
+    {% endwith %}
     <div class="carList">
         {% for car in cars %}
         <div class="carWrapper custC" style="

@@ -116,6 +116,9 @@ def sign_up():
 def add_car():
     # Add car page
     if request.method == 'GET':
+        if not isAdmin(current_user):
+            flash("Sorry, you need to be an admin to add cars to Xeno. Try searching to see if it's already here!")
+            return redirect(url_for('search'))
         return render_template('add_car.tpl', admin=isAdmin(current_user))
     # getting here means they are submiting data
     new_car_data = request.form
@@ -152,7 +155,8 @@ def approve_accounts():
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.tpl', firstname=current_user.fname, lastname=current_user.lname)
+    return render_template('profile.tpl', firstname=current_user.fname, lastname=current_user.lname,
+                           admin=isAdmin(current_user))
 
 
 # Allows stylesheets to be loaded.

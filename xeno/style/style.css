@@ -1,6 +1,65 @@
 @import url(http://fonts.googleapis.com/css?family=Quicksand:300);
 @import url(http://fonts.googleapis.com/css?family=Julius+Sans+One);
 
+/* begin fadeinout animation */
+@-moz-keyframes fadeinout { /* Firefox */
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@-webkit-keyframes fadeinout { /* Safari and Chrome */
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@-o-keyframes fadeinout { /* Opera */
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes fadeinout {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+/* end fadeinout animation */
+
 input:-webkit-autofill {
     -webkit-box-shadow:0 0 0 50px black inset; /* Change the color to your own background color */
     -webkit-text-fill-color: white;
@@ -260,6 +319,12 @@ h4.message_flash {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+
+    opacity: 0;
+    -moz-animation: fadeinout 10s ease-in; /* Firefox */
+    -webkit-animation: fadeinout 10s ease-in; /* Safari and Chrome */
+    -o-animation: fadeinout 10s ease-in; /* Opera */
+	animation: fadeinout 10s ease-in;
 }
 
 /*                                                                                           
