@@ -50,7 +50,7 @@
 .carWrapper.custC {
   min-height: 200px;
   height: 25vh;
-  background-repeat: round;
+  background-repeat: round !important;
   position: relative;
 }
 

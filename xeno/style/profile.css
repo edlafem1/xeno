@@ -1,10 +1,104 @@
+#pageDescription {
+    margin-top: 1.0em;
+}
+
 .boxed{
-  border: 3px solid gold;
-  margin: 15px;
+  border: 2px solid #FFD700;
+  /* margin: 15px; */
   padding: 15px;  
 }
 
 .carPic{
-    border: 1px solid gold;
+    border: 1px solid #FFD700;
     margin-top: 7%;
+}
+
+div.profile_container {
+    width: 49%;
+    height: 100%;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.personal {
+    position: relative;
+    float: left;
+    width: 30%;
+    height: 120%;
+    margin-right: 7%;
+    margin-left: auto;
+    background-color: rgba(0, 0, 0, .8);
+}
+
+div.user_activity {
+    position: relative;
+    float: left;
+    width: 63%;
+    clear: right;
+/*
+    border: 3px solid #FFD700;
+    padding: 15px;
+    margin-left: auto;
+*/
+}
+
+img.propic {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+div.user_details {
+    margin-top: 3em;
+    font-size: .7em;
+}
+
+div.user_details ul {
+    list-style: none;
+}
+
+div.user_details ul li {
+    margin-bottom: 1em;
+}
+
+div.user_activity {
+    height: 120%;
+    overflow-y: hidden;
+}
+
+div.user_activity div.underline {
+    width: 100%;
+}
+
+div.activity_details {
+    height: 90%;
+    width: 99%;
+    margin-top: 1.3em;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 8px;
+    overflow-y: scroll;
+}
+
+div.activity_event {
+    height: 13%;
+    width: 100%;
+    margin-bottom: 7px;
+    border: 2px solid #FFD700;
+}
+
+div.favorite_car {
+    position: absolute;
+    bottom: 1.5em;
+    left: 5%;
+    width: 90%;
+    height: 30%;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+}
+
+span.fav_car_label {
+    font-size: .8em;
 }

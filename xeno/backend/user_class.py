@@ -17,6 +17,12 @@ class User(UserMixin):
     def is_anonymous(self):
         return self.anonymous
 
+    def get_reviews(self):
+        query = "SELECT `reviews.date_created`, `reviews.num_stars`, `reviews.text`, `reviews.car FROM reviews` " \
+                "WHERE `reviews.reviewer`=%s"
+        result = db_conn.query_db(query, [self.db_id])
+        print result
+        return result
 
     '''
         Creates a User object and initializes all properties and attributes.
