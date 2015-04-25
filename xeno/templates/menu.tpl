@@ -1,5 +1,5 @@
 <header id="header">
-    <br/>
+
     <div id="header_container">
         <section class="header_group">
             <table>

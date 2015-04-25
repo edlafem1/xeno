@@ -43,8 +43,23 @@
     content: url("/images/Maserati_Alfieri_left.jpg") no-repeat scroll center top transparent;
 }
 
-
-
 .carName {
     text-align: center;
+}
+
+.carWrapper.custC {
+  min-height: 200px;
+  height: 25vh;
+  background-repeat: round;
+  position: relative;
+}
+
+ span.car_title {
+    /* vertical-align: bottom; */
+    /* display: table-row; */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
 }
