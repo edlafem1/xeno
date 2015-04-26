@@ -9,7 +9,7 @@
 
 <div class="fadeInUp">
     <div id="pageDescriptionWrapper">
-                <div id="pageDescription" class="underline">{{firstname}} {{lastname}}'s Profile</div>
+                <div id="pageDescription" class="underline">{{user_data["firstname"]}} {{user_data["lastname"]}}'s Profile</div>
     </div>
 
     <div class="profile_container">
@@ -18,10 +18,14 @@
 
             <div class="user_details">
                 <ul>
-                    <li>Joined 04/25/2015</li>
-                    <li>admin@xeno.com</li>
-                    <li>Total Credits: 568</li>
-                    <li>Suspended Until: Never</li>
+                    <li>Joined {{ user_data["date_joined"] }}</li>
+                    <li>{{ user_data["email"] }}</li>
+                    <li>Total Credits: {{ user_data["credits"] }}</li>
+                    {% if user_data["suspended_until"]|length > 0 %}
+                        <li>Suspended Until: Never</li>
+                    {% else %}
+                        <li>Active User</li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="favorite_car">
@@ -40,7 +44,13 @@
                         margin: 0;
                 ">
                     <!--django stuff car["year"]|string + " " + car["make"] + " " + car["model"] -->
-                    <span class="car_title">2015 Ford Focus</span>
+                    <span class="car_title">
+                        {% if fav_car|length > 0 %}
+                            {{ fav_car["year"]|string + " " + fav_car["make"] + " " + fav_car["model"] }}
+                        {% else %}
+                            2015 Ford Focus
+                        {% endif %}
+                    </span>
                 </div>
                 </div>
             </div>

@@ -155,8 +155,20 @@ def approve_accounts():
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.tpl', firstname=current_user.fname, lastname=current_user.lname,
-                           admin=isAdmin(current_user))
+    user_info = dict()
+    user_info["firstname"] = current_user.fname
+    user_info["lastname"] = current_user.lname
+    user_info["credits"] = current_user.credits
+    user_info["email"] = current_user.id
+    user_info["date_joined"] = current_user.date_joined.strftime('%m/%d/%Y')
+    if current_user.suspended is False:
+        user_info["suspended_until"] = ""
+    else:
+        user_info["suspended_until"] = current_user.suspended_til.strftime('%m/%d/%Y')
+
+    favorite_car = current_user.get_favorite_car()
+
+    return render_template('profile.tpl', user_data=user_info, admin=isAdmin(current_user), fav_car=favorite_car)
 
 
 # Allows stylesheets to be loaded.
