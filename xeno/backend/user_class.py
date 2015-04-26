@@ -18,11 +18,20 @@ class User(UserMixin):
         return self.anonymous
 
     def get_reviews(self):
-        query = "SELECT `reviews.date_created`, `reviews.num_stars`, `reviews.text`, `reviews.car FROM reviews` " \
-                "WHERE `reviews.reviewer`=%s"
+        query = "SELECT `reviews`.`date_created`, `reviews`.`num_stars`, `reviews`.`text`, `reviews`.`car` FROM `reviews` " \
+                "WHERE `reviews`.`reviewer`=%s"
         result = db_conn.query_db(query, [self.db_id])
         print result
         return result
+
+    def get_favorite_car(self):
+        subquery = "SELECT `reservations`.`for_car` AS car_id, COUNT(*) AS num_rentals FROM `reservations` " \
+                "WHERE `reservations`.`made_by='?' GROUP BY `reservations`.`for_car`"
+        query = "SELECT car_id, MAX(num_rentals) FROM (" + subquery + ")"
+        result = db_conn.query_db(query, [self.db_id])
+        print result
+        return result
+
 
     '''
         Creates a User object and initializes all properties and attributes.
