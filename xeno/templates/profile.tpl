@@ -14,7 +14,7 @@
 
     <div class="profile_container">
         <div class="personal boxed">
-            <img src="images/blank_face.jpeg" class="propic">
+            <img src="images/profiles/blank_face.jpeg" class="propic">
 
             <div class="user_details">
                 <ul>

@@ -9,7 +9,7 @@ def get_cars(page, howmany, get_new=False, get_featured=False):
     query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS odo, " \
         "cars.acceleration AS acceleration, cars.max_speed AS max_speed, make.description AS make, " \
         "model.description AS model, cars.date_added AS date_added, cars.is_featured AS is_featured, " \
-        "make.id " \
+        "make.id AS make_id " \
         "FROM cars " \
         "JOIN make ON cars.make=make.id " \
         "JOIN model ON cars.model=model.id "
@@ -65,10 +65,10 @@ def add_new_car(cdata, current_user):
     if car_type is None:
         query = "INSERT INTO car_type (`description`) VALUES (%s)"
         car_type = db_conn.query_db(query, [cdata["ctype"]], select=False)
-        print "Car Type id" + str(car_type)
+        #print "Car Type id" + str(car_type)
     else:
         car_type = int(car_type["id"])
-        print "Car Type already there as " + str(car_type)
+        #print "Car Type already there as " + str(car_type)
 
     query = "SELECT id FROM country WHERE description=%s"
     country_id = db_conn.query_db(query, [cdata["country"].lower()], one=True)
@@ -90,10 +90,10 @@ def add_new_car(cdata, current_user):
     try:
         result = db_conn.query_db(query, [make_id, model_id, int(cdata["year"]), country_id, car_type,
                                         int(cdata["hp"]), int(cdata["torque"]), int(cdata["odo"]),
-                                        int(cdata["acceleration"]), int(cdata["max_speed"]), current_user.db_id, is_featured],
+                                        float(cdata["acceleration"]), int(cdata["max_speed"]), current_user.db_id, is_featured],
                                         select=False)
     except Exception, e:
         result = False
         print repr(e)
 
-    return result is not False
+    return result

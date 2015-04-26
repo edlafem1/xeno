@@ -32,7 +32,7 @@
           background:
             linear-gradient( rgba(255, 255, 255, 0) 50%,
             rgba(0, 0, 0, 0.65) 100%),
-            url(/images/chev_camaro.jpg);
+            url(/images/cars/{{ car["id"] }}_main.pic);
             background-size: cover;
         ">
             <span class="car_title">{{car["year"]|string + " " + car["make"] + " " + car["model"] }}</span>
@@ -49,7 +49,7 @@
           background:
             linear-gradient( rgba(255, 255, 255, 0) 50%,
             rgba(0, 0, 0, 0.65) 100%),
-            url(/images/acura_concept.jpg);
+            url(/images/cars/{{ car["id"] }}_main.pic);
             background-size: cover;
         ">
             <span class="car_title">{{car["year"]|string + " " + car["make"] + " " + car["model"] }}</span>

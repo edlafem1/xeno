@@ -4,9 +4,23 @@ import mysql.connector as mariadb
 import os
 from user_class import *
 from car_actions import *
+from flaskext.uploads import *
 
 import configuration
 app = Flask(__name__, template_folder='../templates')
+
+patch_request_class(app, 8 * 1024 * 1024)  # 8 megabyte file upload limit
+UPLOADED_IMAGES_DEST = "../images/"
+
+
+def car_dest(app):
+    return "../images/cars/"
+def pro_dest(app):
+    return "../images/profiles/"
+car_pics = UploadSet('cars', IMAGES + ("pic",), car_dest)
+profile_pics = UploadSet('profilepics', IMAGES + ("pic",), pro_dest)
+configure_uploads(app, [car_pics, profile_pics])
+
 app.secret_key = os.urandom(24)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -122,7 +136,11 @@ def add_car():
         return render_template('add_car.tpl', admin=isAdmin(current_user))
     # getting here means they are submiting data
     new_car_data = request.form
-    if add_new_car(new_car_data, current_user) is True:
+    car_id = add_new_car(new_car_data, current_user)
+    if car_id is not False:
+        if 'photo' in request.files:
+            filename = car_pics.save(request.files['photo'], name=str(car_id)+"_main.pic")
+            print("Photo saved: " + filename)
         flash("Thank you for adding a car!")
     else:
         flash("Something went wrong...")
