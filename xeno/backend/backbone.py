@@ -89,8 +89,8 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route('/search')
-@app.route('/search/<int:page>')
+@app.route('/search', methods=["GET"])
+@app.route('/search/<int:page>', methods=["GET"])
 @login_required
 def search(page=1):
     howmany = 20
@@ -98,9 +98,12 @@ def search(page=1):
         # view all
         howmany = -1
     car_data = get_cars(page, howmany)
-    return render_template('car_list.tpl', cars=car_data, admin=isAdmin(current_user))
-    #return render_template('search.tpl', cars=car_data, admin=isAdmin(current_user))
-
+    if request.args['search'] == "":
+        return render_template('car_list.tpl', cars=car_data, admin=isAdmin(current_user))
+    else:
+        return render_template('search.tpl', search=request.args['search'], cars=car_data, admin=isAdmin(current_user))
+    
+    
 @app.route('/')
 @app.route('/dashboard')
 @login_required
