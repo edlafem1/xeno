@@ -17,6 +17,34 @@ class User(UserMixin):
     def is_anonymous(self):
         return self.anonymous
 
+    def get_reviews(self):
+        query = "SELECT `reviews`.`date_created`, `reviews`.`num_stars`, `reviews`.`text`, `reviews`.`car` FROM `reviews` " \
+                "WHERE `reviews`.`reviewer`=%s"
+        result = db_conn.query_db(query, [self.db_id])
+        print result
+        return result
+
+    def get_favorite_car(self):
+        subquery = "SELECT `reservations`.`for_car` AS car_id, COUNT(*) AS num_rentals FROM `reservations` " \
+                "WHERE `reservations`.`made_by`='%s' GROUP BY `reservations`.`for_car` " \
+                "ORDER BY `reservations`.`for_date`"
+        max_query = "SELECT car_id, MAX(num_rentals) FROM (" + subquery + ") AS sub"
+        car_query = "SELECT `cars`.`id` FROM (" + max_query + ") AS max JOIN `cars` WHERE `cars`.`id=cars_id"
+
+        query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS odo, " \
+                "cars.acceleration AS acceleration, cars.max_speed AS max_speed, make.description AS make, " \
+                "model.description AS model, cars.date_added AS date_added, cars.is_featured AS is_featured, " \
+                "make.id " \
+                " FROM (" + max_query + ") AS final " \
+                "JOIN `cars` ON `cars`.`id`=car_id " \
+                "JOIN make ON cars.make=make.id " \
+                "JOIN model ON cars.model=model.id "
+
+        result = db_conn.query_db(query, [self.db_id])
+        print "Favorite Car Data: "
+        print result
+        return result
+
 
     '''
         Creates a User object and initializes all properties and attributes.

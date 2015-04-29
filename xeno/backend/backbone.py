@@ -4,9 +4,23 @@ import mysql.connector as mariadb
 import os
 from user_class import *
 from car_actions import *
+from flaskext.uploads import *
 
 import configuration
 app = Flask(__name__, template_folder='../templates')
+
+patch_request_class(app, 8 * 1024 * 1024)  # 8 megabyte file upload limit
+UPLOADED_IMAGES_DEST = "../images/"
+
+
+def car_dest(app):
+    return "../images/cars/"
+def pro_dest(app):
+    return "../images/profiles/"
+car_pics = UploadSet('cars', IMAGES + ("pic",), car_dest)
+profile_pics = UploadSet('profilepics', IMAGES + ("pic",), pro_dest)
+configure_uploads(app, [car_pics, profile_pics])
+
 app.secret_key = os.urandom(24)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -38,21 +52,21 @@ def load_user(userid):
         return None
     return user
 
-
+'''
 @app.route('/')
 @login_required
 def xeno_main():
     # Serves main landing page
     return render_template('index.tpl')
-
+'''
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user is not None and current_user.is_authenticated():
         flash('Already logged in.')
-        return redirect(request.args.get('next') or url_for('search'))
+        return redirect(request.args.get('next') or url_for('dashboard_view'))
     if request.method == 'GET':
-        return render_template('login.tpl')
+        return render_template('login.tpl', next=request.args.get('next'))
 
     if request.method == 'POST':
         username = request.form['username']
@@ -63,18 +77,16 @@ def login():
         if user is None:
             flash('Username or Password is invalid', 'error')
             return render_template('login.tpl', username=username)
-        #print "User = ", vars(user)
         login_user(user)
         flash("Logged in successfully.")
-#        return redirect(request.args.get("next") or url_for("xeno_main"))
-        return render_template('dash.tpl', admin=isAdmin(current_user))
-    return redirect(request.args.get('next') or url_for('search'))
+    print request.form['next']
+    return redirect(request.form['next'] or url_for('dashboard_view'))
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("xeno_main"))
+    return redirect(url_for("login"))
 
 
 @app.route('/search')
@@ -86,12 +98,16 @@ def search(page=1):
         # view all
         howmany = -1
     car_data = get_cars(page, howmany)
-    return render_template('search.tpl', cars=car_data)
+    return render_template('car_list.tpl', cars=car_data, admin=isAdmin(current_user))
+    #return render_template('search.tpl', cars=car_data, admin=isAdmin(current_user))
 
+@app.route('/')
 @app.route('/dashboard')
 @login_required
 def dashboard_view():
-    return render_template('dash.tpl')
+    new_car_data = get_cars(1, 8, get_new=True)
+    featured_car_data = get_cars(1, 4, get_featured=True)
+    return render_template('dash.tpl', new_cars=new_car_data, featured_cars=featured_car_data, admin=isAdmin(current_user))
 
 @app.route('/sign_up', methods=["GET", "POST"])
 def sign_up():
@@ -114,19 +130,28 @@ def sign_up():
 def add_car():
     # Add car page
     if request.method == 'GET':
+        if not isAdmin(current_user):
+            flash("Sorry, you need to be an admin to add cars to Xeno. Try searching to see if it's already here!")
+            return redirect(url_for('search'))
         return render_template('add_car.tpl', admin=isAdmin(current_user))
     # getting here means they are submiting data
     new_car_data = request.form
-    if add_new_car(new_car_data, current_user) == True:
+    car_id = add_new_car(new_car_data, current_user)
+    if car_id is not False:
+        if 'photo' in request.files:
+            filename = car_pics.save(request.files['photo'], name=str(car_id)+"_main.pic")
+            print("Photo saved: " + filename)
         flash("Thank you for adding a car!")
     else:
         flash("Something went wrong...")
     return render_template('add_car.tpl', admin=isAdmin(current_user))
 
 
+
 #################################################################
 
 @app.route('/accounts')
+@login_required
 def approve_accounts():
     # Approve accounts page
     accounts = [{"name": "John Smith",
@@ -144,26 +169,24 @@ def approve_accounts():
                 ]
     return render_template('new_accounts.tpl', admin=isAdmin(current_user), accounts=accounts)
 
-@app.route('/dashboard')
-@login_required
-def dash():
-    # Dashboard page. First page you see once you login
-    
-    featured_cars = [{"name": "Maserati",
-                         "pic": "/images/Maserati_Alfieri_left.jpg"}]
-    
-    newly_added_cars = [{"name": "Maserati",
-                         "pic": "/images/Maserati_Alfieri_left.jpg"}]
-    
-    upcoming_rentals = [{"name": "Maserati",
-                         "date": "4/15"}]
-    
-    return render_template('dash.tpl', admin=isAdmin(current_user), featured_cars=featured_cars, newly_added_cars=newly_added_cars, upcoming_rentals=upcoming_rentals)
 
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.tpl', firstname=current_user.fname, lastname=current_user.lname)
+    user_info = dict()
+    user_info["firstname"] = current_user.fname
+    user_info["lastname"] = current_user.lname
+    user_info["credits"] = current_user.credits
+    user_info["email"] = current_user.id
+    user_info["date_joined"] = current_user.date_joined.strftime('%m/%d/%Y')
+    if current_user.suspended is False:
+        user_info["suspended_until"] = ""
+    else:
+        user_info["suspended_until"] = current_user.suspended_til.strftime('%m/%d/%Y')
+
+    favorite_car = current_user.get_favorite_car()
+
+    return render_template('profile.tpl', user_data=user_info, admin=isAdmin(current_user), fav_car=favorite_car)
 
 
 # Allows stylesheets to be loaded.

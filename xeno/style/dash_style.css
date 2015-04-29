@@ -1,29 +1,24 @@
 /* Dash Style */
-#featuredCarsTitleWrapper {
+#featuredCarsTitleWrapper, #newCarsTitleWrapper {
     margin-left: 10%;
     margin-right: 25%;
-/*    margin-bottom: 1%;*/
-    width: 15%;
+    text-align: left;
+    display: inline-block;
+    /* margin-bottom: 1%;*/
+    /* min-width: 3em !important; */
+    /* width: 15%; */
+    /* max-width: 30%; */
 }
 
-#featuredCarsTitle {
-    text-align: center;
-    position: relative;
-    width: 100%;
-}
-
-#newCarsTitleWrapper {
-    margin-left: 10%;
-    margin-right: 25%;
-    margin-top: 5%;
-/*    margin-bottom: 1%;*/
-    width: 15%;
+#featuredCarsTitle, #newCarsTitle {
+    width: 180%;
+    margin-top: 1.0em;
+    /* text-align: center; */
+    /* position: relative; */
 }
 
 #newCarsTitle {
-    text-align: center;
-    position: relative;
-    width: 100%;
+    margin-top: 2em;
 }
 
 .carList {
@@ -48,8 +43,23 @@
     content: url("/images/Maserati_Alfieri_left.jpg") no-repeat scroll center top transparent;
 }
 
-
-
 .carName {
     text-align: center;
+}
+
+.carWrapper.custC {
+  min-height: 200px;
+  height: 25vh;
+  background-repeat: round !important;
+  position: relative;
+}
+
+ span.car_title {
+    /* vertical-align: bottom; */
+    /* display: table-row; */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
 }

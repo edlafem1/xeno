@@ -1,6 +1,75 @@
 @import url(http://fonts.googleapis.com/css?family=Quicksand:300);
 @import url(http://fonts.googleapis.com/css?family=Julius+Sans+One);
 
+/* begin fadeinout animation */
+@-moz-keyframes fadeinout { /* Firefox */
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@-webkit-keyframes fadeinout { /* Safari and Chrome */
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@-o-keyframes fadeinout { /* Opera */
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes fadeinout {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+/* end fadeinout animation */
+
+input:-webkit-autofill {
+    -webkit-box-shadow:0 0 0 50px black inset; /* Change the color to your own background color */
+    -webkit-text-fill-color: white;
+}
+
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: /*your box-shadow*/,0 0 0 50px black inset;
+    -webkit-text-fill-color: white;
+}
+
 html {
     background: url("../images/mustang.jpg") no-repeat scroll center top transparent;
     background-color: aqua;
@@ -246,6 +315,18 @@ input[type=text], input[type=password] {
     line-height: 0px;
 }
 
+h4.message_flash {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+    opacity: 0;
+    -moz-animation: fadeinout 10s ease-in; /* Firefox */
+    -webkit-animation: fadeinout 10s ease-in; /* Safari and Chrome */
+    -o-animation: fadeinout 10s ease-in; /* Opera */
+	animation: fadeinout 10s ease-in;
+}
+
 /*                                                                                           
 .expand {                                                                                    
     letter-spacing: 2px;                                                                     
@@ -263,3 +344,23 @@ input[type=text], input[type=password] {
     50% {letter-spacing: 50px;}                                                              
 }                                                                                            
 */
+
+/* Fancy scrollbar stuff */
+::-webkit-scrollbar {
+    width: 12px;
+    margin-right: 5px;
+    background-color: black;
+    height: 80%;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #ADADAD;
+    border-radius: 10px;
+    background-color: black;
+    /* width: 30px; */
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 18px #FFD700;
+}

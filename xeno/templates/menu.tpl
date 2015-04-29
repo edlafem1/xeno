@@ -1,10 +1,10 @@
 <header id="header">
-    <br/>
+
     <div id="header_container">
         <section class="header_group">
             <table>
                 <tr class="fadeInDown">
-                    <td><a href="/dashboard" class="header_link">XENO</a></td>
+                    <td><a href="/search" class="header_link">XENO</a></td>
 
                     {% if admin %}
 <!--                <td><a href="/add" class="header_link">ADD CAR</a></td>-->
@@ -14,7 +14,12 @@
                     {% else %}
                     <td><a href="/dashboard" class="header_link">DASHBOARD</a></td>
                     {% endif %}
-                    <td><input type="roundedTextbox" placeholder="Search"/></td>
+                    <td>
+                        <form action="search" method="get">
+                            <input type="roundedTextbox" name:"search" placeholder="Search"/>
+                            <input type="submit" style="display: none"/>
+                        </form>
+                    </td>
                     {% if admin %}
                     <td><a href="/dashboard" class="header_link">DASHBOARD</a></td>
                     {% endif %}

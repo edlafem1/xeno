@@ -4,10 +4,11 @@
     <h2>Login</h2>
     <br />
     <form action="{{ url_for('login') or 'login' }}" method="POST" autocomplete="off">
-        <input type="text" placeholder="Email Address" name="username" value="{{ username or '' }}">
+        <input type="hidden" name="next" value="{{ next or '' }}">
+        <input type="text" placeholder="Email Address" name="username" value="{{ username or '' }}" autofocus="autofocus" />
         <br />
         <br />
-        <input type="password" placeholder="Password" name="password">
+        <input type="password" placeholder="Password" name="password" />
         <br />
         <div id="login_buttom_wrapper">
             <button class="button button-border-primary button-rounded">Login</button>
