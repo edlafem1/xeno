@@ -36,7 +36,13 @@
     <div id="pageDescriptionWrapper">
         <div id="pageDescription" class="underline">{{car["year"]|string + " " + car["make"] + " " + car["model"] }}</div>
     </div>
-    
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <h4 class="message_flash">{{ messages[0] }}</h4>
+        {% endif %}
+    {% endwith %}
+
     <div id="carWrapper">
         <img src="/images/cars/{{ car["id"] }}_main.pic" style="display: block; margin: 0px auto; height: 100%;">
     </div>
@@ -146,8 +152,9 @@
     
 </div>
 
-<form id="rentalForm" action="" method="get" style="display: none;">
-    <input id="rentalDate" type="text" style="display: none;"/>
+<form id="rentalForm" action="/reserve" method="POST" style="display: none;">
+    <input id="rentalDate" name="rentalDate" type="text" style="display: none;"/>
+    <input name="which_car" type="hidden" value="{{ car['id'] }}"/>
     <input type="submit" style="display: none;"/>
 </form>
 

@@ -67,8 +67,8 @@ $('#datepicker').datepicker({
         // Assigns the date to the hidden form
         $("#rentalDate").val($(this).val());
 
-        alert($("#rentalDate").val());
-
+        var date = $("#rentalDate").val();
+        console.log($("#rentalDate").val());
         // Submits the form
         $( "#rentalForm" ).submit();
     }
