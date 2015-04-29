@@ -26,9 +26,9 @@ class User(UserMixin):
 
     def get_reviews(self):
         """
-        Retrieves all the reviews a user has created
-        :return: dictionary with keys "date_created", "num_stars", "text", "car" where the value of "car" is an id
-            corresponding to an entry in the cars table. Returns None if no reviews found.
+        Retrieves all the reviews a user has created.
+        :return: Dictionary with keys "date_created", "num_stars", "text", "car" where the value of "car" is an id
+                corresponding to an entry in the cars table. Returns None if no reviews found.
         """
         query = "SELECT `reviews`.`date_created`, `reviews`.`num_stars`, `reviews`.`text`, `reviews`.`car` FROM `reviews` " \
                 "WHERE `reviews`.`reviewer`=%s"
@@ -61,9 +61,9 @@ class User(UserMixin):
     def __init__(self, user_id, udata=None):
         """
         Creates a User object and initializes all properties and attributes.
-        :param user_id: a string value for the users's id.
-        :param udata: user entered profile information
-        :return: a filled User object
+        :param user_id: A string value for the users's id.
+        :param udata: User entered profile information
+        :return: A filled User object
         """
         self = User.init_user(self, user_id)
             
@@ -71,9 +71,9 @@ class User(UserMixin):
     def init_user(u, user_id):
         """
         Gets a user's information from the database and fills in a User object.
-        :param u: instance of User class to fill
-        :param user_id: the user's u_id, a.k.a. email address
-        :return: a filled User object
+        :param u: Instance of User class to fill
+        :param user_id: The user's u_id, a.k.a. email address
+        :return: A filled User object
         """
         udata = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [user_id], one=True)
         if udata is not None:
@@ -110,10 +110,10 @@ class User(UserMixin):
     def create_new_user(user_data, acct_type=3):
         """
         Adds user data to the database if it can.
-        :param user_data: a dictionary that MUST have keys "full_name", "password", and "email"
+        :param user_data: A dictionary that MUST have keys "full_name", "password", and "email"
         :param acct_type: Value specifying type of account. 1=administrator 2=maintenance 3=regular user. Default is 3.
-        :return: a dictionary representing database fields for this user. None if an error occurred INSERTING into the
-            database.
+        :return: A dictionary representing database fields for this user. None if an error occurred INSERTING into the
+                database.
         """
         first_name_space = user_data["full_name"].find(" ")
         fname = user_data["full_name"][0:first_name_space]
@@ -138,9 +138,9 @@ class User(UserMixin):
         """
         Takes a password and user name, runs the password through a hash and then compares that hash to the stored hash
         to determine the authenticity of a user.
-        :param username: the user_id i.e. email address of the user
-        :param password: a string representing the entered password
-        :return: a complete instance of the User class if authenticated, None if not authenticated.
+        :param username: The user_id i.e. email address of the user
+        :param password: A string representing the entered password
+        :return: A complete instance of the User class if authenticated, None if not authenticated.
         """
         user = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [username], True)
 
@@ -167,9 +167,9 @@ class User(UserMixin):
 def encode_password(password, salt=None):
     """
     This will use an HMAC hash combined with a salt to encrypt the password.
-    :param password: value to be encrypted
+    :param password: Value to be encrypted
     :param salt: None if this is the first time hashing the password, a string if this is being used for an auth check.
-    :return: the hashed value of the password in utf-8 encoding.
+    :return: The hashed value of the password in utf-8 encoding.
     """
     import uuid
     import hashlib

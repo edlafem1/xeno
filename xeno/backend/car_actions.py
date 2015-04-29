@@ -5,6 +5,21 @@ import searching
 
 
 def get_cars(page, howmany, get_new=False, get_featured=False, search_params=None):
+    """
+    This function controls getting details for multiple cars at a time. It should be noted that setting get_new=True
+    and get_featured=True is the same as get_featured=True, so setting get_new=True is redundant.
+    Setting get_featured=True and get_new=False is the same as get_featured=True so setting get_new=False is redundant
+    :param page: An integer representing which section of data wanted
+    :param howmany: An integer representing how many cars should be retrieved. Used in calculating page data
+    :param get_new: Boolean that is True if cars should be ordered only by date_added. Default is False
+    :param get_featured: Boolean that is True if cars should be sorted by featured or not(featured first) and then
+            by date. Default is False.
+    :param search_params: A dictionary to be used the search functionality. Either contains 1 key named "general"
+            or 3 keys named "year", "make", and "model". Additional keys may be added later.
+    :return: A dictionary of cars, None if no cars found. Keys in the dictionary are: id, year, hp, torque, odo,
+            acceleration, max_speed, make, model, date_added, is_featured, make_id. Their values are representative of
+            their data type in the database.
+    """
     #print "getting cars!"
     args = []
     offset = 0
@@ -45,6 +60,15 @@ def get_cars(page, howmany, get_new=False, get_featured=False, search_params=Non
 
 
 def add_new_car(cdata, current_user):
+    """
+    Attempts to insert a new car into the database by first querying to see if things such as the make, model, country,
+    and type already have entries in their respective tables, creating them if need be, and then using those ids to
+    populate the cars table with related fields and details specific to the car.
+    :param cdata: A dictionary representing data from the form. Keys should be: make, model, ctype, country, year, hp,
+    torque, odo, acceleration, max_speed, and is_featured. Data type should be clear from the form.
+    :param current_user: The user currently logged into the site. Should be an instance of type User
+    :return: The id of the car just added, or None if error occurred.
+    """
     query = "SELECT id FROM make WHERE description=%s"
     make_id = db_conn.query_db(query, [cdata["make"].lower()], one=True)
     if make_id is None:

@@ -233,13 +233,13 @@ def catch_all(path):
     print 'You want path: %s' % path
     return send_from_directory('../', path)
     #print send_from_directory('../backend', '404.html')
-    abort(401)
-    return ''
+    #abort(401)
+    #return ''
 
 
 if __name__ == '__main__':
     print "Running app on port 5000"
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=configuration.XENO_DEBUG_MODE, host='0.0.0.0', port=configuration.XENO_PORT)
 
 
 

@@ -8,17 +8,19 @@ import database_connection as db_conn
 def create_search_query(form_data):
     """
     This is the function that should be called to generate a complete WHERE clause to search on multiple fields.
-    :param form_data: A dictionary of values. The dictionary can either have only one element with key "general" that represents
-        a simple search; or it can have 3 values with keys "make", "model", "year" and atleast 1 of which's value is
-        not None and not -1.
-    :return: If a WHERE clause can be generated, it will have the form WHERE (...) OR (...) etc, followed by a single space.
-        The value returned will be a tuple with this clause and a list of values to be used as arguments in the SQL query.
-        If no WHERE clause can be genereated, it will return the tuple ("", []) which can be used in other places.
-        For example:
-            clause, arguments = create_search_query(some_data)
-            query += clause
-            query_args += arguments
-        It will not change anything if this function returns the tuple ("", []) as query and query_args will be un-changed.
+    :param form_data: A dictionary of values. The dictionary can either have only one element with key "general"
+            that represents a simple search; or it can have 3 values with keys "make", "model", "year" and at least 1 of
+            which's value is not None and not -1.
+    :return: If a WHERE clause can be generated, it will have the form WHERE (...) OR (...) etc, followed by a single
+            space. The value returned will be a tuple with this clause and a list of values to be used as arguments in
+            the SQL query.
+            If no WHERE clause can be genereated, it will return the tuple ("", []) which can be used in other places.
+            For example:
+                clause, arguments = create_search_query(some_data)
+                query += clause
+                query_args += arguments
+            It will not change anything if this function returns the tuple ("", []) as query and query_args will be
+            un-changed.
     """
     myear = -1
     make = -1
@@ -55,9 +57,9 @@ def create_search_query(form_data):
 def find_make(term):
     """
     Attempts to determine if this term is a make in the database.
-    :param term A word that may or may not be the make of the car
-    :return: the id of the row in the database representing this make,
-        None if no make with description==term can be found.
+    :param term: A word that may or may not be the make of the car
+    :return: The id of the row in the database representing this make,
+            None if no make with description==term can be found.
     """
     query = "SELECT id FROM make WHERE description " \
             "RLIKE '([A-Za-z0-9]{0,3} )*[A-Za-z0-9]{0,3}%s[A-Za-z0-9]{0,3}( [A-Za-z0-9]{0,3})*'" % (term,)
@@ -68,9 +70,9 @@ def find_make(term):
 def find_model(term):
     """
     Attempts to determine if this term is a model in the database.
-    :param term A word that may or may not be the model of the car
-    :return: the id of the row in the database representing this model,
-        None if no model with description==term can be found.
+    :param term: A word that may or may not be the model of the car
+    :return: The id of the row in the database representing this model,
+            None if no model with description==term can be found.
     """
     query = "SELECT id FROM model WHERE description " \
             "RLIKE '([A-Za-z0-9]{0,3} )*[A-Za-z0-9]{0,3}%s[A-Za-z0-9]{0,3}( [A-Za-z0-9]{0,3})*'" % (term,)
@@ -80,9 +82,9 @@ def find_model(term):
 def search_for_cars(year, make_id, model_id):
     """
     Generates a powerset of conditions to match a car upon.
-    :param year: a year or None that this car could be
-    :param make_id: the id of this car's make, or None if no entry was found
-    :param model_id: the id of this car's model, or None if no entry was found
+    :param year: A year or None that this car could be
+    :param make_id: The id of this car's make, or None if no entry was found
+    :param model_id: The id of this car's model, or None if no entry was found
     :return: A string of the form described in the create_search_query documentation.
     """
     where_clause = "WHERE "
@@ -141,11 +143,11 @@ def search_for_cars(year, make_id, model_id):
 def combo_maker(year, make_id, model_id):
     """
     Creates a single conditional depending on the values supplied
-:param year: a year or None that this car could be
-    :param make_id: the id of this car's make, or None if no entry was found
-    :param model_id: the id of this car's model, or None if no entry was found
+    :param year: A year or None that this car could be
+    :param make_id: The id of this car's make, or None if no entry was found
+    :param model_id: The id of this car's model, or None if no entry was found
     :return: A string representing a SQL conditional. It will NOT be wrapped in parenthesis and will have no additional
-        space on the end.
+            space on the end.
     """
     where_clause = ""
     args = []
