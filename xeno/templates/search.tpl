@@ -8,7 +8,7 @@
 <div class="fadeInUp">
     <div id="pageDescriptionWrapper">
                 <div id="pageDescription" >Search Results For:</div>
-                <div id="pageDescription"><input type="text" disabled=true value="{{ search or '' }}" name="search"/></div>
+                <div id="pageDescription"><input type="text" disabled value="{{ search or '' }}" name="search"/></div>
     </div>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
