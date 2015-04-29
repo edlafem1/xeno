@@ -28,7 +28,7 @@ class User(UserMixin):
         """
         Retrieves all the reviews a user has created.
         :return: Dictionary with keys "date_created", "num_stars", "text", "car" where the value of "car" is an id
-                corresponding to an entry in the cars table. Returns None if no reviews found.
+        corresponding to an entry in the cars table. Returns None if no reviews found.
         """
         query = "SELECT `reviews`.`date_created`, `reviews`.`num_stars`, `reviews`.`text`, `reviews`.`car` FROM `reviews` " \
                 "WHERE `reviews`.`reviewer`=%s"
@@ -113,7 +113,7 @@ class User(UserMixin):
         :param user_data: A dictionary that MUST have keys "full_name", "password", and "email"
         :param acct_type: Value specifying type of account. 1=administrator 2=maintenance 3=regular user. Default is 3.
         :return: A dictionary representing database fields for this user. None if an error occurred INSERTING into the
-                database.
+        database.
         """
         first_name_space = user_data["full_name"].find(" ")
         fname = user_data["full_name"][0:first_name_space]

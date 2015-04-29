@@ -25,9 +25,7 @@ app.secret_key = os.urandom(24)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-
 login_manager.login_view = 'login'
-
 
 def isAdmin(current_user):
     admin_acct = False
@@ -194,9 +192,19 @@ def profile():
     return render_template('profile.tpl', user_data=user_info, admin=isAdmin(current_user), fav_car=favorite_car)
 
 @app.route('/car')
+@app.route('/car/')
+@app.route('/car/<int:id>')
 @login_required
-def car_profile():
-    return render_template('car_profile.tpl', admin=isAdmin(current_user))
+def car_profile(id=-1):
+    print id == -1
+    if id == -1:
+        flash("It seems you tried to view a car that isn't there.")
+        return redirect(url_for('search') or '/search')
+    car_data = get_single_car(id)
+    if car_data is None:
+        flash("We're sorry but something went wrong. Please try again.")
+        return redirect(url_for('search') or '/search')
+    return render_template('car_profile.tpl', car=car_data, admin=isAdmin(current_user))
 
 
 # Allows stylesheets to be loaded.

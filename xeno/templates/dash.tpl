@@ -2,7 +2,7 @@
 {% block body %}
 
 {% include "menu.tpl" %}
-<link href="style/dash_style.css" rel="stylesheet" />
+<link href="/style/dash_style.css" rel="stylesheet" />
 
 <div class="fadeInUp">
 

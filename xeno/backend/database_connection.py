@@ -61,7 +61,7 @@ def query_db(query, args=(), one=False, select=True):
     :param one: Boolean representing if a single entry is to be returned or not. Default to False
     :param select: Boolean representing if this is a SELECT statement, or other statement(data modification/insertion)
     :return: If one==False, returns list of dictionaries each representing a row returned; if one==True just a single
-        dictionary; if select=False, it will return the row that was last created or modified; None if no results found.
+    dictionary; if select=False, it will return the row that was last created or modified; None if no results found.
     """
     cursor = get_db().cursor(dictionary=True)
     cursor.execute(query, args)

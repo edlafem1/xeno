@@ -1,3 +1,4 @@
+<base href="/" />
 <header id="header">
 
     <div id="header_container">

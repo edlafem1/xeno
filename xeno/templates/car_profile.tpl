@@ -7,8 +7,8 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 
-<link href="style/car_profile.css" rel="stylesheet" />
-<link href="style/dash_style.css" rel="stylesheet" />
+<link href="/style/car_profile.css" rel="stylesheet" />
+<link href="/style/dash_style.css" rel="stylesheet" />
 
 <div class="fadeInUp">
     
@@ -34,7 +34,7 @@
     
     
     <div id="pageDescriptionWrapper">
-        <div id="pageDescription" class="underline">2015 Ford Focus</div>
+        <div id="pageDescription" class="underline">2015 Ford Focus{{ car["id"] }}</div>
     </div>
     
     <div id="carWrapper">

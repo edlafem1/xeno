@@ -17,8 +17,8 @@ def get_cars(page, howmany, get_new=False, get_featured=False, search_params=Non
     :param search_params: A dictionary to be used the search functionality. Either contains 1 key named "general"
             or 3 keys named "year", "make", and "model". Additional keys may be added later.
     :return: A dictionary of cars, None if no cars found. Keys in the dictionary are: id, year, hp, torque, odo,
-            acceleration, max_speed, make, model, date_added, is_featured, make_id. Their values are representative of
-            their data type in the database.
+    acceleration, max_speed, make, model, date_added, is_featured, make_id. Their values are representative of
+    their data type in the database.
     """
     #print "getting cars!"
     args = []
@@ -57,6 +57,20 @@ def get_cars(page, howmany, get_new=False, get_featured=False, search_params=Non
         offset = 0
     car_data = db_conn.query_db(query, args)
     return car_data
+
+def get_single_car(id):
+        query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS odo, " \
+            "cars.acceleration AS acceleration, cars.max_speed AS max_speed, make.description AS make, " \
+            "model.description AS model, cars.date_added AS date_added, cars.is_featured AS is_featured, " \
+            "make.id AS make_id " \
+            "FROM cars " \
+            "JOIN make ON cars.make=make.id " \
+            "JOIN model ON cars.model=model.id "
+        query += "WHERE cars.id=%s "
+        query += "LIMIT 1"
+
+        car_data = db_conn.query_db(query, [id], one=True)
+        return car_data
 
 
 def add_new_car(cdata, current_user):
