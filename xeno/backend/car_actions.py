@@ -58,14 +58,17 @@ def get_cars(page, howmany, get_new=False, get_featured=False, search_params=Non
     car_data = db_conn.query_db(query, args)
     return car_data
 
+
 def get_single_car(id):
         query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS odo, " \
             "cars.acceleration AS acceleration, cars.max_speed AS max_speed, make.description AS make, " \
             "model.description AS model, cars.date_added AS date_added, cars.is_featured AS is_featured, " \
-            "make.id AS make_id " \
+            "make.id AS make_id, car_type.description AS ctype, country.description AS country " \
             "FROM cars " \
             "JOIN make ON cars.make=make.id " \
-            "JOIN model ON cars.model=model.id "
+            "JOIN model ON cars.model=model.id " \
+            "JOIN car_type ON cars.type=car_type.id " \
+            "JOIN country ON cars.country=country.id "
         query += "WHERE cars.id=%s "
         query += "LIMIT 1"
 

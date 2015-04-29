@@ -2,10 +2,10 @@
 {% block body %}
 
 {% include "menu.tpl" %}
-
+<!-- Moved this to dashboard.tpl so all main pages have jQuery
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
+-->
 
 <link href="/style/car_profile.css" rel="stylesheet" />
 <link href="/style/dash_style.css" rel="stylesheet" />
@@ -34,11 +34,11 @@
     
     
     <div id="pageDescriptionWrapper">
-        <div id="pageDescription" class="underline">2015 Ford Focus{{ car["id"] }}</div>
+        <div id="pageDescription" class="underline">{{car["year"]|string + " " + car["make"] + " " + car["model"] }}</div>
     </div>
     
     <div id="carWrapper">
-        <img src="/images/cars/_main.pic" style="display: block; margin: 0px auto; height: 100%;">
+        <img src="/images/cars/{{ car["id"] }}_main.pic" style="display: block; margin: 0px auto; height: 100%;">
     </div>
     
     <div id="pageDescriptionWrapper">
@@ -48,27 +48,27 @@
     <div class="performanceList">
         <div class="performanceInfo">
             <div class="softUnderline">Horsepower</div>
-            <div class="performanceValue">1,000</div>
+            <div class="performanceValue">{{ car["hp"] }}</div>
         </div>
         <div class="performanceInfo">
             <div class="softUnderline">Torque</div>
-            <div class="performanceValue">A lot</div>
+            <div class="performanceValue">{{ car["torque"] }}</div>
         </div>
         <div class="performanceInfo">
             <div class="softUnderline">0-60</div>
-            <div class="performanceValue">.5 sec</div>
+            <div class="performanceValue">{{ car["acceleration"] }} sec</div>
         </div>
         <div class="performanceInfo">
             <div class="softUnderline">Max Speed</div>
-            <div class="performanceValue">374 MPH</div>
+            <div class="performanceValue">{{ car["max_speed"] }} MPH</div>
         </div>
         <div class="performanceInfo">
             <div class="softUnderline">Type</div>
-            <div class="performanceValue">Coupe</div>
+            <div class="performanceValue">{{ car["ctype"] }}</div>
         </div>
         <div class="performanceInfo">
             <div class="softUnderline">Country</div>
-            <div class="performanceValue">Germany</div>
+            <div class="performanceValue">{{ car["country"] }}</div>
         </div>
     </div>
     
