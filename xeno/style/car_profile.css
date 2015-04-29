@@ -1,0 +1,248 @@
+html {
+    background: black;
+}
+
+
+#pageDescription {
+    margin-top: 1.0em;
+}
+
+.boxed{
+  border: 2px solid #FFD700;
+  /* margin: 15px; */
+  padding: 15px;  
+}
+
+.softUnderline {
+    border-bottom: 1px solid grey;      
+}
+.floatLeft {
+    float: left;
+}
+
+/* I don't think this is used on this page */
+.carPic{
+    border: 1px solid #FFD700;
+    margin-top: 7%;
+}
+
+
+#adminBtnsWrapper {
+    width: 70%;
+    overflow: hidden;
+    margin-left: 25%;
+}
+
+.adminBtnGroup {
+    width: 40%;
+    float: left;
+}
+.adminBtnText {
+    margin-top: 2%;
+    margin-right: 3%;
+    float: left;
+}
+
+
+
+
+#carWrapper {
+    height: 100%;
+    width: 100%;
+}
+
+div.performanceList {
+    margin-left: 8%;
+    margin-bottom: 5%;
+    overflow: hidden;
+/*    align-content: center;*/
+}
+
+div.performanceInfo {
+    width: 20%;
+    height: 30%;
+    margin-top: 2%;
+    margin-left: 2%;
+/*    border: 1px solid grey;*/
+    float: left;
+/*    display: inline-block;*/
+    text-align: center;
+}
+div.performanceValue {
+    font-size: 30px;
+}
+
+div.rentGroup {
+    height: 100%;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 2%;
+    margin-bottom: 3%;
+}
+#datepicker {
+    width: 100%;
+}
+
+/* Style for the Reviews section */
+div.reviewsList {
+    overflow: hidden;
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+div.review {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3%;
+    width: 70%;
+    align-content: center;
+/*    border: solid red;*/
+    overflow: hidden;
+}
+div.reviewInfo {
+    float: left;
+    width: 79%;
+}
+div.profilePic {
+    float: left;
+    width: 18%;
+    height: 18%;
+    margin-right: 3%;
+}
+div.reviewer {
+}
+
+div.writeReview {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3%;
+    width: 70%;
+    align-content: center;
+/*    border: solid red;*/
+    overflow: hidden;
+}
+#writeReviewText {
+    margin-bottom: 2%;   
+}
+#ratingText {
+    margin-right: 1%;
+    float: left;
+}
+#newReview {
+    width: 70%;
+    height: 100px;
+    font-size: 18px;
+    border-radius: 2px;
+    background-color: lightgrey;
+    margin-top: 2%;
+}
+
+/* Holds the stars */
+#ratingDiv {
+    width: 170px;
+    float: left;
+}
+/* Simple star highlighting */
+/* Empy stars */
+.star {
+    color: grey;
+    margin-left: 1.7%;
+}
+.star:before {
+    position: absolute;
+}
+/* Shows the stars as filled in */
+.on:before {
+    content: "\2605";
+    color: gold;
+    position: absolute;
+}
+
+/* Complex star highlighting */
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+    float: left;
+}
+.rating > span {
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
+    color: grey;
+}
+.rating > span:hover,
+.rating > span:hover ~ span {
+    color: transparent;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+    content: "\2605";
+    position: absolute;
+    left: 0; 
+    color: gold;
+}
+
+
+/* What the reviewer said */
+div.reviewText {
+    float:left;
+    word-wrap: break-word;
+    font-size: 20px;
+}
+
+
+/* Date Picker style */
+.ui-datepicker {
+    width: 100%;
+    height: 400px;
+/*    border:1px solid #ccc;*/
+}
+ 
+.ui-datepicker table {
+    width: 100%;
+    height: 100%;
+}
+ 
+.ui-datepicker table td {
+    text-align: center;
+}
+
+.ui-datepicker a {
+/*    cursor:pointer;*/
+/*    text-decoration:none;*/
+}
+
+
+.ui-datepicker-prev {
+    color: grey;
+    text-decoration: none;
+    outline:none;
+    background-color: transparent;
+}
+ 
+.ui-datepicker-next {
+    color: grey;
+    float:right;
+    background-color: transparent;
+}
+ 
+.ui-datepicker-title {
+    text-align: center;
+}
+
+
+.ui-datepicker table td:hover {
+    background-color: rgba(221, 221, 221, 0.39);
+}
+
+.ui-datepicker table td:active {
+    background-color: gold;
+}
+
+.ui-datepicker table td:link {
+    background-color: gold;
+}
+
+.ui-state-active {
+    background-color: gold;
+}

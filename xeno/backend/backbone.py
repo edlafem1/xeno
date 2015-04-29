@@ -193,6 +193,11 @@ def profile():
 
     return render_template('profile.tpl', user_data=user_info, admin=isAdmin(current_user), fav_car=favorite_car)
 
+@app.route('/car')
+@login_required
+def car_profile():
+    return render_template('car_profile.tpl', admin=isAdmin(current_user))
+
 
 # Allows stylesheets to be loaded.
 # TODO  Consider finding a different way to serve static files without using flask
