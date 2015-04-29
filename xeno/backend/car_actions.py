@@ -76,6 +76,16 @@ def get_single_car(id):
         return car_data
 
 
+def get_car_reviews(id):
+    query = "SELECT reviews.date_created AS date_created, reviews.num_stars AS num_stars, reviews.text AS text, " \
+            "users.first_name AS fname, users.last_name AS lname " \
+            "FROM reviews " \
+            "JOIN users ON reviews.reviewer=users.id " \
+            "WHERE car=%s " \
+            "ORDER BY date_created DESC"
+    result = db_conn.query_db(query, [id])
+    return result
+
 def add_new_car(cdata, current_user):
     """
     Attempts to insert a new car into the database by first querying to see if things such as the make, model, country,

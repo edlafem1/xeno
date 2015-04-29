@@ -204,7 +204,9 @@ def car_profile(id=-1):
     if car_data is None:
         flash("We're sorry but something went wrong. Please try again.")
         return redirect(url_for('search') or '/search')
-    return render_template('car_profile.tpl', car=car_data, admin=isAdmin(current_user))
+    reviews = get_car_reviews(id)
+    print reviews
+    return render_template('car_profile.tpl', car=car_data, star_range=range(0, 5), reviews=reviews, admin=isAdmin(current_user))
 
 
 # Allows stylesheets to be loaded.

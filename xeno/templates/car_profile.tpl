@@ -93,11 +93,36 @@
     
 
     <div class="reviewsList">
+        {% for review in reviews %}
         <div class="review">
             <div class="profilePic">
                 <img src="/images/profiles/blank_face.jpeg" style="width: 100%; height: 100%;">
             </div>
-            
+            <div class="reviewInfo">
+                <div class="reviewer">{{ review["fname"] + review["lname"] }}</div>
+                <div>
+                    {% for count in star_range %}
+                        {% if loop.index < review["num_stars"] %}
+                            <span class="star on">☆</span>
+                        {% else %}
+                            <span class="star">☆</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="reviewText">
+                    {% autoescape on %}
+                    {{ review["text"] }}
+                    {% endautoescape %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="review">
+            <div class="profilePic">
+                <img src="/images/profiles/blank_face.jpeg" style="width: 100%; height: 100%;">
+            </div>
+
             <div class="reviewInfo">
                 <div class="reviewer">Michael Bishoff</div>
                 <div>
