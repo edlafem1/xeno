@@ -17,6 +17,7 @@
     {% endwith %}
     <div class="carList">
         {% for car in cars %}
+        <a href="/car/{{ car['id'] }}">
         <div class="carWrapper custC" style="
           background:
             linear-gradient( rgba(255, 255, 255, 0) 50%,
@@ -26,6 +27,7 @@
         ">
             <span class="car_title">{{car["year"]|string + " " + car["make"] + " " + car["model"] }}</span>
         </div>
+        </a>
     {% endfor %}
     </div>
 </div>
