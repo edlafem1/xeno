@@ -98,7 +98,7 @@ def search(page=1):
         # view all
         howmany = -1
     car_data = get_cars(page, howmany)
-    if 'search' not in request.form:
+    if 'search' not in request.args:
         return render_template('car_list.tpl', cars=car_data, admin=isAdmin(current_user))
     else:
         return render_template('search.tpl', search=request.args['search'], cars=car_data, admin=isAdmin(current_user))
