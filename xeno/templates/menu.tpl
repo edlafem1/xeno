@@ -15,8 +15,8 @@
                     <td><a href="/dashboard" class="header_link">DASHBOARD</a></td>
                     {% endif %}
                     <td>
-                        <form action="search" method="get">
-                            <input type="roundedTextbox" name:"search" placeholder="Search"/>
+                        <form action="search" method="GET">
+                            <input type="roundedTextbox" name="search" placeholder="Search"/>
                             <input type="submit" style="display: none"/>
                         </form>
                     </td>

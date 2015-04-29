@@ -1,12 +1,19 @@
+"""
+This file contains a class representing a user that can be supplied to the flask_login extension for
+session management as well as providing details about that user and his or her permissions.
+This file also contains utility functions that depend on the User class.
+"""
+
+
 from flask_login import UserMixin
 import database_connection as db_conn
 import datetime
 
 class User(UserMixin):
-    '''
-        Next few methods are overridden from UserMixin class to provide other than default values
-        last_modified_by: edlafem1
-    '''
+    """
+    Next few methods are overridden from UserMixin class to provide other than default values.
+    Additional methods have been added to provide user-specific functionality.
+    """
 
     def is_active(self):
         return self.active
@@ -18,13 +25,21 @@ class User(UserMixin):
         return self.anonymous
 
     def get_reviews(self):
+        """
+        Retrieves all the reviews a user has created.
+        :return: Dictionary with keys "date_created", "num_stars", "text", "car" where the value of "car" is an id
+                corresponding to an entry in the cars table. Returns None if no reviews found.
+        """
         query = "SELECT `reviews`.`date_created`, `reviews`.`num_stars`, `reviews`.`text`, `reviews`.`car` FROM `reviews` " \
                 "WHERE `reviews`.`reviewer`=%s"
         result = db_conn.query_db(query, [self.db_id])
-        print result
         return result
 
     def get_favorite_car(self):
+        """
+        Attempts to determine this user's most rented car. If there is a tie, it will return the most recently rented.
+        :return: a dictionary containing details about a singular car. None if no car is found.
+        """
         subquery = "SELECT `reservations`.`for_car` AS car_id, COUNT(*) AS num_rentals FROM `reservations` " \
                 "WHERE `reservations`.`made_by`='%s' GROUP BY `reservations`.`for_car` " \
                 "ORDER BY `reservations`.`for_date`"
@@ -41,29 +56,25 @@ class User(UserMixin):
                 "JOIN model ON cars.model=model.id "
 
         result = db_conn.query_db(query, [self.db_id])
-        print "Favorite Car Data: "
-        print result
         return result
 
-
-    '''
-        Creates a User object and initializes all properties and attributes.
-        Should provide functions for updating the database as profile information changes.
-        TODO: Create functions to get data from database
-        last_modified_by: edlafem1
-        @param user_id: a string value for the users's id.
-    '''
     def __init__(self, user_id, udata=None):
-        #print "Creating new user: " + user_id + str(udata)
-        #import inspect
-        #curframe = inspect.currentframe()
-        # = inspect.getouterframes(curframe, 2)
-        #print 'caller name: ', calframe[1][3]
-
+        """
+        Creates a User object and initializes all properties and attributes.
+        :param user_id: A string value for the users's id.
+        :param udata: User entered profile information
+        :return: A filled User object
+        """
         self = User.init_user(self, user_id)
             
     @staticmethod
-    def init_user(u, user_id):    
+    def init_user(u, user_id):
+        """
+        Gets a user's information from the database and fills in a User object.
+        :param u: Instance of User class to fill
+        :param user_id: The user's u_id, a.k.a. email address
+        :return: A filled User object
+        """
         udata = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [user_id], one=True)
         if udata is not None:
             u.db_id = udata["id"]
@@ -97,7 +108,13 @@ class User(UserMixin):
 
     @staticmethod
     def create_new_user(user_data, acct_type=3):
-        '''user_data should have full_name, password, email'''
+        """
+        Adds user data to the database if it can.
+        :param user_data: A dictionary that MUST have keys "full_name", "password", and "email"
+        :param acct_type: Value specifying type of account. 1=administrator 2=maintenance 3=regular user. Default is 3.
+        :return: A dictionary representing database fields for this user. None if an error occurred INSERTING into the
+                database.
+        """
         first_name_space = user_data["full_name"].find(" ")
         fname = user_data["full_name"][0:first_name_space]
         lname = user_data["full_name"][first_name_space + 1:]
@@ -116,14 +133,15 @@ class User(UserMixin):
 
 
 
-    '''
-        Validates user credentials. This is a class method, not instance method.
-        last_modified_by: edlafem1
-        @param uname: the given username
-        @param passwd: the given password
-    '''
     @staticmethod
     def validate_credentials(username, password):
+        """
+        Takes a password and user name, runs the password through a hash and then compares that hash to the stored hash
+        to determine the authenticity of a user.
+        :param username: The user_id i.e. email address of the user
+        :param password: A string representing the entered password
+        :return: A complete instance of the User class if authenticated, None if not authenticated.
+        """
         user = db_conn.query_db('SELECT * FROM `xeno`.`users` WHERE `userid`=%s', [username], True)
 
         #print "Validating: ", username, ":", password
@@ -145,20 +163,14 @@ class User(UserMixin):
         '''
         return None
 
-'''
-    # valid username
-    user = user.first()
-    stored_salted_password = user.password
-    end_salt_pos = stored_salted_password.find('==') + 2
-    salt = stored_salted_password[0:end_salt_pos]
-    password = stored_salted_password[end_salt_pos:]
-
-    if user.password == encode_password(data["password"], salt):
-        we good
-'''
-
 
 def encode_password(password, salt=None):
+    """
+    This will use an HMAC hash combined with a salt to encrypt the password.
+    :param password: Value to be encrypted
+    :param salt: None if this is the first time hashing the password, a string if this is being used for an auth check.
+    :return: The hashed value of the password in utf-8 encoding.
+    """
     import uuid
     import hashlib
     import base64

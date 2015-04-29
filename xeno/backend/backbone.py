@@ -89,18 +89,23 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route('/search')
-@app.route('/search/<int:page>')
+@app.route('/search', methods=["GET"])
+@app.route('/search/<int:page>', methods=["GET"])
 @login_required
 def search(page=1):
     howmany = 20
     if page == 0:
         # view all
         howmany = -1
-    car_data = get_cars(page, howmany)
-    return render_template('car_list.tpl', cars=car_data, admin=isAdmin(current_user))
-    #return render_template('search.tpl', cars=car_data, admin=isAdmin(current_user))
-
+    car_data = []
+    if 'search' not in request.args:
+        car_data = get_cars(page, howmany)
+        return render_template('car_list.tpl', cars=car_data, admin=isAdmin(current_user))
+    elif 'search' in request.args:
+        car_data = get_cars(0, -1, search_params={"general": request.args['search']})
+        return render_template('search.tpl', search=request.args['search'], cars=car_data, admin=isAdmin(current_user))
+    
+    
 @app.route('/')
 @app.route('/dashboard')
 @login_required
@@ -188,6 +193,11 @@ def profile():
 
     return render_template('profile.tpl', user_data=user_info, admin=isAdmin(current_user), fav_car=favorite_car)
 
+@app.route('/car')
+@login_required
+def car_profile():
+    return render_template('car_profile.tpl', admin=isAdmin(current_user))
+
 
 # Allows stylesheets to be loaded.
 # TODO  Consider finding a different way to serve static files without using flask
@@ -223,13 +233,13 @@ def catch_all(path):
     print 'You want path: %s' % path
     return send_from_directory('../', path)
     #print send_from_directory('../backend', '404.html')
-    abort(401)
-    return ''
+    #abort(401)
+    #return ''
 
 
 if __name__ == '__main__':
     print "Running app on port 5000"
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=configuration.XENO_DEBUG_MODE, host='0.0.0.0', port=configuration.XENO_PORT)
 
 
 
