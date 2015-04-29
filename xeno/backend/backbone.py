@@ -97,10 +97,12 @@ def search(page=1):
     if page == 0:
         # view all
         howmany = -1
-    car_data = get_cars(page, howmany)
+    car_data = []
     if 'search' not in request.args:
+        car_data = get_cars(page, howmany)
         return render_template('car_list.tpl', cars=car_data, admin=isAdmin(current_user))
-    else:
+    elif 'search' in request.args:
+        car_data = get_cars(0, -1, search_params={"general": request.args['search']})
         return render_template('search.tpl', search=request.args['search'], cars=car_data, admin=isAdmin(current_user))
     
     

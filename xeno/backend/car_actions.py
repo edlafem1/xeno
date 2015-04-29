@@ -1,10 +1,12 @@
 import database_connection as db_conn
 import datetime
 import user_class
+import searching
 
 
-def get_cars(page, howmany, get_new=False, get_featured=False):
+def get_cars(page, howmany, get_new=False, get_featured=False, search_params=None):
     #print "getting cars!"
+    args = []
     offset = 0
     query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS odo, " \
         "cars.acceleration AS acceleration, cars.max_speed AS max_speed, make.description AS make, " \
@@ -13,17 +15,21 @@ def get_cars(page, howmany, get_new=False, get_featured=False):
         "FROM cars " \
         "JOIN make ON cars.make=make.id " \
         "JOIN model ON cars.model=model.id "
+    if search_params is not None:
+        where_clause, args = searching.create_search_query(search_params)
+        query += where_clause
+        print("get_cars: " + where_clause)
     if get_new is False and get_featured is False:
-        query += "ORDER BY make.id DESC, date_added DESC "
+        query += "ORDER BY make.id DESC, cars.date_added DESC "
     elif get_new is True and get_featured is False:
-        query += "ORDER BY date_added DESC "
+        query += "ORDER BY cars.date_added DESC "
         howmany = 8
         offset = 0
         page = 1
     elif get_featured is True:
         # query += "WHERE cars.is_featured=1 "
         # to force there to be some car that is featured(even if none is marked), do not use WHERE, use ORDER BY
-        query += "ORDER BY is_featured DESC, date_added DESC "
+        query += "ORDER BY cars.is_featured DESC, cars.date_added DESC "
         howmany = 4
         offset = 0
         page = 1
@@ -34,8 +40,7 @@ def get_cars(page, howmany, get_new=False, get_featured=False):
         query += "LIMIT " + str(offset) + ", " + str(howmany)  # LIMIT offset,row_count
     elif howmany == -1:
         offset = 0
-    car_data = db_conn.query_db(query)
-#    print car_data
+    car_data = db_conn.query_db(query, args)
     return car_data
 
 
