@@ -117,69 +117,6 @@
             </div>
         </div>
         {% endfor %}
-
-        <div class="review">
-            <div class="profilePic">
-                <img src="/images/profiles/blank_face.jpeg" style="width: 100%; height: 100%;">
-            </div>
-
-            <div class="reviewInfo">
-                <div class="reviewer">Michael Bishoff</div>
-                <div>
-                    <span class="star on">☆</span>
-                    <span class="star on">☆</span>
-                    <span class="star on">☆</span>
-                    <span class="star">☆</span>
-                    <span class="star">☆</span>
-                </div>
-                <div class="reviewText">
-                    Excellent ride! I really like how it drives. It has wheels, so that's a plus.. or it's a minus if you would rather have flying cars. Yeah.. Now that I think about it, I would rather have a flying car over this car any day. Easily. No questions asked.
-                
-                </div>
-            </div>
-        </div>
-        
-        <div class="review">
-            <div class="profilePic">
-                <img src="/images/profiles/blank_face.jpeg" style="width: 100%; height: 100%;">
-            </div>
-            
-            <div class="reviewInfo">
-                <div class="reviewer">Michael Bishoff</div>
-                <div>
-                    <span class="star on">☆</span>
-                    <span class="star on">☆</span>
-                    <span class="star on">☆</span>
-                    <span class="star">☆</span>
-                    <span class="star">☆</span>
-                </div>
-                <div class="reviewText">
-                    Excellent ride! I really like how it drives. It has wheels, so that's a plus.. or it's a minus if you would rather have flying cars. Yeah.. Now that I think about it, I would rather have a flying car over this car any day. Easily. No questions asked.
-                
-                </div>
-            </div>
-        </div>
-        
-        <div class="review">
-            <div class="profilePic">
-                <img src="/images/profiles/blank_face.jpeg" style="width: 100%; height: 100%;">
-            </div>
-            
-            <div class="reviewInfo">
-                <div class="reviewer">Michael Bishoff</div>
-                <div>
-                    <span class="star on">☆</span>
-                    <span class="star on">☆</span>
-                    <span class="star on">☆</span>
-                    <span class="star">☆</span>
-                    <span class="star">☆</span>
-                </div>
-                <div class="reviewText">
-                    Excellent ride! I really like how it drives. It has wheels, so that's a plus.. or it's a minus if you would rather have flying cars. Yeah.. Now that I think about it, I would rather have a flying car over this car any day. Easily. No questions asked.
-                
-                </div>
-            </div>
-        </div>
         
         <div class="writeReview">
             <div id="writeReviewText" class="softUnderline">Write a review</div>
