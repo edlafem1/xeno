@@ -107,7 +107,7 @@
             <div class="reviewInfo">
                 <div class="reviewer">{{ review["fname"] + review["lname"] }}</div>
                 <div>
-                    {% for count in star_range %}
+                    {% for count in range(5) %}
                         {% if loop.index < review["num_stars"] %}
                             <span class="star on">☆</span>
                         {% else %}
