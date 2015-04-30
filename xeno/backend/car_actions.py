@@ -187,3 +187,15 @@ def make_reservation(car_id, text_date, user):
         return "You may not reserve this car today."
 
     return True
+
+def create_review(review_data, u_id):
+    query = "SELECT COUNT(id) AS count FROM reservations WHERE for_car=%s AND made_by=%s"
+    result = db_conn.query_db(query, [review_data["car_id"], u_id], one=True)
+    if result["count"] == 0:
+        return "You cannot review a car you never drove!"
+
+    query = "INSERT INTO reviews (num_stars, text, reviewer, car) VALUES " \
+            "(%s, %s, %s, %s)"
+    result = db_conn.query_db(query, [review_data["carRating"], review_data["carReview"], u_id, review_data["car_id"]],
+                              select=False)
+    return result

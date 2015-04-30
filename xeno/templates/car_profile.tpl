@@ -105,7 +105,7 @@
                 <img src="/images/profiles/blank_face.jpeg" style="width: 100%; height: 100%;">
             </div>
             <div class="reviewInfo">
-                <div class="reviewer">{{ review["fname"] + review["lname"] }}</div>
+                <div class="reviewer">{{ review["fname"] + " " + review["lname"] }}</div>
                 <div>
                     {% for count in range(5) %}
                         {% if loop.index < review["num_stars"] %}
@@ -158,9 +158,10 @@
     <input type="submit" style="display: none;"/>
 </form>
 
-<form id="reviewForm" action="" method="get" style="display: none;">
-    <input id="carRating" type="text" style="display: none;"/>
-    <input id="carReview" type="text" style="display: none;"/>
+<form id="reviewForm" action="/write_review" method="POST" style="display: none;">
+    <input id="carRating" name="carRating" type="text" style="display: none;"/>
+    <input id="carReview" name="carReview" type="text" style="display: none;"/>
+    <input name="car_id" type="hidden" value="{{ car['id'] }}"/>
     <input type="submit" style="display: none;"/>
 </form>
 

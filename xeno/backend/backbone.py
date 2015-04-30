@@ -150,6 +150,14 @@ def add_car():
     return render_template('add_car.tpl', admin=isAdmin(current_user))
 
 
+@app.route("/write_review", methods=['POST'])
+@login_required
+def write_review():
+    review_info = request.form
+    confirm = create_review(review_info, current_user.db_id)
+    flash(confirm)
+    return redirect(url_for("car_profile") + review_info["car_id"] or "/car/" + review_info["car_id"])
+    return "hi"
 
 #################################################################
 
