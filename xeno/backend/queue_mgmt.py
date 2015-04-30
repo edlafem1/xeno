@@ -42,6 +42,7 @@ def check_avail_cars(sc):
 
     for car in list_of_available_cars:
 <<<<<<< HEAD
+<<<<<<< HEAD
         query_check_car_reservation = ("SELECT id FROM reservations WHERE for_car = '%s' AND for_date = '%s'") % (str(car[0]), str(datetime.date.today()))
         cur.execute(query_check_car_reservation)
         reserved_car_list = cur.fetchall()
@@ -63,6 +64,8 @@ def check_avail_cars(sc):
         else:
             TEXT =  TEXT + "Car: " + str(car_make) + " " + str(car_model) + " is available, reserve now!\n"
 =======
+=======
+>>>>>>> vb-edits
 	#Get the human readable info for cars (make, model)
 	query_get_car_name = ("SELECT make, model FROM cars WHERE id = '%s'") % (str(car[0]))
 	cur.execute(query_get_car_name)
@@ -85,6 +88,9 @@ def check_avail_cars(sc):
 	    print str(car_make) + " " + str(car_model) + " is reserved today."
 	else:
 	    TEXT =  TEXT + str(car_make) + " " + str(car_model) + " is available, reserve now!\n"
+<<<<<<< HEAD
+>>>>>>> vb-edits
+=======
 >>>>>>> vb-edits
 
     TEXT = TEXT + "http://xenocars.me"
@@ -95,9 +101,12 @@ def check_avail_cars(sc):
     server.starttls()
     server.login(username,password)
 <<<<<<< HEAD
+<<<<<<< HEAD
     server.sendmail(FROM, TO, message)
     server.quit()
 =======
+=======
+>>>>>>> vb-edits
 
     #Get top # of user_id's in waiting_queue (where # = # of cars available)
     query_get_user_email = ("SELECT user FROM waiting_queue LIMIT %s") % (str(len(reserved_car_list)))
@@ -115,6 +124,9 @@ def check_avail_cars(sc):
 	#remove user from queue
 	query_remove_user_from_queue = ("DELETE FROM waiting_queue WHERE user = '%s'") % (str(user[0]))
 	cur.execute(query_remove_user_from_queue)
+<<<<<<< HEAD
+>>>>>>> vb-edits
+=======
 >>>>>>> vb-edits
 
     #run this function every 3600 seconds (60 minutes)
