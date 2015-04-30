@@ -172,6 +172,21 @@ def approve_accounts():
                 ]
     return render_template('new_accounts.tpl', admin=isAdmin(current_user), accounts=accounts)
 
+@app.route('/accountban')
+@login_required
+def account_ban():
+    user_info = dict()
+    user_info["firstname"] = current_user.fname
+    user_info["lastname"] = current_user.lname
+    user_info["credits"] = current_user.credits
+    user_info["email"] = current_user.id
+    user_info["date_joined"] = current_user.date_joined.strftime('%m/%d/%Y')
+    if current_user.suspended is False:
+        user_info["suspended_until"] = ""
+    else:
+        user_info["suspended_until"] = current_user.suspended_til.strftime('%m/%d/%Y')
+    favorite_car = current_user.get_favorite_car()
+    return render_template('account_ban.tpl', user_data=user_info, admin=isAdmin(current_user), fav_car=favorite_car)
 
 @app.route('/profile')
 @login_required
