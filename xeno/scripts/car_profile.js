@@ -50,6 +50,8 @@ function submitReview() {
 
     $("#carReview").val($("#newReview").val());
     alert($("#carRating").val() + " : " + $("#carReview").val());
+    $("#carRating").val($("#carRating").val());
+    $("#carReview").val($("#carReview").val());
     $("#reviewForm").submit();
 }
 
