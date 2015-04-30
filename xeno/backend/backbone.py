@@ -159,16 +159,16 @@ def approve_accounts():
     # Approve accounts page
     accounts = [{"name": "John Smith",
                  "address": "0000 Street Name, State Zip",
-                 "paid": "NOT PAID",
-                 "approved": "NOT APPROVED"},
+                 "paid": True,
+                 "approved": True},
                 {"name": "Michael Bishoff",
                  "address": "0000 Street Name, State Zip",
-                 "paid": "NOT PAID",
-                 "approved": "NOT APPROVED"},
+                 "paid": False,
+                 "approved": False},
                 {"name": "Jane Smith",
                  "address": "0000 Street Name, State Zip",
-                 "paid": "NOT PAID",
-                 "approved": "NOT APPROVED"}
+                 "paid": False,
+                 "approved": False}
                 ]
     return render_template('new_accounts.tpl', admin=isAdmin(current_user), accounts=accounts)
 
