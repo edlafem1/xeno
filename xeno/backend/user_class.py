@@ -55,7 +55,7 @@ class User(UserMixin):
                 "JOIN make ON cars.make=make.id " \
                 "JOIN model ON cars.model=model.id "
 
-        result = db_conn.query_db(query, [self.db_id])
+        result = db_conn.query_db(query, [self.db_id], one=True)
         return result
 
     def __init__(self, user_id, udata=None):
@@ -66,7 +66,20 @@ class User(UserMixin):
         :return: A filled User object
         """
         self = User.init_user(self, user_id)
-            
+
+
+    def update_user(self, fields, values):
+        query = "UPDATE users SET "
+        for i in range(0, len(fields)):
+            query += fields[i] + "=%s"
+            if i < len(fields) - 1:
+                query += ","
+            query += " "
+        query += "WHERE id=%s"
+        result = db_conn.query_db(query, values + [self.db_id], select=False)
+        return result
+
+
     @staticmethod
     def init_user(u, user_id):
         """
@@ -129,8 +142,6 @@ class User(UserMixin):
         result = db_conn.query_db(query, args, select=False)
         #print "Attempted create user: ", result
         return result
-
-
 
 
     @staticmethod

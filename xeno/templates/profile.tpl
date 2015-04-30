@@ -31,11 +31,12 @@
             <div class="favorite_car">
                 <span class="fav_car_label">Favorite Car:</span>
                 <div style="height: 85%; margin-top: .8em;">
+                    <a href="/car/{{ fav_car['id'] }}">
                 <div class="carWrapper custC" style="
                     background:
                         linear-gradient( rgba(255, 255, 255, 0) 50%,
                         rgba(0, 0, 0, 0.65) 100%),
-                        url(/images/acura_concept.jpg);
+                        url(/images/cars/{{ fav_car["id"] }}_main.pic);
                         background-size: cover;
                         background-repeat: round;
                         min-height: 0;
@@ -52,6 +53,7 @@
                         {% endif %}
                     </span>
                 </div>
+                </a>
                 </div>
             </div>
         </div>

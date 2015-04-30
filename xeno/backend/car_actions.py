@@ -182,6 +182,7 @@ def make_reservation(car_id, text_date, user):
         args = [user.db_id, int(car_id), sql_date]
         result = db_conn.query_db(query, args, select=False)
         print "Insert result: ", result
+        user.update_user(["credits"], [user.credits-50])
     else:
         return "You may not reserve this car today."
     return "LALA"
