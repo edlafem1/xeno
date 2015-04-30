@@ -1,5 +1,5 @@
 import database_connection as db_conn
-import datetime
+import datetime, time
 import user_class
 import searching
 
@@ -153,3 +153,35 @@ def add_new_car(cdata, current_user):
         print repr(e)
 
     return result
+
+def make_reservation(car_id, text_date, user):
+    credits_required = 50  # hard coded
+
+    #  check if user has enough credits
+    query = "SELECT credits FROM users WHERE id=%s"
+    result = db_conn.query_db(query, [user.db_id], one=True)
+    num_credits = 0
+    if result is not None:
+        num_credits = result["credits"]
+    if num_credits < credits_required:
+        return "You do not have enough credits."
+    # month, day, year
+    date_list = text_date.split("/")
+
+    current_time = datetime.datetime.now() - datetime.timedelta(hours=5)
+    if current_time > datetime.datetime(int(date_list[2]), int(date_list[0]), int(date_list[1])):
+        return "Invalid date."
+
+    query = "SELECT COUNT(id) AS count FROM reservations WHERE (for_car=%s OR made_by=%s) AND for_date=%s"
+    sql_date = date_list[2] + "-" + date_list[1] + "-" + date_list[0]
+    result = db_conn.query_db(query, [car_id, user.db_id, sql_date], one=True)
+    print "Result", result
+    if result is None or result["count"] == 0:
+        # can make reservation
+        query = "INSERT INTO reservations (made_by, for_car, for_date) VALUES (%s, %s, %s)"
+        args = [user.db_id, int(car_id), sql_date]
+        result = db_conn.query_db(query, args, select=False)
+        print "Insert result: ", result
+    else:
+        return "You may not reserve this car today."
+    return "LALA"

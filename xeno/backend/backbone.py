@@ -206,19 +206,21 @@ def car_profile(id=-1):
         return redirect(url_for('search') or '/search')
     reviews = get_car_reviews(id)
     print reviews
-    return render_template('car_profile.tpl', car=car_data, star_range=range(0, 5), reviews=reviews, admin=isAdmin(current_user))
+    return render_template('car_profile.tpl', car=car_data, reviews=reviews, admin=isAdmin(current_user))
 
 @app.route('/reserve', methods=['POST'])
+@login_required
 def reserve_car():
     if "rentalDate" in request.form:
         text_date = request.form["rentalDate"]
         car_id = request.form["which_car"]
         confirm = True
-        #confirm = make_reservation(car_id, text_date, current_user)
-        if confirm:
+        confirm = make_reservation(car_id, text_date, current_user)
+        if confirm is True:
             flash("Thank you, your reservation has been made.")
         else:
-            flash("We're sorry, we could not make your reservation.")
+            flash(confirm)
+            #flash("We're sorry, we could not make your reservation.")
     flash("Invalid selection. Please try again.")
     return redirect(url_for('car_profile') + str(car_id) or "/car/" + str(car_id))
 
