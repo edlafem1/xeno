@@ -172,16 +172,18 @@ def make_reservation(car_id, text_date, user):
     if current_time > datetime.datetime(int(date_list[2]), int(date_list[0]), int(date_list[1])):
         return "Invalid date."
 
+    # check if car is already reserved or if user already has a car reserved that day
     query = "SELECT COUNT(id) AS count FROM reservations WHERE (for_car=%s OR made_by=%s) AND for_date=%s"
     sql_date = date_list[2] + "-" + date_list[1] + "-" + date_list[0]
     result = db_conn.query_db(query, [car_id, user.db_id, sql_date], one=True)
-    print "Result", result
+
     if result is None or result["count"] == 0:
         # can make reservation
         query = "INSERT INTO reservations (made_by, for_car, for_date) VALUES (%s, %s, %s)"
         args = [user.db_id, int(car_id), sql_date]
         result = db_conn.query_db(query, args, select=False)
-        print "Insert result: ", result
+        user.update_user(["credits"], [user.credits-50])
     else:
         return "You may not reserve this car today."
-    return "LALA"
+
+    return True
