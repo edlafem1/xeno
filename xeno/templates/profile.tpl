@@ -46,7 +46,7 @@
                 ">
                     <!--django stuff car["year"]|string + " " + car["make"] + " " + car["model"] -->
                     <span class="car_title">
-                        {% if fav_car|length > 0 %}
+                        {% if fav_car != None and fav_car|length > 0 %}
                             {{ fav_car["year"]|string + " " + fav_car["make"] + " " + fav_car["model"] }}
                         {% else %}
                             2015 Ford Focus
