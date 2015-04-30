@@ -59,7 +59,7 @@
     </div>
 
     {% if carMaintenance | length > 0 %}
-    <form id="accountsForm" action="" method="GET">
+    <form id="maintenanceForm" action="" method="GET">
         <table id="accountsTable" cellspacing=25 class="fadeInUp">
             {% for i in range( carMaintenance | length) %}
 
