@@ -178,7 +178,24 @@ def approve_accounts():
                  "paid": False,
                  "approved": False}
                 ]
-    return render_template('new_accounts.tpl', admin=isAdmin(current_user), accounts=accounts)
+    
+    carMaintenance = [{"name": "2014 Audi R8",
+                       "issue": "Broken Everything",
+                       "miles": "50",
+                       "needsMaintenance": True
+                       },
+                      {"name": "2013 Bugatti Veyron",
+                       "issue": "New Tires",
+                       "miles": "162",
+                       "needsMaintenance": True
+                       },
+                      {"name": "2012 Toyota Corolla",
+                       "issue": "Cracked Bumper",
+                       "miles": "124783",
+                       "needsMaintenance": False
+                       }]
+    
+    return render_template('new_accounts.tpl', admin=isAdmin(current_user), accounts=accounts, carMaintenance=carMaintenance)
 
 @app.route('/accountban')
 @login_required
