@@ -42,9 +42,11 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td colspan="5"><div id="login_buttom_wrapper">
-                    <button class="button button-border-primary button-rounded">Submit Changes</button>
-        </div></td>
+                <td colspan="5">
+                    <div id="login_buttom_wrapper">
+                        <button class="button button-border-primary button-rounded">Submit Changes</button>
+                    </div>
+                </td>
             </tr>
         </table>
     </form>

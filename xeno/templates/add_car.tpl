@@ -65,7 +65,11 @@
             <td>
                 <!-- edlafem1-this is a hack to force value to be sent in a POST -->
                 <input type="hidden" name="is_featured" value="0"/>
-                <input type="checkbox" name="is_featured/">
+                <div class="switch">
+                    <input id="toggle-featured" name="is_featured/" class="toggle toggle-round-flat" type="checkbox">
+                    <label for="toggle-featured"></label>
+                </div>
+<!--                <input type="checkbox" name="is_featured/">-->
             </td>
         </tr>
         <!--

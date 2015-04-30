@@ -88,7 +88,7 @@
 
     <!-- datepicker.value is the date that they selected -->
     <div class="rentGroup">
-        <div onclick="//alert(this.value)" id="datepicker"></div>
+        <div id="datepicker"></div>
     </div>
     
     
