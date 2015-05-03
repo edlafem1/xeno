@@ -49,7 +49,7 @@ function rating(score) {
 function submitReview() {
 
     $("#carReview").val($("#newReview").val());
-    alert($("#carRating").val() + " : " + $("#carReview").val());
+    //alert($("#carRating").val() + " : " + $("#carReview").val());
     $("#carRating").val($("#carRating").val());
     $("#carReview").val($("#carReview").val());
     $("#reviewForm").submit();
@@ -60,7 +60,7 @@ function submitReview() {
 
 // Creates the datepicker
 
-var unavailableDates = ["5-5-2015", "22-5-2015", "15-5-2015"]; //day-month-year
+
 
 function unavailable(date) {
     dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
@@ -83,7 +83,7 @@ $('#datepicker').datepicker({
         $("#rentalDate").val($(this).val());
 
         var date = $("#rentalDate").val();
-        console.log($("#rentalDate").val());
+        //console.log($("#rentalDate").val());
         // Submits the form
         $( "#rentalForm" ).submit();
     },

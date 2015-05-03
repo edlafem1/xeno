@@ -77,7 +77,6 @@ def login():
             return render_template('login.tpl', username=username)
         login_user(user)
         flash("Logged in successfully.")
-    print request.form['next']
     return redirect(request.form['next'] or url_for('dashboard_view'))
 
 @app.route("/logout")
@@ -157,7 +156,6 @@ def write_review():
     confirm = create_review(review_info, current_user.db_id)
     flash(confirm)
     return redirect(url_for("car_profile") + review_info["car_id"] or "/car/" + review_info["car_id"])
-    return "hi"
 
 #################################################################
 
@@ -236,7 +234,6 @@ def profile():
 @app.route('/car/<int:id>')
 @login_required
 def car_profile(id=-1):
-    print id == -1
     if id == -1:
         flash("It seems you tried to view a car that isn't there.")
         return redirect(url_for('search') or '/search')
@@ -245,8 +242,9 @@ def car_profile(id=-1):
         flash("We're sorry but something went wrong. Please try again.")
         return redirect(url_for('search') or '/search')
     reviews = get_car_reviews(id)
-    print reviews
-    return render_template('car_profile.tpl', car=car_data, reviews=reviews, admin=isAdmin(current_user))
+    unavailableDates = get_reserved_dates(id)
+    return render_template('car_profile.tpl', car=car_data, reviews=reviews, admin=isAdmin(current_user),
+                           blockedDates=unavailableDates)
 
 @app.route('/reserve', methods=['POST'])
 @login_required

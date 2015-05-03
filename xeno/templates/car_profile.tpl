@@ -10,6 +10,12 @@
 <link href="/style/car_profile.css" rel="stylesheet" />
 <link href="/style/dash_style.css" rel="stylesheet" />
 
+<script type="text/javascript">
+
+    var unavailableDates = [
+    {% for date in blockedDates %}"{{date}}", {% endfor %}, ""]; //day-month-year
+</script>
+
 <div class="fadeInUp">
     
     {% if admin %}
@@ -99,31 +105,35 @@
     
 
     <div class="reviewsList">
-        {% for review in reviews %}
-        <div class="review">
-            <div class="profilePic">
-                <img src="/images/profiles/blank_face.jpeg" style="width: 100%; height: 100%;">
-            </div>
-            <div class="reviewInfo">
-                <div class="reviewer">{{ review["fname"] + " " + review["lname"] }}</div>
-                <div>
-                    {% for count in range(5) %}
-                        {% if loop.index < review["num_stars"] %}
-                            <span class="star on">☆</span>
-                        {% else %}
-                            <span class="star">☆</span>
-                        {% endif %}
-                    {% endfor %}
+        {% if reviews|length > 0 %}
+            {% for review in reviews %}
+            <div class="review">
+                <div class="profilePic">
+                    <img src="/images/profiles/blank_face.jpeg" style="width: 100%; height: 100%;">
                 </div>
-                <div class="reviewText">
-                    {% autoescape on %}
-                    {{ review["text"] }}
-                    {% endautoescape %}
+                <div class="reviewInfo">
+                    <div class="reviewer">{{ review["fname"] + " " + review["lname"] }}</div>
+                    <div>
+                        {% for count in range(5) %}
+                            {% if loop.index < review["num_stars"] %}
+                                <span class="star on">☆</span>
+                            {% else %}
+                                <span class="star">☆</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="reviewText">
+                        {% autoescape on %}
+                        {{ review["text"] }}
+                        {% endautoescape %}
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
-        
+            {% endfor %}
+        {% else %}
+            <div style="text-align: center">No reviews at this time</div>
+        {% endif %}
+        <br /><br />
         <div class="writeReview">
             <div id="writeReviewText" class="softUnderline">Write a review</div>
             <div style="overflow:hidden;">

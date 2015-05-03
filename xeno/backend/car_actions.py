@@ -33,7 +33,7 @@ def get_cars(page, howmany, get_new=False, get_featured=False, search_params=Non
     if search_params is not None:
         where_clause, args = searching.create_search_query(search_params)
         query += where_clause
-        print("get_cars: " + where_clause)
+        # print("get_cars: " + where_clause)
     if get_new is False and get_featured is False:
         query += "ORDER BY make.id DESC, cars.date_added DESC "
     elif get_new is True and get_featured is False:
@@ -174,7 +174,7 @@ def make_reservation(car_id, text_date, user):
 
     # check if car is already reserved or if user already has a car reserved that day
     query = "SELECT COUNT(id) AS count FROM reservations WHERE (for_car=%s OR made_by=%s) AND for_date=%s"
-    sql_date = date_list[2] + "-" + date_list[1] + "-" + date_list[0]
+    sql_date = date_list[2] + "-" + date_list[0] + "-" + date_list[1]
     result = db_conn.query_db(query, [car_id, user.db_id, sql_date], one=True)
 
     if result is None or result["count"] == 0:
@@ -199,3 +199,18 @@ def create_review(review_data, u_id):
     result = db_conn.query_db(query, [review_data["carRating"], review_data["carReview"], u_id, review_data["car_id"]],
                               select=False)
     return result
+
+def get_reserved_dates(id):
+    query = "SELECT for_date FROM reservations WHERE for_car=%s"
+    result = db_conn.query_db(query, [id])
+    dates = []
+    for date in result:
+        # starts as year-month-day
+        # needs to be day-month-year
+        date = str(date["for_date"]).split("-")
+        temp = str(int(date[2]))
+        date[2] = str(int(date[0]))
+        date[0] = temp
+        date[1] = str(int(date[1]))
+        dates.append("-".join(date))
+    return dates

@@ -212,6 +212,9 @@ div.reviewText {
 /*    text-decoration:none;*/
 }
 
+#datepicker .ui-datepicker-title {
+    padding-left: 2.5em;
+}
 
 .ui-datepicker-prev {
     color: grey;
@@ -245,8 +248,6 @@ div.reviewText {
 .ui-datepicker table td:link {
     background-color: gold;
 }
-
-
 
 td.ui-datepicker-unselectable.ui-state-disabled[title="Unavailable"] {
     background-color: #443900;
