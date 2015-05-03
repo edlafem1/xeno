@@ -230,11 +230,11 @@ div.reviewText {
     text-align: center;
 }
 
-.ui-datepicker table td[data-event="click"]:hover {
+.ui-datepicker table td[data-month]:hover {
     background-color: rgba(221, 221, 221, 0.39);
 }
 
-.ui-datepicker table td:active {
+.ui-datepicker table td[data-month]:active {
     background-color: gold;
 }
 
