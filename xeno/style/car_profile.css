@@ -230,8 +230,7 @@ div.reviewText {
     text-align: center;
 }
 
-
-.ui-datepicker table td:hover {
+.ui-datepicker table td[data-event="click"]:hover {
     background-color: rgba(221, 221, 221, 0.39);
 }
 
@@ -239,10 +238,16 @@ div.reviewText {
     background-color: gold;
 }
 
+.ui-datepicker-current-day.ui-datepicker-today {
+    background-color: #BD9700;
+}
+
 .ui-datepicker table td:link {
     background-color: gold;
 }
 
-.ui-state-active {
-    background-color: gold;
+
+
+td.ui-datepicker-unselectable.ui-state-disabled[title="Unavailable"] {
+    background-color: #443900;
 }

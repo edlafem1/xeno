@@ -59,10 +59,23 @@ function submitReview() {
 
 
 // Creates the datepicker
+
+var unavailableDates = ["5-5-2015", "22-5-2015", "15-5-2015"]; //day-month-year
+
+function unavailable(date) {
+    dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+    if ($.inArray(dmy, unavailableDates) == -1) {
+        return [true, ""];
+    } else {
+        return [false, "", "Unavailable"];
+    }
+}
+
+/*
 $(function() {
     $( "#datepicker" ).datepicker();
 });
-
+*/
 // When the user selects a date, submit the date
 $('#datepicker').datepicker({
     onSelect: function(dateText, inst){
@@ -73,5 +86,7 @@ $('#datepicker').datepicker({
         console.log($("#rentalDate").val());
         // Submits the form
         $( "#rentalForm" ).submit();
-    }
+    },
+     beforeShowDay: unavailable,
+     minDate: new Date()
 });
