@@ -60,5 +60,12 @@
         </a>
     {% endfor %}
     </div>
+    
+    <div id="waitlist_wrapper">
+        <form id="waitlist_form" action="" method="POST">
+            <button class="button button-border-primary button-rounded">Join the waitlist for a random car!</button>
+        </form>
+    </div>
+    
 </div>
 {% endblock %}
