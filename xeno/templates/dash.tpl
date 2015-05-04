@@ -15,24 +15,16 @@
         </form>
     </div>
     {% endfor %}
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <h4 class="message_flash">{{ messages[0] }}</h4>
+        {% endif %}
+    {% endwith %}
+    
     <div id="featuredCarsTitleWrapper">
                 <div id="featuredCarsTitle" class="underline">Featured Cars</div>
     </div>
-
-<!--
-    <div class="carList">
-        {% for car in featured_cars %}
-        <div class="carWrapper">
-                <div id="carPic">
-                    <!--{{car["id"]|string + ".jpg"}} for img filename -a->
-                </div>
-                <div class="carName">
-                    {{car["year"]|string + " " + car["make"] + " " + car["model"] }}
-                </div>
-        </div>
-    {% endfor %}
-    </div>
--->
 
     <div class="carList">
         {% for car in featured_cars %}
