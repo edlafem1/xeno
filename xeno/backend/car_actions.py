@@ -4,7 +4,7 @@ import user_class
 import searching
 
 
-def get_cars(page, howmany, get_new=False, get_featured=False, search_params=None):
+def get_cars(page, howmany, get_new=False, get_featured=False, search_params=None, isAdmin=False):
     """
     This function controls getting details for multiple cars at a time. It should be noted that setting get_new=True
     and get_featured=True is the same as get_featured=True, so setting get_new=True is redundant.
@@ -30,6 +30,10 @@ def get_cars(page, howmany, get_new=False, get_featured=False, search_params=Non
         "FROM cars " \
         "JOIN make ON cars.make=make.id " \
         "JOIN model ON cars.model=model.id "
+    if isAdmin:
+        query += "WHERE cars.status<=3 "
+    else:
+        query += "WHERE 1=1 "
     if search_params is not None:
         where_clause, args = searching.create_search_query(search_params)
         query += where_clause
@@ -59,8 +63,8 @@ def get_cars(page, howmany, get_new=False, get_featured=False, search_params=Non
     return car_data
 
 
-def get_single_car(id):
-        query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS odo, " \
+def get_single_car(id, isAdmin):
+    query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS odo, " \
             "cars.acceleration AS acceleration, cars.max_speed AS max_speed, make.description AS make, " \
             "model.description AS model, cars.date_added AS date_added, cars.is_featured AS is_featured, " \
             "make.id AS make_id, car_type.description AS ctype, country.description AS country " \
@@ -69,11 +73,13 @@ def get_single_car(id):
             "JOIN model ON cars.model=model.id " \
             "JOIN car_type ON cars.type=car_type.id " \
             "JOIN country ON cars.country=country.id "
-        query += "WHERE cars.id=%s "
-        query += "LIMIT 1"
+    query += "WHERE cars.id=%s "
+    if not isAdmin:
+        query += "AND cars.status<=3 "
+    query += "LIMIT 1"
 
-        car_data = db_conn.query_db(query, [id], one=True)
-        return car_data
+    car_data = db_conn.query_db(query, [id], one=True)
+    return car_data
 
 
 def get_car_reviews(id):

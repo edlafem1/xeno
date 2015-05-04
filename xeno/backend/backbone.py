@@ -100,7 +100,7 @@ def search(page=1):
         howmany = -1
     car_data = []
     if 'search' not in request.args:
-        car_data = get_cars(page, howmany)
+        car_data = get_cars(page, howmany, isAdmin=isAdmin(current_user))
         return render_template('car_list.tpl', cars=car_data, admin=isAdmin(current_user))
     elif 'search' in request.args:
         car_data = get_cars(0, -1, search_params={"general": request.args['search']})
@@ -166,7 +166,20 @@ def write_review():
 @app.route('/accounts')
 @login_required
 def approve_accounts():
+    '''
+    print request.json
+    print request.json['var1']
+    var1 = request.args.get('var1', default=0, type=int)
+    var2 = request.args.get('var2', default=0, type=int)
+    var3 = request.args.get('var3', default='hello world', type=str)
+    print var3
+    return jsonify(in_var1=var1,
+                   in_var2=var2,
+                   in_var3=var3)
+    :return:
+    '''
     # Approve accounts page
+    accounts = get_all_users()
     accounts = [{"name": "John Smith",
                  "address": "0000 Street Name, State Zip",
                  "paid": True,
@@ -199,21 +212,6 @@ def approve_accounts():
     
     return render_template('new_accounts.tpl', admin=isAdmin(current_user), accounts=accounts, carMaintenance=carMaintenance)
 
-@app.route('/accountban')
-@login_required
-def account_ban():
-    user_info = dict()
-    user_info["firstname"] = current_user.fname
-    user_info["lastname"] = current_user.lname
-    user_info["credits"] = current_user.credits
-    user_info["email"] = current_user.id
-    user_info["date_joined"] = current_user.date_joined.strftime('%m/%d/%Y')
-    if current_user.suspended is False:
-        user_info["suspended_until"] = ""
-    else:
-        user_info["suspended_until"] = current_user.suspended_til.strftime('%m/%d/%Y')
-    favorite_car = current_user.get_favorite_car()
-    return render_template('account_ban.tpl', user_data=user_info, admin=isAdmin(current_user), fav_car=favorite_car)
 
 @app.route('/profile')
 @login_required
@@ -241,7 +239,7 @@ def car_profile(id=-1):
     if id == -1:
         flash("It seems you tried to view a car that isn't there.")
         return redirect(url_for('search') or '/search')
-    car_data = get_single_car(id)
+    car_data = get_single_car(id, isAdmin(current_user))
     if car_data is None:
         flash("We're sorry but something went wrong. Please try again.")
         return redirect(url_for('search') or '/search')

@@ -175,6 +175,19 @@ class User(UserMixin):
         return None
 
 
+def get_all_users():
+    query = "SELECT id, CONCAT(first_name, ' ', last_name) AS name, userid, suspended_until FROM users " \
+            "ORDER BY date_joined DESC, suspended_until DESC"
+    result = db_conn.query_db(query)
+    for user in result:
+        now = datetime.datetime.now()
+        if user["suspended_until"] is not None and now < user["suspended_until"]:
+            user["suspended_until"] = True
+        else:
+            user["suspended_until"] = False
+    return result
+
+
 def encode_password(password, salt=None):
     """
     This will use an HMAC hash combined with a salt to encrypt the password.

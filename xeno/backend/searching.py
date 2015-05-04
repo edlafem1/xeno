@@ -7,14 +7,14 @@ import database_connection as db_conn
 
 def create_search_query(form_data):
     """
-    This is the function that should be called to generate a complete WHERE clause to search on multiple fields.
+    This is the function that should be called to generate conditions for a WHERE clause to search on multiple fields.
     :param form_data: A dictionary of values. The dictionary can either have only one element with key "general"
             that represents a simple search; or it can have 3 values with keys "make", "model", "year" and at least 1 of
             which's value is not None and not -1.
-    :return: If a WHERE clause can be generated, it will have the form WHERE (...) OR (...) etc, followed by a single
+    :return: If WHERE clause conditions can be generated, it will have the form AND (...) OR (...) etc, followed by a single
     space. The value returned will be a tuple with this clause and a list of values to be used as arguments in
     the SQL query.
-    If no WHERE clause can be genereated, it will return the tuple ("", []) which can be used in other places.
+    If no WHERE clause conditions can be generated, it will return the tuple ("", []) which can be used in other places.
     For example:
         clause, arguments = create_search_query(some_data)
         query += clause
@@ -36,11 +36,11 @@ def create_search_query(form_data):
             #  Check if term is a make or model
             if make == -1 or make is None:
                 make = find_make(term)
-                print "Searching for make: " + term + "=" + str(make)
+                # print "Searching for make: " + term + "=" + str(make)
 
             if model == -1 or model is None:
                 model = find_model(term)
-                print "Searching for model: " + term + "=" + str(model)
+                # print "Searching for model: " + term + "=" + str(model)
     else:
         try:
             myear = int(form_data["year"])
@@ -48,8 +48,8 @@ def create_search_query(form_data):
             pass
         make = find_make(form_data["make"])
         model = find_model(form_data["model"])
-        print "aSearching for make: " + str(make)
-        print "aSearching for model: " + str(model)
+        # print "Searching for make: " + str(make)
+        # print "Searching for model: " + str(model)
 
     return search_for_cars(myear, make, model)
 
@@ -87,7 +87,7 @@ def search_for_cars(year, make_id, model_id):
     :param model_id: The id of this car's model, or None if no entry was found
     :return: A string of the form described in the create_search_query documentation.
     """
-    where_clause = "WHERE "
+    where_clause = "AND "
     args = []
 
     where_clause += "("
@@ -135,7 +135,7 @@ def search_for_cars(year, make_id, model_id):
         where_clause = where_clause[:-1]
     where_clause += " "
 
-    if where_clause == "WHERE ":
+    if where_clause == "AND ":
         return "", []
     return where_clause, args
 
