@@ -363,7 +363,7 @@ def reserve_car():
             emailBody = 'You reserved a ' + car + ' for ' + text_date + '! You can pick it up any time on ' + text_date + ' and you must return it at 11:59pm that night.'
             
             # Sends an email to the user
-#            sendEmail(current_user.id, emailBody)
+            sendEmail(current_user.id, emailBody)
             
         else:
             flash(confirm)
