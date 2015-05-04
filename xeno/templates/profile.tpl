@@ -14,8 +14,12 @@
 
     <div class="profile_container">
         <div class="personal boxed">
-            <img src="images/profiles/blank_face.jpeg" class="propic">
-
+            <img id="photo" src="images/profiles/{{ user_data["profile_pic"] }}" class="propic">
+            
+            <form id="photo_form" action="/profile" enctype="multipart/form-data" method="POST">
+                <input type="file" id="file" name="photo" style="display: none;" />
+            </form>
+            
             <div class="user_details">
                 <ul>
                     <li>Joined {{ user_data["date_joined"] }}</li>
@@ -85,65 +89,17 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-    <table cellspacing=55 class="fadeInUp">
-        <tr>
-            <td>
-                <div class="boxed">
-                    <img src="images/blank_face.jpeg" style="width:304px;height:228px">
-                </div>
-            </td>
-            <td colspan="2">
-                <table class="fadeInUp">
-                    <tr>
-                        <td colspan="2">
-                            <div class="underline">
-                                Cars {{firstname}} Reviewed
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img class="carPic" src="images/bugatti.jpg" style="width:150px;height:150px;border:1px solid gold">
-                        </td>
-                        <td>
-                            The car is wayy too fast
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tr>
-
-    </table>    
-    -->
+    
+<!--  Scripts to make clicking the picture change the photo  -->
+    <script type="text/javascript">
+        $("#photo").click(function(){
+            $("#file").trigger("click");
+        });
+        document.getElementById("file").onchange = function() {
+            document.getElementById("photo_form").submit();
+        };
+    </script>
+    
     
 </div>
 {% endblock %}

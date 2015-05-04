@@ -258,10 +258,30 @@ def approve_accounts():
     return render_template('new_accounts.tpl', admin=isAdmin(current_user), accounts=accounts, carMaintenance=carMaintenance)
 
 
-@app.route('/profile')
+@app.route('/profile', methods=["GET", "POST"])
 @login_required
 def profile():
+    
+    profile_pic = str(current_user.db_id) + "_profile.jpg"
+    
+    # Check if the user is editing their profile
+    if request.method == "POST":
+        if 'photo' in request.files:
+            print "OS: " + str(os.path.isfile("../images/profiles/" + profile_pic))
+            # Check if the user has an old profile picture
+            if os.path.isfile("../images/profiles/" + profile_pic):
+                os.remove("../images/profiles/" + profile_pic)
+            
+            profile_pic = profile_pics.save(request.files['photo'], name=str(current_user.db_id)+"_profile.jpg")
+            print("Photo saved: " + profile_pic)
+    
+    # Check if the user has a profile picture or not
+    if not os.path.isfile("../images/profiles/" + profile_pic):
+        profile_pic = "blank_face.jpeg"
+    
     user_info = dict()
+    user_info["id"] = current_user.db_id
+    user_info["profile_pic"] = profile_pic
     user_info["firstname"] = current_user.fname
     user_info["lastname"] = current_user.lname
     user_info["credits"] = current_user.credits
@@ -273,10 +293,10 @@ def profile():
         user_info["suspended_until"] = current_user.suspended_til.strftime('%m/%d/%Y')
 
     favorite_car = current_user.get_favorite_car()
-    
+
     recent_activity = get_activity(current_user.db_id)
     recent_cars = []
-    
+
     for activity in recent_activity:
         recent_cars.append(get_single_car(activity['car'], isAdmin(current_user)))
 
