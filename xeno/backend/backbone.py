@@ -306,8 +306,6 @@ def handle_return():
 @app.route('/waitlist', methods=['POST'])
 @login_required
 def waitlist():
-    print "join = ", request.form['join']
-    print "join = 0", (int(request.form['join']) == 0)
     # Checks if the user wants to join or remove the waitlist
     if int(request.form['join']):
         # Adds the user to the waitlist

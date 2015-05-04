@@ -352,8 +352,6 @@ def leave_waitlist(user_id):
     query = "DELETE FROM waiting_queue where user=%s"
     result = db_conn.query_db(query, [user_id])
     
-    print "Removed: ", result
-    
     return result
     
     
