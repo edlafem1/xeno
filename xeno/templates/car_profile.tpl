@@ -34,6 +34,12 @@
                 <input id="toggle-2" class="toggle toggle-round-flat" type="checkbox">
                 <label for="toggle-2"></label>
             </div>
+            <div class="maintInfoWrapper">
+                <textarea id="maintInfo"
+                          onfocus="checkText(); setbg('white');"
+                          onblur="checkText(); setbg('lightgrey')">What's wrong with the car?
+                </textarea>
+            </div>
         </div>
     </div>
     {% endif %}
