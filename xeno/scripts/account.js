@@ -20,7 +20,13 @@ $(document).ready(function(){
         var data = {};
 
 
-        if (full_id[0] == "toggle") {
+        if (full_id[1] == "maint"){
+            data = {
+                "acct_id":id,
+                "fixed":!$(this).parent().find("input").is(":checked")
+            }
+        }
+        else if (full_id[0] == "toggle") {
 
             var approved = "true";
             if ($(this).parent().find("input").is(":checked")) {

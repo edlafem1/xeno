@@ -265,7 +265,7 @@ def create_review(review_data, u_id):
     result = db_conn.query_db(query, [review_data["car_id"], u_id], one=True)
     if result["count"] == 0:
         return "You cannot review a car you never drove!"
-
+    
     query = "INSERT INTO reviews (date_created,num_stars, text, reviewer, car) VALUES " \
             "(%s, %s, %s, %s, %s)"
     result = db_conn.query_db(query,
@@ -385,4 +385,18 @@ def log_work(car_id, description, worker):
 def update_car_status(car_id, car_status):
     query = "UPDATE cars SET status=%s WHERE id=%s"
     result = db_conn.query_db(query, [car_status, car_id], select=False)
+    return result
+
+
+def get_broken_cars():
+    query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS miles, " \
+        "cars.acceleration AS acceleration, cars.max_speed AS max_speed, make.description AS make, maintenance_log.description AS issue, " \
+        "model.description AS model, cars.date_added AS date_added, cars.is_featured AS is_featured, " \
+        "make.id AS make_id " \
+        "FROM cars " \
+        "JOIN make ON cars.make=make.id " \
+        "JOIN model ON cars.model=model.id " \
+        "JOIN maintenance_log ON cars.id=maintenance_log.car " \
+        "WHERE cars.status=3"
+    result = db_conn.query_db(query)
     return result

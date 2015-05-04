@@ -49,7 +49,7 @@ function rating(score) {
 function submitReview() {
 
     $("#carReview").val($("#newReview").val());
-    //alert($("#carRating").val() + " : " + $("#carReview").val());
+    alert($("#carRating").val() + " : " + $("#carReview").val());
     $("#carRating").val($("#carRating").val());
     $("#carReview").val($("#carReview").val());
     /* Why ^^ ?? - Bishoff is asking */

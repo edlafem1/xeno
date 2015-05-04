@@ -79,15 +79,18 @@
                     <td><td><td><td><td></td></td></td></td></td>
                     <tr>
                     <td colspan="5">
+<!--
                         <div id="submit_changes_buttom_wrapper">
                             <button class="button button-border-primary button-rounded">Submit Changes</button>
                         </div>
+-->
                     </td>
                     </tr>
                 </table>
             </tr>
         </table>
     </form>
+<br/>
     <div id="seeMoreAccounts" class="new_accounts_header" style="">See Accounts</div>
     {% endif %}
     
@@ -99,13 +102,13 @@
     {% if carMaintenance | length > 0 %}
     <form id="maintenanceForm" action="" method="GET">
         <table id="accountsTable" cellspacing=25 class="fadeInUp">
-            {% for i in range( carMaintenance | length) %}
+            {% for car in carMaintenance: %}
 
                 <tr class="underline">
-                    <td>{{ carMaintenance[i]['name'] }}</td>
-                    <td>{{ carMaintenance[i]['issue'] }}</td>
-                    <td>{{ carMaintenance[i]['miles'] }} Miles</td>
-                    {% if carMaintenance[i]['needsMaintenance'] %}
+                    <td>{{car["year"]|string + " " + car["make"] + " " + car["model"] }}</td>
+                    <td>{{ car['issue'] }}</td>
+                    <td>{{ car['miles'] }} Miles</td>
+                    {% if True %}
                         <td>
                             Needs Maintenance
                         </td>

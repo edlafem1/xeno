@@ -245,22 +245,7 @@ def approve_accounts():
     # Approve accounts page
     accounts = get_all_users()
     # this array has name, userid, banned, suspended
-
-    carMaintenance = [{"name": "2014 Audi R8",
-                       "issue": "Broken Everything",
-                       "miles": "50",
-                       "needsMaintenance": True
-                       },
-                      {"name": "2013 Bugatti Veyron",
-                       "issue": "New Tires",
-                       "miles": "162",
-                       "needsMaintenance": True
-                       },
-                      {"name": "2012 Toyota Corolla",
-                       "issue": "Cracked Bumper",
-                       "miles": "124783",
-                       "needsMaintenance": False
-                       }]
+    carMaintenance = get_broken_cars()
     
     return render_template('new_accounts.tpl', admin=isAdmin(current_user), accounts=accounts, carMaintenance=carMaintenance)
 
