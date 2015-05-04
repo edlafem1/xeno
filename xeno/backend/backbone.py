@@ -76,6 +76,9 @@ def login():
         if user is None:
             flash('Username or Password is invalid', 'error')
             return render_template('login.tpl', username=username)
+        elif user.banned:
+            flash('<span style=\'color:red;\'>Unfortunatly, this account has been banned.</span>')
+            return render_template('login.tpl')
         elif user.suspended:
             flash('<span style=\'color:red;\'>We are sorry, but you have been suspended until ' +
                   user.suspended_til.strftime('%m-%d-%Y %H:%M:%S')
@@ -186,23 +189,51 @@ def write_review():
 
 #################################################################
 
-@app.route('/accounts')
+@app.route('/accounts', methods=['GET', 'POST'])
 @login_required
 def approve_accounts():
     if not isAdmin(current_user):
         flash("Sorry, you must be an admin to see this page.")
         return redirect(url_for('search'))
+
+    if request.method == "POST":
+        retVals  ={}
+        print 'Acct Mgmt Ajax'
+        acct_id = request.json['acct_id']
+        date = ""
+        updated = ""
+        if 'approved' in request.json:
+            #approved = request.json['approved']
+            if request.json['approved'] == "true":
+                date = "CURRENT_TIMESTAMP()"
+            else:
+                date = datetime.datetime(3000, 1, 1)
+            updated = admin_only_user_update(acct_id, ["suspended_until"], [date])
+        elif 'suspended' in request.json:
+            if request.json['suspended'] == "true":
+                now = datetime.datetime.now()
+                date = now + datetime.timedelta(weeks=1)
+            else:
+                date = "CURRENT_TIMESTAMP()"
+            updated = admin_only_user_update(acct_id, ["suspended_until"], [date])
+
+        print updated
+        if updated == acct_id:
+            retVals["suspended_until"] = date.strftime("%Y-%m-%d %H:%M:%S")
+            retVals["acct_id"] = acct_id
+            retVals["error"] = ""
+        else:
+            retVals["error"] = "Xeno was not able to perform the update."
+            retVals["update"] = updated
+        print retVals
+        return json.dumps(retVals)
     '''
-    print request.json
-    print request.json['var1']
+        print 'Acct Mgmt Ajax'
     var1 = request.args.get('var1', default=0, type=int)
     var2 = request.args.get('var2', default=0, type=int)
-    var3 = request.args.get('var3', default='hello world', type=str)
-    print var3
-    return jsonify(in_var1=var1,
-                   in_var2=var2,
-                   in_var3=var3)
-    :return:
+    retVals = {"in_var1": var1, "in_var2": var2}
+    print retVals
+    return json.dumps(retVals)
     '''
     # Approve accounts page
     accounts = get_all_users()
@@ -395,14 +426,9 @@ def return_surprise(files):
 def ajax_test():
     # Test of ajax calls
     print 'Ajax Test'
-    #print request.json
-    #print request.json['var1']
     var1 = request.args.get('var1', default=0, type=int)
     var2 = request.args.get('var2', default=0, type=int)
-    var3 = request.args.get('var3', default='hello world', type=str)
-    retVals = {"in_var1":var1,
-                   "in_var2":var2,
-                   "in_var3":var3}
+    retVals = {"in_var1": var1, "in_var2": var2}
     print retVals
     return json.dumps(retVals)
 

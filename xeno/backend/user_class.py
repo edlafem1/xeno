@@ -106,6 +106,11 @@ class User(UserMixin):
             else:
                 u.suspended = False
 
+            if udata["suspended_until"] is not None and udata["suspended_until"] >= datetime.datetime(3000, 1, 1):
+                u.banned = True
+            else:
+                u.banned = False
+
             u.id = user_id
             u.active = True
             u.authenticated = True
@@ -175,7 +180,7 @@ class User(UserMixin):
         return None
 
 
-def admin_only_user_update(user, fields, values):
+def admin_only_user_update(user_id, fields, values):
     query = "UPDATE users SET "
     for i in range(0, len(fields)):
         query += fields[i] + "=%s"
@@ -183,7 +188,7 @@ def admin_only_user_update(user, fields, values):
             query += ","
         query += " "
     query += "WHERE id=%s"
-    result = db_conn.query_db(query, values + [user.db_id], select=False)
+    result = db_conn.query_db(query, values + [user_id], select=False)
     return result
 
 def get_all_users():
@@ -192,7 +197,7 @@ def get_all_users():
     result = db_conn.query_db(query)
     for user in result:
         now = datetime.datetime.now()
-        if user["suspended_until"] is not None and user["suspended_until"] > datetime.datetime(3000, 1, 1):
+        if user["suspended_until"] is not None and user["suspended_until"] >= datetime.datetime(3000, 1, 1):
             user["banned"] = True
         else:
             user["banned"] = False
