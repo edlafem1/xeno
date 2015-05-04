@@ -295,7 +295,7 @@ def get_reserved_dates(id):
 
 
 def get_activity(user_id):
-    query = "SELECT for_car, for_date FROM reservations WHERE made_by=%s ORDER BY id DESC"
+    query = "SELECT for_car, for_date FROM reservations WHERE made_by=%s AND car_returned=2 ORDER BY for_date DESC"
     rentals = db_conn.query_db(query, [user_id])
     
     query = "SELECT car, date_created FROM reviews WHERE reviewer=%s ORDER BY id DESC"
