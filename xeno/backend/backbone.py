@@ -116,16 +116,26 @@ def dashboard_view():
     featured_car_data = get_cars(1, 4, get_featured=True)
     reserved_car_data = get_reserved_car(current_user.db_id)
     reserved_car_names = []
+    reserved_car_status = []
     
     for i in range(len(reserved_car_data)):
         car_id = reserved_car_data[i]['for_car']
         car = get_single_car(car_id, isAdmin(current_user))
         car_name = str(car["year"]) + " " + car["make"] + " " + car["model"]
         reserved_car_names.append( car_name )
+        reserved_car_status.append(str(car['status']))
     
     waiting = check_waitlist(current_user.db_id)
     
-    return render_template('dash.tpl', reserved_car_data=reserved_car_data, reserved_car_names=reserved_car_names, new_cars=new_car_data, featured_cars=featured_car_data, waiting=waiting, admin=isAdmin(current_user))
+    return render_template('dash.tpl',
+                           reserved_car_data=reserved_car_data,
+                           reserved_car_names=reserved_car_names,
+                           reserved_car_status=reserved_car_status,
+                           new_cars=new_car_data,
+                           featured_cars=featured_car_data,
+                           waiting=waiting,
+                           admin=isAdmin(current_user)
+                          )
 
 @app.route('/sign_up', methods=["GET", "POST"])
 def sign_up():
@@ -283,6 +293,22 @@ def reserve_car():
             #flash("We're sorry, we could not make your reservation.")
     flash("Invalid selection. Please try again.")
     return redirect(url_for('car_profile') + str(car_id) or "/car/" + str(car_id))
+
+
+@app.route('/claim', methods=['POST'])
+@login_required
+def claim():
+    # Claims the car
+    result = claim_car(current_user.db_id, request.form["car_id"])
+    
+    # Displays a confirmation message to the user
+    if result:
+        flash("Something went wrong D:")
+    else:
+        flash("You have claimed your car!")
+    
+    # Sends them back to the dashboard
+    return redirect(url_for('dashboard_view'))
 
 
 @app.route('/return', methods=['POST'])
