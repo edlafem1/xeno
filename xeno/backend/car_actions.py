@@ -326,7 +326,6 @@ def join_waitlist(user_id):
     query = "SELECT id FROM waiting_queue WHERE user=%s"
     result = db_conn.query_db(query, [user_id])
     
-    print result
     # If the user is not on the waitlist, add them
     if not result:
         query = "INSERT INTO waiting_queue (`user`) VALUES (%s)"
