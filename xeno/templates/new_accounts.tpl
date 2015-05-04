@@ -37,12 +37,12 @@
                     </td>
                     <td>
                         <div class="switch">
-                            <input id="toggle-acct-{{ i }}" class="toggle toggle-round-flat" type="checkbox" 
+                            <input id="toggle-acct-{{ accounts[i]['id'] }}" class="toggle toggle-round-flat" type="checkbox"
                                   {% if not accounts[i]['banned'] %}
                                    checked
                                     {% endif %}
                                    >
-                            <label for="toggle-acct-{{ i }}"></label>
+                            <label for="toggle-acct-{{ accounts[i]['id'] }}"></label>
                         </div>
                     </td>
                     <td>
@@ -50,12 +50,12 @@
                     </td>
                     <td>
                         <div class="switch">
-                            <input id="banned-acct-{{ i }}" class="toggle toggle-round-flat" type="checkbox" 
+                            <input id="banned-acct-{{ accounts[i]['id'] }}" class="toggle toggle-round-flat" type="checkbox"
                                   {% if accounts[i]['suspended'] %}
                                    checked
                                     {% endif %}
                                    >
-                            <label for="banned-acct-{{ i }}"></label>
+                            <label for="banned-acct-{{ accounts[i]['id'] }}"></label>
                         </div>
                     </td>
                 </tr>
