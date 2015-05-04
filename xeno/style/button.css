@@ -19,7 +19,7 @@ input.toggle-round-flat + label {
   padding: 2px;
   width: 90px;
   height: 45px;
-  border: 3px solid #dddddd;
+  border: 3px solid red;/*#dddddd;*/
   border-radius: 45px;
   transition: border-color 0.4s;
 }
@@ -37,7 +37,7 @@ input.toggle-round-flat + label:after {
   left: 4px;
   bottom: 4px;
   width: 32px;
-  background-color: #dddddd;
+  background-color: red;/*#dddddd;*/
   border-radius: 16px;
   transition: margin 0.4s, background 0.4s;
 }
