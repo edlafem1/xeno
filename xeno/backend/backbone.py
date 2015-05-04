@@ -81,7 +81,7 @@ def login():
                   + 'GMT and will be unable to access Xeno until then.</span>')
             return render_template('login.tpl')
         login_user(user)
-        flash("Logged in successfully.")
+#        flash("Logged in successfully.")
     return redirect(request.form['next'] or url_for('dashboard_view'))
 
 @app.route("/logout")
@@ -229,8 +229,14 @@ def profile():
         user_info["suspended_until"] = current_user.suspended_til.strftime('%m/%d/%Y')
 
     favorite_car = current_user.get_favorite_car()
+    
+    recent_activity = get_activity(current_user.db_id)
+    recent_cars = []
+    
+    for activity in recent_activity:
+        recent_cars.append(get_single_car(activity['car'], isAdmin(current_user)))
 
-    return render_template('profile.tpl', user_data=user_info, admin=isAdmin(current_user), fav_car=favorite_car)
+    return render_template('profile.tpl', user_data=user_info, admin=isAdmin(current_user), fav_car=favorite_car, activity=recent_activity, recent_cars=recent_cars)
 
 @app.route('/car')
 @app.route('/car/')
@@ -280,17 +286,35 @@ def reserve_car():
 @app.route('/return', methods=['POST'])
 @login_required
 def handle_return():
-    # return render_template('login.tpl')
-    #request.form['next'] or 
-#    sendTexts()
+    # Returns the car
     result = return_car(current_user.db_id, request.form["reservation_id"])
-
+    
+    # Displays a confirmation message to the user
     if result:
         flash("Something went wrong D:")
     else:
         flash("Thank you for returning our car.")
     
+    # Sends them back to the dashboard
     return redirect(url_for('dashboard_view'))
+
+
+@app.route('/waitlist', methods=['POST'])
+@login_required
+def waitlist():
+    # Returns the car
+    result = return_car(current_user.db_id, request.form["reservation_id"])
+    
+    # Displays a confirmation message to the user
+    if result:
+        flash("Something went wrong D:")
+    else:
+        flash("Thank you for returning our car.")
+    
+    # Sends them back to the dashboard
+    return redirect(url_for('dashboard_view'))
+
+
 
 # Allows stylesheets to be loaded.
 # TODO  Consider finding a different way to serve static files without using flask

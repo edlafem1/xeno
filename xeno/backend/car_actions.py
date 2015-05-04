@@ -243,9 +243,6 @@ def get_reserved_car(user_id):
     result = db_conn.query_db(query, [user_id, current_date])
     
     return result
-    
-    
-
 
 def create_review(review_data, u_id):
     query = "SELECT COUNT(id) AS count FROM reservations WHERE for_car=%s AND made_by=%s"
@@ -253,9 +250,13 @@ def create_review(review_data, u_id):
     if result["count"] == 0:
         return "You cannot review a car you never drove!"
 
-    query = "INSERT INTO reviews (num_stars, text, reviewer, car) VALUES " \
-            "(%s, %s, %s, %s)"
-    result = db_conn.query_db(query, [review_data["carRating"], review_data["carReview"], u_id, review_data["car_id"]],
+    query = "INSERT INTO reviews (date_created,num_stars, text, reviewer, car) VALUES " \
+            "(%s, %s, %s, %s, %s)"
+    result = db_conn.query_db(query,
+                              [datetime.datetime.now(),
+                                review_data["carRating"],
+                                review_data["carReview"],
+                                u_id, review_data["car_id"]],
                               select=False)
     return result
 
@@ -275,3 +276,50 @@ def get_reserved_dates(id):
         date[1] = str(int(date[1]))
         dates.append("-".join(date))
     return dates
+
+
+def get_activity(user_id):
+    query = "SELECT for_car, for_date FROM reservations WHERE made_by=%s ORDER BY id DESC"
+    rentals = db_conn.query_db(query, [user_id])
+    
+    query = "SELECT car, date_created FROM reviews WHERE reviewer=%s ORDER BY id DESC"
+    reviews = db_conn.query_db(query, [user_id])
+    
+    
+    print "len(rentals) = ", len(rentals)
+    print "Rentals: ", rentals
+    print "len(reviews) = ", len(reviews)
+    print "Reviews: ", reviews
+    
+    # Manual Inner Join because the car rentals
+    # use Dates and the reviews use Datetimes
+    activity = []
+    rental_i = 0
+    reviews_i = 0
+    for i in range(len(rentals) + len(reviews)):
+                                                        
+        # If the rental came first, append it
+        if reviews_i == len(reviews) or (rental_i != len(rentals) and rentals[rental_i]['for_date'] < reviews[reviews_i]['date_created'].date()):
+            
+            activity.append({
+                    'date':rentals[rental_i]['for_date'],
+                    'car':rentals[rental_i]['for_car'],
+                    'type':'Rented'})
+            
+            # Increment the rental index
+            rental_i = rental_i + 1
+            
+        else:
+            # Else, review came first, so add it
+            activity.append({
+                    'date':str(reviews[reviews_i]['date_created'].date()),
+                    'car':reviews[reviews_i]['car'],
+                    'type':'Reviewed'})
+            
+            # Increment the reviews index
+            reviews_i = reviews_i + 1
+        
+    
+    print "len(activit) = ", len(activity)
+    
+    return activity

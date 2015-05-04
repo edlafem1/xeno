@@ -60,40 +60,28 @@
         <div class="user_activity">
             <div class="underline">Recent Activity</div>
             <div class="activity_details">
-                <div class="activity_event">
+                
+                {% for i in range(activity | length) %}
+                
+                <a href="/car/{{ activity[i]['car'] }}" style="color:white; font-weight: normal;">
+                    <div class="activity_event">
+                        {{ activity[i]['date'] }}: {{ activity[i]['type'] }}
+                        <div>
+                        {{recent_cars[i]["year"]|string + " " + recent_cars[i]["make"] + " " + recent_cars[i]["model"] }}
+                        </div>
+    <!--                        <div class="carWrapper custC" style="
+                              background:
+                                linear-gradient( rgba(255, 255, 255, 0) 50%,
+                                rgba(0, 0, 0, 0.65) 100%),
+                                url(/images/cars/{{ activity[i]['car'] }}_main.pic);
+                                background-size: cover;
+                            ">
+    <!--                            <span class="car_title">{{recent_cars[i]["year"]|string + " " + recent_cars[i]["make"] + " " + recent_cars[i]["model"] }}</span>-->
+    <!--                        </div>-->
 
-                </div>
-                <div class="activity_event">
-
-                </div>
-                <div class="activity_event">
-
-                </div>
-                <div class="activity_event">
-
-                </div>
-                <div class="activity_event">
-
-                </div>
-                <div class="activity_event">
-
-                </div>
-                <div class="activity_event">
-
-                </div>
-                <div class="activity_event">
-
-                </div>
-                <div class="activity_event">
-
-                </div>
-                <div class="activity_event">
-
-                </div>
-                <div class="activity_event">
-
-                </div>
-
+                    </div>
+                </a>
+                {% endfor %}
             </div>
         </div>
     </div>
