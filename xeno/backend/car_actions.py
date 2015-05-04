@@ -67,7 +67,8 @@ def get_single_car(id, isAdmin):
     query = "SELECT cars.id AS id, cars.year AS year, cars.hp AS hp, cars.torque AS torque, cars.miles_driven AS odo, " \
             "cars.acceleration AS acceleration, cars.max_speed AS max_speed, make.description AS make, " \
             "model.description AS model, cars.date_added AS date_added, cars.is_featured AS is_featured, " \
-            "make.id AS make_id, car_type.description AS ctype, country.description AS country " \
+            "make.id AS make_id, car_type.description AS ctype, country.description AS country, " \
+            "cars.status AS status " \
             "FROM cars " \
             "JOIN make ON cars.make=make.id " \
             "JOIN model ON cars.model=model.id " \
@@ -196,14 +197,26 @@ def make_reservation(car_id, text_date, user):
         result = db_conn.query_db(query, args, select=False)
         user.update_user(["credits"], [user.credits-50])
         
-        # Indicates that the car has been checked out
-        query = "UPDATE cars SET status=2 WHERE id=%s"
-        result = db_conn.query_db(query, [car_id])
-        
     else:
         return "You may not reserve this car today."
 
     return True
+
+
+def claim_car(user_id, car_id):
+    
+    # Does not include the redundant check to see if this user
+    # has this car checked out because we already get all of
+    # the reservations for this user on this day in /dashboard
+    
+    # Indicates that the car has been checked out
+    query = "UPDATE cars SET status=2 WHERE id=%s"
+    result = db_conn.query_db(query, [car_id])
+    
+    print "Claim result: ", result
+    
+    return result
+
 
 # Returns the car
 def return_car(user_id, reservation_id, car_id):

@@ -6,6 +6,7 @@
 
 <div class="fadeInUp">
 
+<!--
     {% for i in range(reserved_car_data | length) %}
     <div id="return_car_wrapper">
         <form id="return_car_form_{{ i }}" action="/return" method="POST">
@@ -16,6 +17,32 @@
             <button class="button button-border-primary button-rounded" style="color: red; border: 2px solid red;">Return {{ reserved_car_names[i] }}</button>
         </form>
     </div>
+    {% endfor %}
+-->
+    
+    {% for i in range(reserved_car_data | length) %}
+    
+    <!-- If the car is reserved today but not checked out -->
+    {% if reserved_car_status[i] == '1' %}
+    <div id="return_car_wrapper">
+        <form id="return_car_form_{{ i }}" action="/claim" method="POST">
+            <input name="car_id" type="hidden"
+                   value="{{ reserved_car_data[i]['for_car'] }}" />
+            <button class="button button-border-primary button-rounded" style="color: lawngreen; border: 2px solid lawngreen;">Claim {{ reserved_car_names[i] }}</button>
+        </form>
+    </div>
+    
+    {% else %} <!-- If the car is reserved today and checked out -->
+    <div id="return_car_wrapper">
+        <form id="return_car_form_{{ i }}" action="/return" method="POST">
+            <input name="reservation_id" type="hidden"
+                   value="{{ reserved_car_data[i]['id'] }}"/>
+            <input name="car_id" type="hidden"
+                   value="{{ reserved_car_data[i]['for_car'] }}" />
+            <button class="button button-border-primary button-rounded" style="color: red; border: 2px solid red;">Return {{ reserved_car_names[i] }}</button>
+        </form>
+    </div>
+    {% endif %}
     {% endfor %}
     
     {% with messages = get_flashed_messages() %}
