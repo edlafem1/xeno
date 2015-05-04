@@ -49,7 +49,7 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <div id="submit_changes_buttom_wrapper">
             <button class="button button-border-primary button-rounded">Submit Changes</button>
         </div>
