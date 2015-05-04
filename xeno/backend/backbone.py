@@ -6,6 +6,7 @@ from user_class import *
 from car_actions import *
 from flaskext.uploads import *
 from send_email import *
+import simplejson as json
 
 import configuration
 app = Flask(__name__, template_folder='../templates')
@@ -373,11 +374,11 @@ def ajax_test():
     var1 = request.args.get('var1', default=0, type=int)
     var2 = request.args.get('var2', default=0, type=int)
     var3 = request.args.get('var3', default='hello world', type=str)
-    print var3
     retVals = {"in_var1":var1,
                    "in_var2":var2,
                    "in_var3":var3}
-    return retVals
+    print retVals
+    return json.dumps(retVals)
 
 
 @app.route('/<path:path>')
