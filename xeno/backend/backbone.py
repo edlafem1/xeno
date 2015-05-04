@@ -123,7 +123,9 @@ def dashboard_view():
         car_name = str(car["year"]) + " " + car["make"] + " " + car["model"]
         reserved_car_names.append( car_name )
     
-    return render_template('dash.tpl', reserved_car_data=reserved_car_data, reserved_car_names=reserved_car_names, new_cars=new_car_data, featured_cars=featured_car_data, admin=isAdmin(current_user))
+    waiting = check_waitlist(current_user.db_id)
+    
+    return render_template('dash.tpl', reserved_car_data=reserved_car_data, reserved_car_names=reserved_car_names, new_cars=new_car_data, featured_cars=featured_car_data, waiting=waiting, admin=isAdmin(current_user))
 
 @app.route('/sign_up', methods=["GET", "POST"])
 def sign_up():
@@ -287,7 +289,9 @@ def reserve_car():
 @login_required
 def handle_return():
     # Returns the car
-    result = return_car(current_user.db_id, request.form["reservation_id"])
+    result = return_car(current_user.db_id,
+                        request.form["reservation_id"],
+                        request.form["car_id"])
     
     # Displays a confirmation message to the user
     if result:
@@ -302,17 +306,33 @@ def handle_return():
 @app.route('/waitlist', methods=['POST'])
 @login_required
 def waitlist():
-    # Returns the car
-    result = return_car(current_user.db_id, request.form["reservation_id"])
+    print "join = ", request.form['join']
+    print "join = 0", (int(request.form['join']) == 0)
+    # Checks if the user wants to join or remove the waitlist
+    if int(request.form['join']):
+        # Adds the user to the waitlist
+        result = join_waitlist(current_user.db_id)
     
-    # Displays a confirmation message to the user
-    if result:
-        flash("Something went wrong D:")
+        # Displays a confirmation message to the user
+        if not result:
+            flash("You are already on the waitlsit.")
+        else:
+            flash("You have joined the waitinglist! You will receive an email once a car is available.")
+    
     else:
-        flash("Thank you for returning our car.")
+        # Removes the user from the waitlist
+        result = leave_waitlist(current_user.db_id)
+        
+        # Displays a confirmation message to the user
+#        if not result:
+        flash("You have beend removed from the waitlist.")
+#       else:
+#            flash("You are not on the waitlsit.")
+        
     
     # Sends them back to the dashboard
     return redirect(url_for('dashboard_view'))
+
 
 
 

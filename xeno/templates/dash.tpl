@@ -11,6 +11,8 @@
         <form id="return_car_form_{{ i }}" action="/return" method="POST">
             <input name="reservation_id" type="hidden"
                    value="{{ reserved_car_data[i]['id'] }}"/>
+            <input name="car_id" type="hidden"
+                   value="{{ reserved_car_data[i]['for_car'] }}" />
             <button class="button button-border-primary button-rounded" style="color: red; border: 2px solid red;">Return {{ reserved_car_names[i] }}</button>
         </form>
     </div>
@@ -61,9 +63,17 @@
     {% endfor %}
     </div>
     
+    
     <div id="waitlist_wrapper">
-        <form id="waitlist_form" action="" method="POST">
+        <form id="waitlist_form" action="/waitlist" method="POST">
+        {% if waiting %}
+            <input name="join" type="hidden" value="0"/>
+            <button class="button button-border-primary button-rounded" style="color: red; border: 2px solid red;">Remove me from the waitlist.</button>
+        {% else %}
+            <input name="join" type="hidden" value="1"/>
             <button class="button button-border-primary button-rounded">Join the waitlist for a random car!</button>
+        
+        {% endif %}
         </form>
     </div>
     

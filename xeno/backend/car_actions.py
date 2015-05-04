@@ -189,30 +189,33 @@ def make_reservation(car_id, text_date, user):
     sql_date = date_list[2] + "-" + date_list[0] + "-" + date_list[1]
     result = db_conn.query_db(query, [car_id, user.db_id, sql_date], one=True)
     
-    print "for_car = ", car_id
-    print "made_by = ", user.db_id
-    print "for_date = ", sql_date
-    print "result = ", result
-
     if result is None or result["count"] == 0:
         # can make reservation
         query = "INSERT INTO reservations (made_by, for_car, for_date) VALUES (%s, %s, %s)"
         args = [user.db_id, int(car_id), sql_date]
         result = db_conn.query_db(query, args, select=False)
         user.update_user(["credits"], [user.credits-50])
+        
+        # Indicates that the car has been checked out
+        query = "UPDATE cars SET status=2 WHERE id=%s"
+        result = db_conn.query_db(query, [car_id])
+        
     else:
         return "You may not reserve this car today."
 
     return True
 
 # Returns the car
-def return_car(user_id, reservation_id):
+def return_car(user_id, reservation_id, car_id):
     # Updates the cars checked in/out status and sets the return date
     query = "UPDATE reservations SET car_returned=2, return_time=%s WHERE (id=%s)"
-    
     # Gets the date returned
     date_returned = datetime.datetime.now().date()
     result = db_conn.query_db(query, [str(date_returned), reservation_id])
+    
+    # Indicates that the car has been checked in
+    query = "UPDATE cars SET status=1 WHERE id=%s"
+    result = db_conn.query_db(query, [car_id])
     
     # If we were able to return the car
     if not result:
@@ -285,12 +288,6 @@ def get_activity(user_id):
     query = "SELECT car, date_created FROM reviews WHERE reviewer=%s ORDER BY id DESC"
     reviews = db_conn.query_db(query, [user_id])
     
-    
-    print "len(rentals) = ", len(rentals)
-    print "Rentals: ", rentals
-    print "len(reviews) = ", len(reviews)
-    print "Reviews: ", reviews
-    
     # Manual Inner Join because the car rentals
     # use Dates and the reviews use Datetimes
     activity = []
@@ -318,8 +315,46 @@ def get_activity(user_id):
             
             # Increment the reviews index
             reviews_i = reviews_i + 1
-        
-    
-    print "len(activit) = ", len(activity)
     
     return activity
+
+
+# Adds the user to the waiting list
+def join_waitlist(user_id):
+    
+    # Check if the user is already on the waiting list
+    query = "SELECT id FROM waiting_queue WHERE user=%s"
+    result = db_conn.query_db(query, [user_id])
+    
+    print result
+    # If the user is not on the waitlist, add them
+    if not result:
+        query = "INSERT INTO waiting_queue (`user`) VALUES (%s)"
+        result = db_conn.query_db(query, [user_id])
+        
+        return True
+    
+    # Indicates that the user is already on the waitlist
+    return False
+
+# Checks if the user is on the waitlist
+def check_waitlist(user_id):
+    
+    # Check if the user is already on the waiting list
+    query = "SELECT id FROM waiting_queue WHERE user=%s"
+    result = db_conn.query_db(query, [user_id])
+    
+    return len(result) > 0
+
+
+def leave_waitlist(user_id):
+    # Removes the user from the waiting list
+    query = "DELETE FROM waiting_queue where user=%s"
+    result = db_conn.query_db(query, [user_id])
+    
+    print "Removed: ", result
+    
+    return result
+    
+    
+    
