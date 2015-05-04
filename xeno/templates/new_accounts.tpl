@@ -49,11 +49,16 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td colspan="6">
-                    <div id="submit_changes_buttom_wrapper">
-            <button class="button button-border-primary button-rounded">Submit Changes</button>
-        </div>
-                </td>
+                <table id="buttonTable" cellspacing=0 class="fadeInUp" style="font-size: .7em;">
+                    <td><td><td><td><td></td></td></td></td></td>
+                    <tr>
+                    <td colspan="5">
+                        <div id="submit_changes_buttom_wrapper">
+                            <button class="button button-border-primary button-rounded">Submit Changes</button>
+                        </div>
+                    </td>
+                    </tr>
+                </table>
             </tr>
         </table>
     </form>
