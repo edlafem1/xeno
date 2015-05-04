@@ -6,12 +6,15 @@
 
 <div class="fadeInUp">
 
+    {% for i in range(reserved_car_data | length) %}
     <div id="return_car_wrapper">
-        <form id="return_car_form" action="/return" method="POST">
-            <button class="button button-border-primary button-rounded" style="color: red; border: 2px solid red;">Return Bugatti Veyron Super Sport</button>
+        <form id="return_car_form_{{ i }}" action="/return" method="POST">
+            <input name="reservation_id" type="hidden"
+                   value="{{ reserved_car_data[i]['id'] }}"/>
+            <button class="button button-border-primary button-rounded" style="color: red; border: 2px solid red;">Return {{ reserved_car_names[i] }}</button>
         </form>
     </div>
-    
+    {% endfor %}
     <div id="featuredCarsTitleWrapper">
                 <div id="featuredCarsTitle" class="underline">Featured Cars</div>
     </div>

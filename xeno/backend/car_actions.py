@@ -173,10 +173,16 @@ def make_reservation(car_id, text_date, user):
         return "You do not have enough credits."
     # month, day, year
     date_list = text_date.split("/")
-
-    current_time = datetime.datetime.now() - datetime.timedelta(hours=5)
-    if current_time > datetime.datetime(int(date_list[2]), int(date_list[0]), int(date_list[1])):
-        return "Invalid date."
+    
+#    current_time = datetime.datetime.now() - datetime.timedelta(hours=5)
+#    if current_time > datetime.datetime(int(date_list[2]), int(date_list[0]), int(date_list[1])):
+ 
+    current_time = time.strftime("%Y-%m-%d")
+    requested_time = date_list[2] + "-" + date_list[0] + "-" + date_list[1]
+    
+    # 2015-05-03 < 2015-05-04   
+    if requested_time < current_time:
+        return "Invalid date. Reservation must be today, or in the future."
 
     # check if car is already reserved or if user already has a car reserved that day
     query = "SELECT COUNT(id) AS count FROM reservations WHERE (for_car=%s OR made_by=%s) AND for_date=%s"
@@ -193,6 +199,32 @@ def make_reservation(car_id, text_date, user):
         return "You may not reserve this car today."
 
     return True
+
+# Returns the car
+def return_car(user_id, reservation_id):
+    # Updates the cars checked in/out status and sets the return date
+    query = "UPDATE reservations SET car_returned=2, return_time=%s WHERE (id=%s)"
+    current_date = time.strftime("%Y-%m-%d")
+    result = db_conn.query_db(query, [current_date, reservation_id])
+    
+    # If we were able to return the car
+    if not result:
+        # Gives the user their 50 credits back
+        query = "UPDATE users SET credits=credits+50 WHERE (id=%s)"
+        result = db_conn.query_db(query, [user_id])
+    
+    return result
+    
+    # Gets the car that the user reserved today
+def get_reserved_car(user_id):
+    query = "SELECT * FROM reservations WHERE (made_by=%s) AND (for_date=%s) AND (car_returned=0)"
+    current_date = time.strftime("%Y-%m-%d")
+    result = db_conn.query_db(query, [user_id, current_date])
+    
+    return result
+    
+    
+
 
 def create_review(review_data, u_id):
     query = "SELECT COUNT(id) AS count FROM reservations WHERE for_car=%s AND made_by=%s"
