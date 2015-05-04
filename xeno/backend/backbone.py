@@ -71,10 +71,14 @@ def login():
         password = request.form['password']
 
         user = User.validate_credentials(username, password)
-
         if user is None:
             flash('Username or Password is invalid', 'error')
             return render_template('login.tpl', username=username)
+        elif user.suspended:
+            flash('<span style=\'color:red;\'>We are sorry, but you have been suspended until ' +
+                  user.suspended_til.strftime('%m-%d-%Y %H:%M:%S')
+                  + 'GMT and will be unable to access Xeno until then.</span>')
+            return render_template('login.tpl')
         login_user(user)
         flash("Logged in successfully.")
     return redirect(request.form['next'] or url_for('dashboard_view'))
@@ -305,7 +309,6 @@ def catch_all(path):
 if __name__ == '__main__':
     print "Running app on port 5000"
     app.run(debug=configuration.XENO_DEBUG_MODE, host='0.0.0.0', port=configuration.XENO_PORT)
-
 
 
 @app.route('/ajax_test')
