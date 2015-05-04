@@ -17,12 +17,6 @@
                 <tr class="underline">
                     <td>{{ accounts[i]['name'] }}</td>
                     <td>{{ accounts[i]['address'] }}</td>
-                    <td>{% if accounts[i]['paid'] %}
-                            Paid
-                        {% else %}
-                            NOT PAID
-                        {% endif %}
-                    </td>
                     <td>{% if accounts[i]['approved'] %}
                         Approved
                         {% else %}
@@ -38,6 +32,18 @@
 
                                    >
                             <label for="toggle-acct-{{ i }}"></label>
+                        </div>
+                    </td>
+                    <td>Banned</td>
+                    <td>
+                        <div class="switch">
+                            <input id="banned-acct-{{ i }}" class="toggle toggle-round-flat" type="checkbox" 
+                                  {% if accounts[i]['banned'] %}
+                                   checked
+                                    {% endif %}
+
+                                   >
+                            <label for="banned-acct-{{ i }}"></label>
                         </div>
                     </td>
                 </tr>
