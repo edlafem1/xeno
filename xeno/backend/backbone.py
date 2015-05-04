@@ -200,27 +200,37 @@ def approve_accounts():
         retVals  ={}
         print 'Acct Mgmt Ajax'
         acct_id = request.json['acct_id']
-        date = ""
-        updated = ""
+        date = datetime.datetime.now()
+        dateStr = "Not changed"
+        ecalateStr = "Not changed"
+        updated = "Err"
         if 'approved' in request.json:
             #approved = request.json['approved']
             if request.json['approved'] == "true":
                 date = "CURRENT_TIMESTAMP()"
+                dateStr = "Not suspended"
             else:
                 date = datetime.datetime(3000, 1, 1)
+                dateStr = "Banned permanently" # date.strftime("%Y-%m-%d %H:%M:%S")
             updated = admin_only_user_update(acct_id, ["suspended_until"], [date])
         elif 'suspended' in request.json:
             if request.json['suspended'] == "true":
                 now = datetime.datetime.now()
                 date = now + datetime.timedelta(weeks=1)
+                dateStr = date.strftime("%Y-%m-%d %H:%M:%S")
             else:
                 date = "CURRENT_TIMESTAMP()"
+                dateStr = "Not suspended"
             updated = admin_only_user_update(acct_id, ["suspended_until"], [date])
+        elif 'escalated' in request.json:
+            updated = admin_only_user_update(acct_id, ["acct_type"], [request.json["escalated"]])
+            ecalateStr = "Account changed to " + request.json["escalated"]
 
         print updated
-        if updated == acct_id:
-            retVals["suspended_until"] = date.strftime("%Y-%m-%d %H:%M:%S")
+        if updated == 0:
+            retVals["suspended_until"] = dateStr #.strftime("%Y-%m-%d %H:%M:%S")
             retVals["acct_id"] = acct_id
+            retVals["escalated"] = ecalateStr
             retVals["error"] = ""
         else:
             retVals["error"] = "Xeno was not able to perform the update."

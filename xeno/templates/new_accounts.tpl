@@ -60,7 +60,7 @@
                         </div>
                     </td>
                     <td>
-                        <select id="account_type-{{ i }}">
+                        <select id="account_type-{{ accounts[i]['id'] }}">
                             <option value="3"
         {% if accounts[i]['acct_type'] == 3 %}selected="selected"{% endif %}
                                     >User</option>
