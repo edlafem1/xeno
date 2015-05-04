@@ -181,10 +181,16 @@ def get_all_users():
     result = db_conn.query_db(query)
     for user in result:
         now = datetime.datetime.now()
-        if user["suspended_until"] is not None and now < user["suspended_until"]:
-            user["suspended_until"] = True
+        print(type(datetime.datetime(3000, 1, 1)))
+        if user["suspended_until"] is not None and user["suspended_until"] > datetime.datetime(3000, 1, 1):
+            user["banned"] = True
         else:
-            user["suspended_until"] = False
+            user["banned"] = False
+
+        if user["suspended_until"] is not None and now < user["suspended_until"]:
+            user["suspended"] = True
+        else:
+            user["suspended"] = False
     return result
 
 

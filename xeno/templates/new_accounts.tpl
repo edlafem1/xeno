@@ -11,42 +11,37 @@
 
     {% if accounts | length > 0 %}
     <form id="accountsForm" action="" method="GET">
-        <table id="accountsTable" cellspacing=25 class="fadeInUp">
+        <table id="accountsTable" cellspacing=25 class="fadeInUp" style="font-size: .7em;">
             {% for i in range( accounts | length) %}
 
                 <tr class="underline">
                     <td>{{ accounts[i]['name'] }}</td>
-                    <td>{{ accounts[i]['address'] }}</td>
-                    <td>{% if accounts[i]['approved'] %}
-                        Approved
+                    <td>{{ accounts[i]['userid'] }}</td>
+                    <td>{% if accounts[i]['banned'] %}
+                        BANNED
                         {% else %}
-                        NOT APPROVED
+                        Approved
                         {% endif %}
                     </td>
                     <td>
                         <div class="switch">
                             <input id="toggle-acct-{{ i }}" class="toggle toggle-round-flat" type="checkbox" 
-                                  {% if accounts[i]['approved'] %}
+                                  {% if not accounts[i]['banned'] %}
                                    checked
                                     {% endif %}
-
                                    >
                             <label for="toggle-acct-{{ i }}"></label>
                         </div>
                     </td>
-                    <td>{% if accounts[i]['banned'] %}
-                        Banned
-                        {% else %}
-                        NOT BANNED
-                        {% endif %}
+                    <td>
+                        Suspended:
                     </td>
                     <td>
                         <div class="switch">
                             <input id="banned-acct-{{ i }}" class="toggle toggle-round-flat" type="checkbox" 
-                                  {% if accounts[i]['banned'] %}
+                                  {% if accounts[i]['suspended'] %}
                                    checked
                                     {% endif %}
-
                                    >
                             <label for="banned-acct-{{ i }}"></label>
                         </div>
