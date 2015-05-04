@@ -24,17 +24,18 @@
     {% if accounts | length > 0 %}
     <form id="accountsForm" action="" method="GET">
         <table id="accountsTable" cellspacing=25 class="fadeInUp" style="font-size: .7em;">
+            <tr class="underline">
+                <td>Name</td>
+                <td>Email</td>
+                <td>Approved</td>
+                <td>Suspended</td>
+                <td>Account Type</td>
+            </tr>
             {% for i in range( accounts | length) %}
 
                 <tr class="underline">
                     <td>{{ accounts[i]['name'] }}</td>
                     <td>{{ accounts[i]['userid'] }}</td>
-                    <td>{% if accounts[i]['banned'] %}
-                        BANNED
-                        {% else %}
-                        Approved
-                        {% endif %}
-                    </td>
                     <td>
                         <div class="switch">
                             <input id="toggle-acct-{{ accounts[i]['id'] }}" class="toggle toggle-round-flat" type="checkbox"
@@ -46,9 +47,6 @@
                         </div>
                     </td>
                     <td>
-                        Suspended:
-                    </td>
-                    <td>
                         <div class="switch">
                             <input id="banned-acct-{{ accounts[i]['id'] }}" class="toggle toggle-round-flat" type="checkbox"
                                   {% if accounts[i]['suspended'] %}
@@ -57,6 +55,19 @@
                                    >
                             <label for="banned-acct-{{ accounts[i]['id'] }}"></label>
                         </div>
+                    </td>
+                    <td>
+                        <select id="account_type-{{ i }}">
+                            <option value="3"
+        {% if accounts[i]['acct_type'] == 3 %}selected="selected"{% endif %}
+                                    >User</option>
+                            <option value="2"
+        {% if accounts[i]['acct_type'] == 2 %}selected="selected"{% endif %}
+                                    >Maintenance</option>
+                            <option value="1"
+        {% if accounts[i]['acct_type'] == 1 %}selected="selected"{% endif %}
+                                    >Administrator</option>
+                        </select>
                     </td>
                 </tr>
             {% endfor %}
