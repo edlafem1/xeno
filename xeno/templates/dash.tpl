@@ -6,6 +6,11 @@
 
 <div class="fadeInUp">
 
+    <div id="return_car_wrapper">
+        <form id="return_car_form" action="" method="POST">
+            <button class="button button-border-primary button-rounded" style="color: red; border: 2px solid red;">Return Bugatti Veyron Super Sport</button>
+        </form>
+    </div>
     
     <div id="featuredCarsTitleWrapper">
                 <div id="featuredCarsTitle" class="underline">Featured Cars</div>
@@ -60,5 +65,12 @@
         </a>
     {% endfor %}
     </div>
+    
+    <div id="waitlist_wrapper">
+        <form id="waitlist_form" action="" method="POST">
+            <button class="button button-border-primary button-rounded">Join the waitlist for a random car!</button>
+        </form>
+    </div>
+    
 </div>
 {% endblock %}
