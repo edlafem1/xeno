@@ -166,6 +166,9 @@ def write_review():
 @app.route('/accounts')
 @login_required
 def approve_accounts():
+    if not isAdmin(current_user):
+        flash("Sorry, you must be an admin to see this page.")
+        return redirect(url_for('search'))
     '''
     print request.json
     print request.json['var1']
@@ -282,6 +285,24 @@ def return_surprise(files):
     return send_from_directory('../surprise', files)
 
 
+
+
+@app.route('/ajax_test')
+def ajax_test():
+    # Test of ajax calls
+    print 'Ajax Test'
+    #print request.json
+    #print request.json['var1']
+    var1 = request.args.get('var1', default=0, type=int)
+    var2 = request.args.get('var2', default=0, type=int)
+    var3 = request.args.get('var3', default='hello world', type=str)
+    print var3
+    retVals = {"in_var1":var1,
+                   "in_var2":var2,
+                   "in_var3":var3}
+    return retVals
+
+
 @app.route('/<path:path>')
 def catch_all(path):
     # Catches any invalid links
@@ -293,20 +314,5 @@ def catch_all(path):
 
 
 if __name__ == '__main__':
-    print "Running app on port 5000"
     app.run(debug=configuration.XENO_DEBUG_MODE, host='0.0.0.0', port=configuration.XENO_PORT)
-
-
-@app.route('/ajax_test')
-def ajax_test():
-    # Test of ajax calls
-    print 'Ajax Test'
-    print request.json
-    print request.json['var1']
-    var1 = request.args.get('var1', default=0, type=int)
-    var2 = request.args.get('var2', default=0, type=int)
-    var3 = request.args.get('var3', default='hello world', type=str)
-    print var3
-    return jsonify(in_var1=var1,
-                   in_var2=var2,
-                   in_var3=var3)
+    print "Running app on port 5000"

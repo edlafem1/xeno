@@ -1,12 +1,24 @@
 {% extends "dashboard.tpl" %}
 {% block body %}
 
-{% if admin %}
 {% include "menu.tpl" %}
+<script type="text/javascript" src="/scripts/account.js"></script>
+<style type="text/css">
+    .new_accounts_header:hover, .maintenance_header {
+        cursor: pointer;
+    }
+
+    #seeMoreAccounts, #seeMoreCars {
+        text-align: center;
+        display: none;
+        margin-bottom: 3em;
+    }
+
+</style>
 
 <div class="fadeInUp">
-    <div id="pageDescriptionWrapper">
-        <div id="pageDescription" class="underline">Newly Registered Accounts</div>
+    <div id="pageDescriptionWrapper" class="new_accounts_header">
+        <div id="pageDescription" class="underline"><span>Newly Registered Accounts</span></div>
     </div>
 
     {% if accounts | length > 0 %}
@@ -62,10 +74,11 @@
             </tr>
         </table>
     </form>
+    <div id="seeMoreAccounts" class="new_accounts_header" style="">See Accounts</div>
     {% endif %}
     
     
-    <div id="pageDescriptionWrapper">
+    <div id="pageDescriptionWrapper" class="maintenance_header">
         <div id="pageDescription" class="underline">Car Maintenance Log</div>
     </div>
 
@@ -104,16 +117,10 @@
             </tr>
         </table>
     </form>
+    <div id="seeMoreCars" class="maintenance_header">See Maintenance Log</div>
     {% endif %}
     
     
 </div>
-
-{% else %}
-{% include "menu.tpl" %}
-<div>
-Error! You do not have permission to view this page.
-</div>
-{% endif %}
 
 {% endblock %}
