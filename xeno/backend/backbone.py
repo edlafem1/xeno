@@ -198,7 +198,6 @@ def approve_accounts():
 
     if request.method == "POST":
         retVals  ={}
-        print 'Acct Mgmt Ajax'
         acct_id = request.json['acct_id']
         date = datetime.datetime.now()
         dateStr = "Not changed"
@@ -226,7 +225,6 @@ def approve_accounts():
             updated = admin_only_user_update(acct_id, ["acct_type"], [request.json["escalated"]])
             ecalateStr = "Account changed to " + request.json["escalated"]
 
-        print updated
         if updated == 0:
             retVals["suspended_until"] = dateStr #.strftime("%Y-%m-%d %H:%M:%S")
             retVals["acct_id"] = acct_id
@@ -235,7 +233,6 @@ def approve_accounts():
         else:
             retVals["error"] = "Xeno was not able to perform the update."
             retVals["update"] = updated
-        print retVals
         return json.dumps(retVals)
     '''
         print 'Acct Mgmt Ajax'
@@ -328,6 +325,39 @@ def car_profile(id=-1):
     unavailableDates = get_reserved_dates(id)
     return render_template('car_profile.tpl', car=car_data, reviews=reviews, admin=isAdmin(current_user),
                            blockedDates=unavailableDates)
+
+@app.route('/car_details', methods=['POST'])
+@login_required
+def car_details():
+    car_id = request.form["car_id"]
+    if not isAdmin(current_user):
+        return redirect(url_for("car_profile") + "/" + str(car_id) or '/car/' + str(car_id))
+    needs_work = request.form["needs_work"]
+    description = request.form["work_details"]
+    result = log_work(car_id, description, current_user.db_id)
+    flash("Thanks for noting this.")
+    return redirect(url_for("car_profile") + str(car_id) or '/car/' + str(car_id))
+
+@app.route('/car_status', methods=['POST'])
+def car_status():
+    car_id = request.json["car_id"]
+    enabled = request.json["enabled"]
+    car_status = 1
+
+    if enabled == "true":
+        car_status = 1
+    else:
+        car_status = 4
+
+    result = update_car_status(car_id, car_status)
+    if result is not None:
+        flash("Thanks for noting this.")
+    else:
+        flash("Sorry something went wrong.")
+    return redirect(url_for("car_profile") + str(car_id) or '/car/' + str(car_id))
+
+
+
 
 @app.route('/reserve', methods=['POST'])
 @login_required

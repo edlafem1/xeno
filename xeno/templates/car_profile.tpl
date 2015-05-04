@@ -14,6 +14,38 @@
 
     var unavailableDates = [
     {% for date in blockedDates %}"{{date}}", {% endfor %}, ""]; //day-month-year
+
+    $(document).ready(function() {
+        $("#enabled").click(function() {
+            var enabled = "false";
+            var car_id = $("#car_id").val();
+            if ($(this).prop("checked") == false) {
+                //going from disabled to enabled
+                action = "true";
+            } else {
+                //going from enabled to disabled
+                $("#work_submit").prop("disabled", true);
+                action = "false";
+            }
+
+            data = {
+                "car_id":car_id,
+                "enabled":enabled
+            };
+
+            $.ajax({
+            url: "/car_status",
+            method: "POST",
+            contentType: 'application/json;charset=UTF-8',
+            dataType: "json",
+            data: JSON.stringify(data, null, '\t'),
+            success: function(data){console.log(data);}
+        });
+
+        });
+
+
+    });
 </script>
 
 <div class="fadeInUp">
@@ -21,25 +53,38 @@
     {% if admin %}
     <div id="adminBtnsWrapper">
         <div class="adminBtnGroup">
-            <div class="adminBtnText">Enable/Disable</div>
+            <div class="adminBtnText">Enabled</div>
             <div id="enabled" class="switch floatLeft">
-                <input id="toggle-1" class="toggle toggle-round-flat" type="checkbox">
+                <input id="toggle-1" class="toggle toggle-round-flat" type="checkbox"
+                        {% if car["status"] <= 3 %}
+                        checked
+                        {% endif %}
+                        >
                 <label for="toggle-1"></label>
             </div>
         </div>
         
         <div class="adminBtnGroup">
+            <form action="/car_details" method="POST">
             <div class="adminBtnText">Maintenance</div>
             <div id="maintenance" class="switch floatLeft">
-                <input id="toggle-2" class="toggle toggle-round-flat" type="checkbox">
+                <input type="hidden" value="1" name="needs_work"/>
+                <input id="toggle-2" name="needs_work" class="toggle toggle-round-flat" type="checkbox"
+                        {% if car["status"]==3 %}
+                            checked
+                        {% endif %}
+                        disabled >
                 <label for="toggle-2"></label>
             </div>
             <div class="maintInfoWrapper">
-                <textarea id="maintInfo"
+                <textarea id="maintInfo" name="work_details"
                           onfocus="checkText(); setbg('white');"
                           onblur="checkText(); setbg('lightgrey')">What's wrong with the car?
                 </textarea>
             </div>
+                <input type="hidden" id="car_id" name="car_id" value="{{ car['id'] }}"/>
+                <input type="submit" id="work_submit"/>
+            </form>
         </div>
     </div>
     {% endif %}

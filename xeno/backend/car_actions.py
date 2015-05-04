@@ -366,5 +366,23 @@ def leave_waitlist(user_id):
     
     return result
     
-    
-    
+def get_last_driver(car_id):
+    query = "SELECT made_by FROM reservations WHERE for_car=%s AND for_date<CURRENT_DATE() " \
+            "ORDER BY for_date DESC LIMIT 1"
+    driver = db_conn.query_db(query, [car_id], one=True)
+
+def log_work(car_id, description, worker):
+    last_driver = get_last_driver(car_id)
+    query = "UPDATE cars SET status=3 WHERE id=%s"
+    result = db_conn.query_db(query, [car_id], select=False)
+    if last_driver is None:
+        last_driver = 1
+    query = "INSERT INTO maintenance_log (car, description, last_driver, maintenance_worker) " \
+            "VALUES (%s, %s, %s, %s)"
+    result = db_conn.query_db(query, [car_id, description, last_driver, worker], select=False)
+    return result
+
+def update_car_status(car_id, car_status):
+    query = "UPDATE cars SET status=%s WHERE id=%s"
+    result = db_conn.query_db(query, [car_status, car_id], select=False)
+    return result
