@@ -187,7 +187,7 @@ def admin_only_user_update(user, fields, values):
     return result
 
 def get_all_users():
-    query = "SELECT id, CONCAT(first_name, ' ', last_name) AS name, userid, acct_type suspended_until FROM users " \
+    query = "SELECT id, CONCAT(first_name, ' ', last_name) AS name, userid, acct_type, suspended_until FROM users " \
             "ORDER BY date_joined DESC, suspended_until DESC"
     result = db_conn.query_db(query)
     for user in result:
