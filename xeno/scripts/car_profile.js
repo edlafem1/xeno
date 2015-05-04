@@ -52,6 +52,8 @@ function submitReview() {
     //alert($("#carRating").val() + " : " + $("#carReview").val());
     $("#carRating").val($("#carRating").val());
     $("#carReview").val($("#carReview").val());
+    /* Why ^^ ?? - Bishoff is asking */
+    
     $("#reviewForm").submit();
 }
 

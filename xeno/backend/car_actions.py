@@ -185,9 +185,14 @@ def make_reservation(car_id, text_date, user):
         return "Invalid date. Reservation must be today, or in the future."
 
     # check if car is already reserved or if user already has a car reserved that day
-    query = "SELECT COUNT(id) AS count FROM reservations WHERE (for_car=%s OR made_by=%s) AND for_date=%s"
+    query = "SELECT COUNT(id) AS count FROM reservations WHERE (for_car=%s OR made_by=%s) AND for_date=%s AND car_returned <> 2"
     sql_date = date_list[2] + "-" + date_list[0] + "-" + date_list[1]
     result = db_conn.query_db(query, [car_id, user.db_id, sql_date], one=True)
+    
+    print "for_car = ", car_id
+    print "made_by = ", user.db_id
+    print "for_date = ", sql_date
+    print "result = ", result
 
     if result is None or result["count"] == 0:
         # can make reservation
@@ -204,20 +209,36 @@ def make_reservation(car_id, text_date, user):
 def return_car(user_id, reservation_id):
     # Updates the cars checked in/out status and sets the return date
     query = "UPDATE reservations SET car_returned=2, return_time=%s WHERE (id=%s)"
-    current_date = time.strftime("%Y-%m-%d")
-    result = db_conn.query_db(query, [current_date, reservation_id])
+    
+    # Gets the date returned
+    date_returned = datetime.datetime.now().date()
+    result = db_conn.query_db(query, [str(date_returned), reservation_id])
     
     # If we were able to return the car
     if not result:
-        # Gives the user their 50 credits back
-        query = "UPDATE users SET credits=credits+50 WHERE (id=%s)"
-        result = db_conn.query_db(query, [user_id])
+        num_credits = 50 # Hard coded, 50 credits per rental
+        
+        # Gets the date rented
+        query = "SELECT for_date FROM reservations WHERE id=%s"
+        date_rented = db_conn.query_db(query, [reservation_id])[0]['for_date']
+        
+        # Calculate how many days it has been since they rented the car
+        num_days_difference = (date_returned - date_rented).days
+        
+        # If they returned the car more than 1 day late, penalize them
+        # Else, give the user their 50 credits back
+        if num_days_difference > 1:
+            num_credits = -25 * (num_days_difference - 1)
+        
+        # Updates the user's credits
+        query = "UPDATE users SET credits=credits+%s WHERE (id=%s)"
+        result = db_conn.query_db(query, [num_credits, user_id])
     
     return result
     
     # Gets the car that the user reserved today
 def get_reserved_car(user_id):
-    query = "SELECT * FROM reservations WHERE (made_by=%s) AND (for_date=%s) AND (car_returned=0)"
+    query = "SELECT * FROM reservations WHERE (made_by=%s) AND (for_date<=%s) AND (car_returned=0)"
     current_date = time.strftime("%Y-%m-%d")
     result = db_conn.query_db(query, [user_id, current_date])
     
@@ -239,7 +260,9 @@ def create_review(review_data, u_id):
     return result
 
 def get_reserved_dates(id):
-    query = "SELECT for_date FROM reservations WHERE for_car=%s"
+    # Reserved dates are where the car is not returned (0) or returned
+    # but not ready for rental (1)
+    query = "SELECT for_date FROM reservations WHERE for_car=%s AND (car_returned <> 2)"
     result = db_conn.query_db(query, [id])
     dates = []
     for date in result:
