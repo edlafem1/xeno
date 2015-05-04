@@ -5,6 +5,7 @@ import os
 from user_class import *
 from car_actions import *
 from flaskext.uploads import *
+from send_email import *
 
 import configuration
 app = Flask(__name__, template_folder='../templates')
@@ -244,8 +245,19 @@ def reserve_car():
         car_id = request.form["which_car"]
         confirm = True
         confirm = make_reservation(car_id, text_date, current_user)
+
         if confirm is True:
             flash("Thank you, your reservation has been made.")
+            
+            # Gets the car data from the DB
+            car = get_single_car(car_id, isAdmin(current_user))
+            car = str(car["year"]) + " " + car["make"] + " " + car["model"]
+            
+            emailBody = 'You reserved a ' + car + ' for ' + text_date + '! You can pick it up any time on ' + text_date + ' and you must return it at 11:59pm that night.'
+            
+            # Sends an email to the user
+            sendEmail(current_user.id, emailBody)
+            
         else:
             flash(confirm)
             #flash("We're sorry, we could not make your reservation.")

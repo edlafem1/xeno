@@ -7,7 +7,7 @@
 <div class="fadeInUp">
 
     <div id="return_car_wrapper">
-        <form id="return_car_form" action="" method="POST">
+        <form id="return_car_form" action="/return" method="POST">
             <button class="button button-border-primary button-rounded" style="color: red; border: 2px solid red;">Return Bugatti Veyron Super Sport</button>
         </form>
     </div>
