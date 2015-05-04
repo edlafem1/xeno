@@ -30,7 +30,7 @@ def get_cars(page, howmany, get_new=False, get_featured=False, search_params=Non
         "FROM cars " \
         "JOIN make ON cars.make=make.id " \
         "JOIN model ON cars.model=model.id "
-    if isAdmin:
+    if not isAdmin:
         query += "WHERE cars.status<=3 "
     else:
         query += "WHERE 1=1 "
