@@ -34,7 +34,12 @@
                             <label for="toggle-acct-{{ i }}"></label>
                         </div>
                     </td>
-                    <td>Banned</td>
+                    <td>{% if accounts[i]['banned'] %}
+                        Banned
+                        {% else %}
+                        NOT BANNED
+                        {% endif %}
+                    </td>
                     <td>
                         <div class="switch">
                             <input id="banned-acct-{{ i }}" class="toggle toggle-round-flat" type="checkbox" 
