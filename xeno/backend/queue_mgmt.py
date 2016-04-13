@@ -85,7 +85,7 @@ def check_avail_cars(sc):
             query_get_user_email = ("SELECT userid FROM users WHERE id = '%s'") % (str(user[0]))
             cur.execute(query_get_user_email)
             user_email = cur.fetchone()[0]
-#            server.sendmail(FROM, [user_email], message)
+            server.sendmail(FROM, [user_email], message)
             
             #remove user from queue
 #            query_remove_user_from_queue = ("DELETE FROM waiting_queue WHERE user=%s") % (str(user[0]))
